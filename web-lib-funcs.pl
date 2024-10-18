@@ -6745,7 +6745,7 @@ foreach my $k (keys %$hash) {
 &close_tempfile(FILE);
 }
 
-=head2 lock_file(filename, [readonly], [forcefile])
+=head2 lock_file(filename, [readonly], [forcefile], [nodiff])
 
 Lock a file for exclusive access. If the file is already locked, spin
 until it is freed. Uses a .lock file, which is not 100% reliable, but seems
@@ -6846,7 +6846,7 @@ while(1) {
 		if ($lockdir) {
 			my $locklink = $lockdir."/".time()."-".int($main::locked_file_count++);
 			symlink($lockfile, $locklink);
-			push(@main::temporary_files, $lockdir);
+			push(@main::temporary_files, $locklink);
 			}
 	
 		last;
