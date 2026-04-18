@@ -2724,11 +2724,11 @@ if (!@doms) {
 	print "No domains saved to renew cert for!\n";
 	return;
 	}
-if (!$webroot) {
+if ($mode eq "web" && !$webroot) {
 	print "No webroot saved to renew cert for!\n";
 	return;
 	}
-elsif (!-d $webroot) {
+elsif ($mode eq "web" && !-d $webroot) {
 	print "Webroot $webroot does not exist!\n";
 	return;
 	}

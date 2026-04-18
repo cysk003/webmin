@@ -290,7 +290,9 @@ else {
 
 	my $webroot = $config{'letsencrypt_webroot'};
 	my $hasapache = &foreign_installed("apache");
-	my $mode = $webroot eq 'dns' ? 3 :
+	my $saved_mode = $config{'letsencrypt_mode'} || "web";
+	my $mode = $saved_mode eq 'dns' ? 3 :
+		   $saved_mode eq 'certbot' ? 4 :
 		   $webroot ? 2 :
 		   $hasapache ? 0 :
 		   $letsencrypt_cmd ? 4 : 2;
