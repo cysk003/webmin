@@ -261,9 +261,22 @@ print ui_tabs_end_tab();
 
 # Let's Encrypt form
 print ui_tabs_start_tab("mode", "lets");
-print "$text{'ssl_letsdesc'}<p>\n";
-
 my $err = &check_letsencrypt();
+print $text{'ssl_letsdesc'};
+if (!$err) {
+	print &ui_tag('span',
+		&ui_details({
+			'class' => 'inline inlined',
+			'title' => '',
+			'content' => $text{'ssl_letsdesc2'},
+			}))."\n".
+		&ui_tag('style',
+			".ui--span>details.inline>summary+span {\n".
+			"margin-top: 0;\n".
+			"}\n");
+	}
+print "<p>\n";
+
 if ($err) {
 	print "<b>",&text('ssl_letserr', $err),"</b><p>\n";
 	print &get_letsencrypt_install_message(
@@ -273,7 +286,6 @@ if ($err) {
 	}
 else {
 	# Show form to create a cert
-	print "$text{'ssl_letsdesc2'}<p>\n";
 	print &ui_form_start("letsencrypt.cgi");
 	print &ui_table_start($text{'ssl_letsheader'}, undef, 2);
 
@@ -367,7 +379,7 @@ else {
 			'content' => $acme_extra,
 			})."\n".
 		&ui_tag('style',
-			"details.inline>summary+span {\n".
+			"tr>td>details.inline>summary+span {\n".
 			"margin-left: 0;\n".
 			"}\n"));
 

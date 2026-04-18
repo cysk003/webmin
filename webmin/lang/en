@@ -422,10 +422,10 @@ ssl_edownload=Failed to extract PEM data from certificate
 ssl_csralready=View most recent key and CSR ..
 ssl_already1=Previously generated private key :
 ssl_already2=Previously generated certificate signing request :
-ssl_letsdesc=Use an ACME-compatible SSL provider such as Let's Encrypt to generate a trusted SSL certificate for Webmin.
+ssl_letsdesc=This form lets you request a trusted SSL certificate for Webmin from an ACME-compatible provider such as Let's Encrypt.
 ssl_letserr=Unfortunately, this system cannot request certificates from an SSL provider : $1.
 ssl_letserr2=Alternately, check the <a href='$1'>module configuration</a> page to ensure you are using the correct path to the configured ACME client command.
-ssl_letsdesc2=This page can be used to request a new certificate, which will overwrite any certificate currently configured in Webmin. Before a certificate can be issued, the ACME provider must verify control of each hostname, either by fetching a temporary file from the website's document directory or, for DNS validation, by checking a temporary DNS TXT record.
+ssl_letsdesc2=The new certificate will replace the one currently configured in Webmin. Before it can be issued, the ACME provider must verify control of each hostname using either a temporary file in the website's document directory or a temporary DNS TXT record.
 ssl_letsheader=Certificate request options
 ssl_letsdoms=Hostnames for certificate
 ssl_subset=Skip unverifiable hostnames?
