@@ -308,7 +308,6 @@ ssl_essl=The Net::SSLeay perl modul ser ikke ut til å være installert i ditt s
 ssl_cpan=Alternativt kan du la Webmin <a href='$1'>laste ned og installere</a> Net::SSLeay Perl for deg.
 ssl_emessage=Feilmeldingen fra Perl var : $1
 ssl_desc1=Verten Webmin kjører på ser ut til å ha SSLeay Perl modulen installert. Ved å bruke denne, støtter Webmin SSL kryptert kommunikasjon mellom nettleseren din og tjeneren. Hvis du kobler til Webmin over internett, burde du utvilsomt bruke SSL for å minske muligheten for at "hackere" får tak i Webmin passordet ditt.
-ssl_desc2=NB!!!! - hver sikker på at nettleseren din støtter SSL (som Netscape or IE) og at det ikke er noen firewall som blokkerer <b>https</b> forespørsel mellom nettleseren og Webmin verten før du aktiverer SSL
 ssl_header=SSL Støtte
 ssl_on=Bruk SSL hvis tilgjengelig?
 ssl_key=Privat nøkkel fil
@@ -377,7 +376,6 @@ ssl_tabcreate=Opprett sertifikat
 ssl_tabcsr=Sertifikatforespørsel
 ssl_tabupload=Last opp sertifikat
 ssl_tabcurrent=Gjeldende sertifikat
-ssl_tablets=Let's Encrypt
 ssl_cheader=Detaljer for gjeldende sertifikat
 ssl_typeself=Selv-signert
 ssl_typereal=Signert av CA
@@ -389,10 +387,6 @@ ssl_edownload=Kunne ikke trekke ut PEM data fra sertifikat
 ssl_csralready=Vis nyeste nøkkel og CSR ..
 ssl_already1=Tidligere generert privat nøkkel :
 ssl_already2=Tidligere generert sertifikatforespørsel :
-ssl_letsdesc=Let's Encrypt er en gratis, automatisert, og åpen sertifikatautoritet som kan brukes til å generere et SSL sertifikat som kan brukes av Webmin.
-ssl_letserr=Let's Encrypt kan dessverre ikke brukes på systemet ditt : $1.
-ssl_letserr2=Sjekk <a href='$1'>modulkonfigurasjonen</a> for å være sikker på at du bruker riktig sti til <tt>letsencrypt</tt> eller <tt>letsencrypt-auto</tt> kommandoen.
-ssl_letsdesc2=Denne siden kan brukes til å be om et nytt sertifikat, som vil overskrive andre sertifikater som er konfiguert i Webmin. Vær imidlertid oppmerksom på at Let's Encrypt tjenesten kreves at ditt eierskap til domenet valideres ved å sjekke at dette systemet inneholder nettstedet for domenet. Dette gjøres ved å plassere en liten midlertidig fil i nettstedets dokument-katalog.
 ssl_letsheader=Innstillinger for nytt SSL sertifikat
 ssl_letsdoms=Vertsnavn for sertifikat
 ssl_letsok=Be om sertifikat
@@ -400,9 +394,6 @@ ssl_letsonly=Bare oppdater fornyelse
 ssl_usewebmin=Kopier ny nøkkel og sertifikat til Webmin?
 ssl_letsrenew=Måneder mellom automatisk fornyelse
 ssl_letsnotrenew=Forny kun manuelt
-ssl_staging=Let's Encrypt server
-ssl_staging0=Faktisk
-ssl_staging1=Staging (bare test)
 
 newkey_err=Kunne ikke opprette SSL nøkkel
 newkey_ecn=Manglende eller ugyldig tjenernavn
@@ -679,9 +670,6 @@ log_delete_webmincron=Slettet $1 tidsplanlagte funksjoner
 log_run_webmincron=Kjørte $1 tidsplanlagte funksjoner
 log_save_webmincron=Oppdaterte tidsplanlagt funksjon i modul $1
 log_onedelete_webmincron=Slettet tidsplanlagt funksjon i modul $1
-log_letsencrypt=Forespurt nytt SSL sertifikat fra Let's Encrypt
-log_letsencryptdns=Opprettet Let's Encrypt DNS oppføring for $1
-log_letsencryptcleanup=Fjernet Let's Encrypt DNS oppføring for $1
 
 themes_title=Webmin temaer
 themes_desc=Themene kontrollerer utseende på Webmin's bruker grensesnitt, inkludert ikon, farger, bakgrunn, og muligens layouten på sidene. I boksen under kan du velge en av de installerte themene.
@@ -1085,9 +1073,6 @@ twofactor_secret0=Bruk 16-tegns nøkkel
 twofactor_esecret=Hemmelig nøkkel må være eksakt 16 tegn, og kan kun inneholde bokstaver og tall
 twofactor_esession=To-faktor autentisering kan ikke brukes med mindre sesjons-basert autentisering er aktiv
 
-letsencrypt_title=Let's Encrypt sertifikatforespørsel
-letsencrypt_err=Kunne ikke be om sertifikat
-letsencrypt_ecmds=Hverken Let's Encrypt klient-kommandoen <tt>letsencrypt-auto</tt> eller <tt>python</tt> kommandoen ble funnet på systemet ditt
 letsencrypt_epythonmod=Python modulen $1 som kreves av den innebygde Let's Encrypt klienten, er ikke installert
 letsencrypt_epythonver=Kunne ikke hente Python versjon: $1
 letsencrypt_epythonver2=Python-versjon $1 eller nyere kreves, men du har bare versjon $2.
@@ -1116,8 +1101,6 @@ letsencrypt_echain=Kunne ikke laste ned kjedet sertifikat : $1
 letsencrypt_echain2=Kjedet sertifikat nedlastet fra $1 er tomt
 letsencrypt_ecsr=Kunne ikke generere CSR : $1
 letsencrypt_ekeygen=Kunne ikke generere privat nøkkel : $1
-letsencrypt_enative=Den innebygde Let's Encrypt klienten ble brukt tidligere på dette systemet, og må brukes for alle fremtidige sertifikat-forespørsler
-letsencrypt_eacmedns=Bare den offisielle Let's Encrypt-klienten støtter DNS-basert validering
 
 announce_hide=Skjul denne kunngjøringen
 alert_hide=Skjul varsel

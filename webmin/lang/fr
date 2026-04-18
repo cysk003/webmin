@@ -308,7 +308,6 @@ ssl_essl=Le module perl Net :: SSLeay ne semble pas être installé sur votre sy
 ssl_cpan=Vous pouvez également demander à Webmin <a href='$1'>de télécharger et d'installer</a> le module Net::SSLeay Perl requis pour vous.
 ssl_emessage=Le message d'erreur de Perl était : $1
 ssl_desc1=L'hôte sur lequel Webmin s'exécute semble avoir installé le module SSLeay Perl. Grâce à cela, Webmin prend en charge la communication cryptée SSL entre votre navigateur et le serveur. Si vous accédez à votre serveur Webmin via Internet, vous devez absolument envisager d'utiliser SSL pour empêcher un attaquant de capturer votre mot de passe Webmin.
-ssl_desc2=Attention - n'activez la prise en charge SSL que si votre navigateur prend en charge SSL et qu'il n'y a pas de requêtes de blocage de pare-feu <b>https</b> entre votre navigateur et l'hôte Webmin.
 ssl_header=Prise en charge SSL
 ssl_on=Activer SSL?
 ssl_key=Fichier de clé privée
@@ -377,7 +376,6 @@ ssl_tabcreate=Certificat auto-signé
 ssl_tabcsr=Demande de signature de certificat
 ssl_tabupload=Télécharger le certificat
 ssl_tabcurrent=Certificat actuel
-ssl_tablets=Permet de chiffrer
 ssl_cheader=Détails du certificat actuel
 ssl_typeself=Auto-signé
 ssl_typereal=Signé par CA
@@ -389,10 +387,6 @@ ssl_edownload=Échec de l'extraction des données PEM du certificat
 ssl_csralready=Afficher la clé et le CSR les plus récents ...
 ssl_already1=Clé privée précédemment générée :
 ssl_already2=Demande de signature de certificat précédemment générée :
-ssl_letsdesc=Let's Encrypt est une autorité de certification gratuite, automatisée et ouverte qui peut être utilisée pour générer un certificat SSL à utiliser par Webmin.
-ssl_letserr=Malheureusement, Let's Encrypt ne peut pas être utilisé sur votre système : $1.
-ssl_letserr2=Vous pouvez également consulter la page <a href='$1'>de configuration du module</a> pour vous assurer que vous utilisez le chemin correct vers la commande <tt>letsencrypt</tt>.
-ssl_letsdesc2=Cette page peut être utilisée pour demander un nouveau certificat, qui écrasera tout autre déjà configuré dans Webmin. Cependant, le service Let's Encrypt nécessite que votre propriété du domaine de certificat soit validée en vérifiant que ce système héberge le site Web du domaine. Pour ce faire, placez un petit fichier temporaire dans le répertoire de documents du site Web.
 ssl_letsheader=Options pour le nouveau certificat SSL
 ssl_letsdoms=Noms d'hôte pour le certificat
 ssl_letsok=Demander un certificat
@@ -400,9 +394,6 @@ ssl_letsonly=Il suffit de mettre à jour le renouvellement
 ssl_usewebmin=Copier la nouvelle clé et le nouveau certificat dans Webmin?
 ssl_letsrenew=Mois entre le renouvellement automatique
 ssl_letsnotrenew=Renouveler uniquement manuellement
-ssl_staging=Serveur Let's Encrypt
-ssl_staging0=Réel
-ssl_staging1=Mise en scène (test uniquement)
 
 newkey_err=Échec de la création de la clé SSL
 newkey_ecn=Nom de serveur manquant ou non valide
@@ -679,9 +670,6 @@ log_delete_webmincron=Fonctions planifiées à $1 supprimées
 log_run_webmincron=Ran $1 fonctions programmées
 log_save_webmincron=Mise à jour de la fonction programmée dans le module $1
 log_onedelete_webmincron=Fonction programmée supprimée dans le module $1
-log_letsencrypt=Nouveau certificat SSL demandé à Let's Encrypt
-log_letsencryptdns=Création d'un enregistrement DNS Let's Encrypt pour $1
-log_letsencryptcleanup=Suppression de l'enregistrement DNS Let's Encrypt pour $1
 
 themes_title=Thèmes Webmin
 themes_desc=Les thèmes contrôlent l'apparence de l'interface utilisateur Webmin, y compris les icônes, les couleurs, les arrière-plans et la disposition des pages. La boîte de sélection ci-dessous peut être utilisée pour choisir l'un des thèmes installés sur votre système.
@@ -1085,9 +1073,6 @@ twofactor_secret0=Utiliser une clé à 16 caractères
 twofactor_esecret=La clé secrète doit contenir exactement 16 caractères et ne contenir que des lettres et des chiffres
 twofactor_esession=L'authentification à deux facteurs ne peut être utilisée que si l'authentification basée sur la session est active
 
-letsencrypt_title=Let's Encrypt Certificate Request
-letsencrypt_err=Échec de la demande de certificat
-letsencrypt_ecmds=Ni la commande client Let's Encrypt <tt>certbot</tt> ni la commande <tt>python</tt> n’ont été trouvées sur votre système
 letsencrypt_epythonmod=Le module Python $1 requis par le client Let's Encrypt intégré n'est pas installé
 letsencrypt_epythonver=Impossible d'obtenir la version Python : $1
 letsencrypt_epythonver2=La version Python $1 ou supérieure est requise, mais vous n'avez que la version $2.
@@ -1116,8 +1101,6 @@ letsencrypt_echain=Échec du téléchargement du certificat chaîné : $1
 letsencrypt_echain2=Le certificat chaîné téléchargé à partir de $1 est vide
 letsencrypt_ecsr=Échec de la génération du CSR : $1
 letsencrypt_ekeygen=Échec de la génération de la clé privée : $1
-letsencrypt_enative=Le client natif Let's Encrypt (certbot) a été utilisé précédemment sur ce système et doit être utilisé pour toutes les futures demandes de certificat
-letsencrypt_eacmedns=Seul le client officiel Let's Encrypt prend en charge la validation DNS
 
 announce_hide=Cacher cette annonce
 alert_hide=Masquer l'alerte

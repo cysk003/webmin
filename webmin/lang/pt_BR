@@ -288,7 +288,6 @@ ssl_essl=O módulo perl Net:SSLeay não parece estar instalado em seu sistema. P
 ssl_cpan=Alternativamente, você pode ter deixar o Webmin <a href='$1'>baixar e instalar</a> o módulo requerido do Pearl Net::SSLeay para você.
 ssl_emessage=A mensagem de erro do Pearl foi : $1
 ssl_desc1=O host no qual o Webmin está sendo executado parece possuir o módulo Perl SSLeay instalado. Usando-o o Webmin suporta criptografia de comunicação SSL entre seu navegador e o servidor. Caso você esteja acessando seu servidor Webmin através da Internet você deveria definitivamente considerar usar SSL para prevenir que um invasor possa capturar sua senha do Webmin.
-ssl_desc2=Aviso - somente habilite o suporte SSL caso você possua um navegador que suporte SSL (como o Firefox ou Epiphany) e não exista um firewall bloqueando requisições <b>https</b> entre seu navegador e o host Webmin
 ssl_header=Suporte SSL
 ssl_on=Habilitar SSL se disponível ?
 ssl_key=Arquivo de chave privada

@@ -123,7 +123,6 @@ lang_ok=Byt språk
 
 ssl_title=SSL-kryptering
 ssl_desc1=Datorn som Webmin körs på verkar ha SSLeay Perl-modulen installerad. Med hjälp av den kan Webmin stödja SSL-krypterad kommunikation mellan din browser och servern. Om du kopplar upp dig mot Webmin-servern via Internet, bör du definitivt använda SSL för att undvika att någon annan kan få tag på ditt Webmin-lösenord.
-ssl_desc2=Varning! Slå endast på SSL-stöd om din browser stödjer SSL (t ex Netscape eller IE) och om det inte finns någon brandvägg som spärrar <b>https</b>-förfrågningar mellan din browser och Webmin-datorn.
 ssl_header=SSL-stöd
 
 startpage_title=Inställningar för indexsida

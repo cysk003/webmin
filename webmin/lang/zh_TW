@@ -186,7 +186,6 @@ lang_echarset=無效或錯誤的字元設定
 ssl_title=SSL 加密
 ssl_essl=Net::SSLeay perl 模組似乎沒有安裝在您的系統上，要安裝OpenSSL函數庫和Net::SSLeay，遵循<a href='$1'>此資訊</a> 頁面 在Webmin網站
 ssl_desc1=這個 Webmin 所使用的主機似乎有安裝 SSLeay Perl 模組。使用這個的話，Webmin 將支援在瀏覽器和伺服器間的 SSL 加密通訊。如果您透過 Internet 存取您的 Webmin 主機，應該要使用 SSL 以防止駭客擷取到您的 Webmin 密碼。
-ssl_desc2=警告，只有在您的瀏覽器支援 SSL（例如 Netscape 或 IE），而且沒有防火牆阻攔瀏覽器和 Webmin 主機之間的<b>https</b>要求時，才能打開 SSL 支援。
 ssl_header=SSL支援
 ssl_on=如果可用 SSL 的話啟用?
 ssl_key=私人金鑰檔案

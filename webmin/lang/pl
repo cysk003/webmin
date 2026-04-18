@@ -300,7 +300,6 @@ ssl_essl=Moduł Perla Net:SSLeay nie jest zainstalowany w Twoim systemie.Aby zai
 ssl_cpan=Możesz użyć Webmina aby <a href='$1'>pobrać i zainstalować</a> wymagany moduł Perla Net::SSLeay
 ssl_emessage=Błąd Perla : $1
 ssl_desc1=Komputer, na którym działa Webmin posiada zainstalowany moduł SSLeay Perl-a. Webmin potrafi przy jego pomocy ustanowić zaszyfrowane SSL połączenia pomiędzy Twoją przeglądarką a serwerem. Jeśli łączysz się z serwerem Webmina poprzez Internet, zdecydowanie powinieneś rozważyć użycie SSL, aby zapobiec przechwyceniu przez napastnika Twojego hasła do Webmina.
-ssl_desc2=Uwaga - włącz obsługę SSL tylko jeśli Twoja przeglądarka ma obsługę SSL (jak np. Netscape czy IE) i nie ma pomiędzy Twoją przeglądarką a komputerem z Webminem firewalla blokującego zapytania <b>https</b>
 ssl_header=Obsługa SSL
 ssl_on=Używać SSL jeśli dostępne?
 ssl_key=Plik klucza prywatnego

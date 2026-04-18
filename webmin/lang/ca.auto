@@ -39,15 +39,33 @@ lang_dateformat_dd/mm/yyyy=dd/mm/aaaa (és a dir, 16/09/2001)
 lang_dateformat_mm/dd/yyyy=mm/dd/aaaa (és a dir, 16/09/2001)
 lang_dateformat_yyyy/mm/dd=aaaa/mm/dd (és a dir, 16/09/2001)
 
+ssl_enforce=Aplicar SSL
 ssl_hsts=Apliqueu SSL amb la capçalera HSTS
+ssl_tablets=Proveïdor SSL
+ssl_letsdesc=Feu servir un proveïdor SSL compatible amb ACME com ara Let's Encrypt per generar un certificat SSL de confiança per a Webmin.
+ssl_letserr=Malauradament, aquest sistema no pot sol·licitar certificats d'un proveïdor SSL: $1.
+ssl_letserr2=Alternativament, consulteu la pàgina de <a href='$1'>configuració del mòdul</a> per assegurar-vos que esteu utilitzant la ruta correcta a l'ordre del client ACME configurat.
+
+ssl_letsdesc2=Aquesta pàgina es pot utilitzar per sol·licitar un certificat nou, que sobreescriurà qualsevol certificat configurat actualment a Webmin. Abans que es pugui emetre un certificat, el proveïdor ACME ha de verificar el control de cada nom d'amfitrió, ja sigui obtenint un fitxer temporal del directori de documents del lloc web o, per a la validació DNS, comprovant un registre TXT DNS temporal.
 ssl_letsdoms=Noms d'amfitrió del certificat
 ssl_subset=Voleu saltar noms d'amfitrió no verificables?
-ssl_letsmode=Anem a xifrar el mètode de validació
+ssl_letsmode=Mètode de validació de domini
 ssl_letsmode0=L'amfitrió virtual d'Apache coincideix amb el nom d'amfitrió
 ssl_letsmode1=Amfitrió virtual Apache seleccionat
 ssl_letsmode2=Un altre directori de documents del servidor web
 ssl_letsmode3=Validació DNS mitjançant BIND
 ssl_letsmode4=Servidor web integrat Certbot
+ssl_staging=servidor del proveïdor
+ssl_staging0=Producció
+ssl_staging1=Estadificació (només prova)
+ssl_acmeopts=Configuració del proveïdor
+ssl_acmeextra=Mostra la configuració avançada
+ssl_acmedir=URL del directori ACME personalitzat
+ssl_acmedirdesc=Si està definit, això substitueix el servidor proveïdor per defecte anterior.
+ssl_acmekid=ID de clau de vinculació de compte extern
+ssl_acmekiddesc=Opcional. Alguns proveïdors d'ACME requereixen això a més de l'URL del directori.
+ssl_acmehmac=Clau HMAC de vinculació de compte extern
+ssl_acmehmacdesc=Opcional. Requereix el client Certbot natiu quan s'utilitza.
 
 upgrade_repo=La darrera versió del repositori $1
 upgrade_setup=S'està executant l'script <tt>setup.sh</tt> per actualitzar Webmin ..
@@ -60,18 +78,20 @@ update_webmin=Actualització de webmin.com
 session_blockhost=Bloqueja les IP del client amb més de $1 inicis de sessió fallits durant $2 segons.
 session_utmp=Enregistrar els inicis de sessió i tancaments de sessió a <tt>utmp</tt>?
 session_pmodedesc3=Política de caducitat de contrasenya
+session_rpc_timeout=Temps d'espera de la sessió RPC
+session_erpc_timeout=Falta el temps d'espera de la sessió RPC o ha de ser un número superior a 0
 session_md5off=Determinar automàticament
 session_md5on=Utilitzeu el format hashing <tt>MD5</tt>
 session_sha512=Utilitzeu el format hashing <tt>SHA512</tt>
 session_yescrypt=Utilitzeu el format hashing <tt>yescrypt</tt>
 session_emd5mod=El format hashing MD5 no es pot utilitzar, ja que el mòdul Perl $1 no està instal·lat
+session_edigestcrypt=El format de resum $1 no es pot utilitzar perquè la funció <tt>crypt</tt> del sistema no l'admet
 session_passapi=Voleu activar l'API de canvi de contrasenya remota?
 session_passapi0=API desactivada
 session_passapi1=API habilitada per als usuaris d'Unix
 session_passurl=Quan està activat, les contrasenyes d'usuari es poden canviar mitjançant una sol·licitud POST a $1
 session_forgot=Permetre la recuperació de la contrasenya oblidada?
 session_eforgot=La recuperació de contrasenyes oblidades no es pot activar si no s'elimina primer el mòdul del complement <b>Virtualmin Password Recovery</b>. Això es pot fer a la pàgina <a href='$1'>Mòduls Webmin</a>.
-
 session_passresetdesc=Limitació de recuperació de contrasenya
 session_passreset=Bloqueja els clients amb més de $1 sol·licituds durant $2 minuts
 session_epassreset_failures=Sol·licituds de bloqueig perdudes o no vàlides
@@ -80,6 +100,11 @@ session_passtimeout=L'enllaç de restabliment de contrasenya caduca en $1 minuts
 session_epassreset_timeout=Temps d'espera per restablir la contrasenya no vàlida o que falta
 
 log_fixrepo=S'ha solucionat el repositori Webmin
+log_letsencrypt=He sol·licitat un nou certificat SSL a un proveïdor d'ACME
+log_letsencryptdns=S'ha creat un registre DNS ACME per a $1
+log_letsencryptcleanup=S'ha eliminat el registre DNS ACME per a $1
+
+themes_configure=Obre la pàgina de configuració del tema
 
 themes_ok=El tema s'ha canviat correctament redirigint-se ara. ..
 themes_ok2=La superposició del tema s'ha canviat correctament, redirigint-se ara. ..
@@ -135,6 +160,7 @@ sendmail_port=Port SMTP
 sendmail_ssl0=Mai xifreu
 sendmail_ssl1=Utilitzeu sempre TLS
 sendmail_ssl2=Canvieu amb STARTTLS
+sendmail_name=Nom de visualització
 sendmail_toaddr=Adreça de destinació predeterminada per a les notificacions
 sendmail_to_def=Cap establert
 sendmail_etoaddr=Falta l'adreça de destinació o amb un format incorrecte
@@ -156,12 +182,21 @@ web_redirssl=Redirigeix SSL
 
 twofactor_totp=Autenticador TOTP
 twofactor_qrcode=Introduïu el codi secret $1 a l'aplicació TOTP o escanegeu el codi QR a continuació.
+twofactor_qrcode_manual=Introduïu el codi secret $1 a l'aplicació TOTP i configureu-lo manualment, ja que aquest sistema no admet la generació de codis QR.
 twofactor_etotptoken=El testimoni TOTP ha de ser un número
 
+letsencrypt_title=Sol·licitud de certificat de proveïdor SSL
+letsencrypt_err=No s'ha pogut sol·licitar el certificat
+letsencrypt_ecmds=No s'ha trobat ni l' <tt>certbot</tt> del client ACME natiu ni l'ordre <tt>python</tt> al sistema
 letsencrypt_certbot=Certbot
+letsencrypt_eacmedir=URL del directori ACME que falta o que és no vàlid
+letsencrypt_eeabdir=Cal introduir una URL de directori ACME quan s'utilitza la vinculació de comptes externs
+letsencrypt_eeabpair=Cal introduir tant l'ID de clau de vinculació de compte extern com la clau HMAC
+letsencrypt_eeabnative=La vinculació de comptes externs només es pot utilitzar quan el client ACME natiu està instal·lat
 letsencrypt_doingcertbot=Sol·licitant un certificat nou per a $1, utilitzant el servidor web Certbot ..
-letsencrypt_eacmedns=Només el client Let's Encrypt oficial és compatible amb la validació basada en DNS
-letsencrypt_eacmecertbot=Només el client oficial de Let's Encrypt admet la validació de Certbot
+letsencrypt_enative=El client ACME natiu (certbot) s'ha utilitzat anteriorment en aquest sistema i s'ha d'utilitzar per a totes les futures sol·licituds de certificat
+letsencrypt_eacmedns=Només el client ACME natiu admet la validació basada en DNS
+letsencrypt_eacmecertbot=Només el client ACME natiu admet la validació de Certbot
 
 alert_hide=Amaga l'alerta
 
