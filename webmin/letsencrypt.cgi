@@ -106,7 +106,7 @@ if ($in{'save'}) {
 			   $in{'subset'}, $in{'use'},
 			   $in{'directory_url'},
 			   $in{'eab_kid'}, $in{'eab_hmac'});
-	&redirect("edit_ssl.cgi");
+	&redirect("edit_ssl.cgi?mode=lets");
 	}
 else {
 	# Request the cert
