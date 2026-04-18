@@ -345,6 +345,32 @@ else {
 			  [ [ 0, $text{'ssl_staging0'} ],
 			    [ 1, $text{'ssl_staging1'} ] ]));
 
+	my $acme_extra = &ui_table_start(undef, undef, 2);
+	$acme_extra .= &ui_table_row($text{'ssl_acmedir'},
+		&ui_textbox("directory_url",
+			    $config{'letsencrypt_directory_url'}, 60)."<br>\n".
+		&ui_note($text{'ssl_acmedirdesc'}, 0));
+	$acme_extra .= &ui_table_row($text{'ssl_acmekid'},
+		&ui_textbox("eab_kid",
+			    $config{'letsencrypt_eab_kid'}, 40)."<br>\n".
+		&ui_note($text{'ssl_acmekiddesc'}, 0));
+	$acme_extra .= &ui_table_row($text{'ssl_acmehmac'},
+		&ui_password("eab_hmac",
+			     $config{'letsencrypt_eab_hmac'}, 50)."<br>\n".
+		&ui_note($text{'ssl_acmehmacdesc'}, 0));
+	$acme_extra .= &ui_table_end();
+	print &ui_table_row($text{'ssl_acmeopts'},
+		&ui_details({
+			'class' => 'inline inlined',
+			'html' => 1,
+			'title' => $text{'ssl_acmeextra'},
+			'content' => $acme_extra,
+			})."\n".
+		&ui_tag('style',
+			"details.inline>summary+span {\n".
+			"margin-left: 0;\n".
+			"}\n"));
+
 	# Renewal option
 	my $job = &find_letsencrypt_cron_job();
 	my $renew = $job && $job->{'months'} =~ /^\*\/(\d+)$/ ? $1 : undef;
@@ -361,4 +387,3 @@ print ui_tabs_end_tab();
 print ui_tabs_end(1);
 
 ui_print_footer("", $text{'index_return'});
-

@@ -2720,6 +2720,9 @@ my $webroot = $config{'letsencrypt_webroot'};
 my $mode = $config{'letsencrypt_mode'} || "web";
 my $size = $config{'letsencrypt_size'};
 my $usewebmin = !$config{'letsencrypt_nouse'};
+my $directory_url = $config{'letsencrypt_directory_url'};
+my $eab_kid = $config{'letsencrypt_eab_kid'};
+my $eab_hmac = $config{'letsencrypt_eab_hmac'};
 if (!@doms) {
 	print "No domains saved to renew cert for!\n";
 	return;
@@ -2733,7 +2736,10 @@ elsif ($mode eq "web" && !-d $webroot) {
 	return;
 	}
 my ($ok, $cert, $key, $chain) = &request_letsencrypt_cert(\@doms, $webroot,
-							  undef, $size, $mode);
+							  undef, $size, $mode,
+							  undef, undef, undef,
+							  undef, $directory_url,
+							  $eab_kid, $eab_hmac);
 if (!$ok) {
 	print "Failed to renew certificate : $cert\n";
 	return;
