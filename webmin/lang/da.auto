@@ -422,10 +422,10 @@ ssl_edownload=Kunne ikke udtrække PEM-data fra certifikatet
 ssl_csralready=Se den nyeste nøgle og CSR ..
 ssl_already1=Tidligere genereret privat nøgle :
 ssl_already2=Tidligere genereret certifikatsigneringsanmodning :
-ssl_letsdesc=Brug en ACME-kompatibel SSL-udbyder, f.eks. Let's Encrypt, til at generere et betroet SSL-certifikat til Webmin.
+ssl_letsdesc=Denne formular giver dig mulighed for at anmode om et betroet SSL-certifikat til Webmin fra en ACME-kompatibel udbyder, såsom Let's Encrypt.
 ssl_letserr=Desværre kan dette system ikke anmode om certifikater fra en SSL-udbyder: $1.
 ssl_letserr2=Alternativt kan du tjekke siden <a href='$1'>modulkonfiguration</a> for at sikre, at du bruger den korrekte sti til den konfigurerede ACME-klientkommando.
-ssl_letsdesc2=Denne side kan bruges til at anmode om et nyt certifikat, som overskriver ethvert certifikat, der i øjeblikket er konfigureret i Webmin. Før et certifikat kan udstedes, skal ACME-udbyderen verificere kontrollen over hvert værtsnavn, enten ved at hente en midlertidig fil fra webstedets dokumentmappe eller, til DNS-validering, ved at kontrollere en midlertidig DNS TXT-post.
+ssl_letsdesc2=Det nye certifikat erstatter det, der i øjeblikket er konfigureret i Webmin. Før det kan udstedes, skal ACME-udbyderen verificere kontrollen over hvert værtsnavn ved hjælp af enten en midlertidig fil i webstedets dokumentmappe eller en midlertidig DNS TXT-post.
 ssl_letsheader=Indstillinger for nyt SSL-certifikat
 ssl_letsdoms=Værtsnavne til certifikat
 ssl_subset=Vil du springe ikke-verificerbare værtsnavne over?

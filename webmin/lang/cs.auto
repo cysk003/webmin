@@ -91,11 +91,11 @@ ssl_tablets=Poskytovatel SSL
 ssl_csralready=Zobrazit poslední klíč a CSR ..
 ssl_already1=Dříve generovaný soukromý klíč :
 ssl_already2=Dříve vygenerovaná žádost o podpis certifikátu :
-ssl_letsdesc=Pro vygenerování důvěryhodného SSL certifikátu pro Webmin použijte poskytovatele SSL kompatibilního s ACME, jako je Let's Encrypt.
+ssl_letsdesc=Tento formulář vám umožňuje požádat o důvěryhodný SSL certifikát pro Webmin od poskytovatele kompatibilního s ACME, jako je Let's Encrypt.
 ssl_letserr=Tento systém bohužel nemůže vyžádat certifikáty od poskytovatele SSL: $1.
 ssl_letserr2=Případně zkontrolujte stránku <a href='$1'>konfigurace modulu</a> a ujistěte se, že používáte správnou cestu k nakonfigurovanému příkazu klienta ACME.
 
-ssl_letsdesc2=Tuto stránku lze použít k vyžádání nového certifikátu, který přepíše jakýkoli certifikát aktuálně nakonfigurovaný ve Webminu. Před vydáním certifikátu musí poskytovatel ACME ověřit kontrolu nad každým názvem hostitele, a to buď načtením dočasného souboru z adresáře dokumentů webu, nebo pro ověření DNS kontrolou dočasného TXT záznamu DNS.
+ssl_letsdesc2=Nový certifikát nahradí certifikát aktuálně nakonfigurovaný ve Webminu. Před jeho vydáním musí poskytovatel ACME ověřit kontrolu nad každým názvem hostitele buď pomocí dočasného souboru v adresáři dokumentů webu, nebo dočasného TXT záznamu DNS.
 ssl_letsheader=Možnosti nového certifikátu SSL
 ssl_letsdoms=Názvy hostitelů pro certifikát
 ssl_subset=Přeskočit neověřitelné názvy hostitelů?

@@ -422,10 +422,10 @@ ssl_edownload=Nije uspjelo izdvajanje PEM podataka iz certifikata
 ssl_csralready=Pogledajte najnoviji ključ i CSR ..
 ssl_already1=Prethodno generirani privatni ključ :
 ssl_already2=Prethodno generirani zahtjev za potpisivanje potvrde :
-ssl_letsdesc=Za generiranje pouzdanog SSL certifikata za Webmin koristite ACME-kompatibilnog SSL davatelja usluga kao što je Let's Encrypt.
+ssl_letsdesc=Ovaj obrazac vam omogućuje da zatražite pouzdani SSL certifikat za Webmin od ACME-kompatibilnog pružatelja usluga kao što je Let's Encrypt.
 ssl_letserr=Nažalost, ovaj sustav ne može zatražiti certifikate od SSL davatelja usluga: $1.
 ssl_letserr2=Alternativno, provjerite stranicu za <a href='$1'>konfiguraciju modula</a> kako biste bili sigurni da koristite ispravnu putanju do konfigurirane naredbe ACME klijenta.
-ssl_letsdesc2=Ova se stranica može koristiti za zahtjev novog certifikata, koji će prebrisati bilo koji certifikat trenutno konfiguriran u Webminu. Prije izdavanja certifikata, ACME davatelj usluga mora provjeriti kontrolu nad svakim nazivom hosta, bilo dohvaćanjem privremene datoteke iz direktorija dokumenata web-mjesta ili, za DNS validaciju, provjerom privremenog DNS TXT zapisa.
+ssl_letsdesc2=Novi certifikat zamijenit će onaj koji je trenutno konfiguriran u Webminu. Prije nego što se može izdati, ACME davatelj usluga mora provjeriti kontrolu nad svakim nazivom hosta koristeći privremenu datoteku u direktoriju dokumenata web-mjesta ili privremeni DNS TXT zapis.
 ssl_letsheader=Opcije za novi SSL certifikat
 ssl_letsdoms=Imena hosta za certifikat
 ssl_subset=Preskočiti imena hostova koja se ne mogu provjeriti?

@@ -12,11 +12,11 @@ lang_chardef=由语言决定
 
 ssl_enforce=强制执行 SSL
 ssl_tablets=SSL 提供商
-ssl_letsdesc=使用与 ACME 兼容的 SSL 提供商（例如 Let's Encrypt）为 Webmin 生成受信任的 SSL 证书。
+ssl_letsdesc=此表单允许您从 ACME 兼容提供商（例如 Let's Encrypt）为 Webmin 请求受信任的 SSL 证书。
 ssl_letserr=很遗憾，该系统无法从 SSL 提供商请求证书：$1。
 ssl_letserr2=或者，检查<a href='$1'>模块配置</a>页面，以确保您使用的是已配置的 ACME 客户端命令的正确路径。
 
-ssl_letsdesc2=此页面可用于申请新证书，该证书将覆盖 Webmin 中当前配置的任何证书。在颁发证书之前，ACME 提供商必须验证对每个主机名的控制权，验证方式有两种：一是从网站的文档目录中获取临时文件；二是进行 DNS 验证，即检查临时 DNS TXT 记录。
+ssl_letsdesc2=新证书将替换 Webmin 中当前配置的证书。在颁发新证书之前，ACME 提供商必须使用网站文档目录中的临时文件或临时 DNS TXT 记录来验证对每个主机名的控制权。
 ssl_letsmode=域验证方法
 ssl_staging=提供商服务器
 ssl_staging0=生产

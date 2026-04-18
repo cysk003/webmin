@@ -38,11 +38,11 @@ lang_dateformat_yyyy/mm/dd=åååå/mm/dd (dvs. 2001/09/16)
 ssl_enforce=Håndhev SSL
 ssl_hsts=Håndhev SSL med HSTS-header
 ssl_tablets=SSL-leverandør
-ssl_letsdesc=Bruk en ACME-kompatibel SSL-leverandør, som for eksempel Let's Encrypt, for å generere et pålitelig SSL-sertifikat for Webmin.
+ssl_letsdesc=Dette skjemaet lar deg be om et pålitelig SSL-sertifikat for Webmin fra en ACME-kompatibel leverandør, for eksempel Let's Encrypt.
 ssl_letserr=Dessverre kan ikke dette systemet be om sertifikater fra en SSL-leverandør: $1.
 ssl_letserr2=Alternativt kan du sjekke <a href='$1'>modulkonfigurasjonssiden</a> for å sikre at du bruker riktig bane til den konfigurerte ACME-klientkommandoen.
 
-ssl_letsdesc2=Denne siden kan brukes til å be om et nytt sertifikat, som vil overskrive ethvert sertifikat som for øyeblikket er konfigurert i Webmin. Før et sertifikat kan utstedes, må ACME-leverandøren bekrefte kontrollen over hvert vertsnavn, enten ved å hente en midlertidig fil fra nettstedets dokumentkatalog eller, for DNS-validering, ved å sjekke en midlertidig DNS TXT-oppføring.
+ssl_letsdesc2=Det nye sertifikatet vil erstatte det som for øyeblikket er konfigurert i Webmin. Før det kan utstedes, må ACME-leverandøren bekrefte kontrollen over hvert vertsnavn ved hjelp av enten en midlertidig fil i nettstedets dokumentkatalog eller en midlertidig DNS TXT-oppføring.
 ssl_subset=Vil du hoppe over vertsnavn som ikke kan bekreftes?
 ssl_letsmode=Domenevalideringsmetode
 ssl_letsmode0=Apache virtuell vert som samsvarer med vertsnavn

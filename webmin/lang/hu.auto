@@ -335,10 +335,10 @@ ssl_edownload=Nem sikerült kivonni a PEM-adatokat a tanúsítványból
 ssl_csralready=A legfrissebb kulcs és a CSR megtekintése.
 ssl_already1=Korábban generált privát kulcs :
 ssl_already2=Korábban generált tanúsítvány aláírási kérelem :
-ssl_letsdesc=Használjon egy ACME-kompatibilis SSL-szolgáltatót, például a Let's Encrypt-et, hogy megbízható SSL-tanúsítványt generáljon a Webminhez.
+ssl_letsdesc=Ez az űrlap lehetővé teszi, hogy megbízható SSL-tanúsítványt igényeljen a Webminhez egy ACME-kompatibilis szolgáltatótól, például a Let's Encrypt-től.
 ssl_letserr=Sajnos ez a rendszer nem tud tanúsítványokat kérni a következő SSL-szolgáltatótól: $1.
 ssl_letserr2=Másik lehetőségként ellenőrizze a <a href='$1'>modulkonfiguráció</a> oldalt, és győződjön meg arról, hogy a konfigurált ACME kliensparancs helyes elérési útját használja.
-ssl_letsdesc2=Ezen az oldalon új tanúsítványt lehet kérni, amely felülírja a Webminben jelenleg konfigurált tanúsítványokat. A tanúsítvány kiadása előtt az ACME-szolgáltatónak ellenőriznie kell az egyes hostnevek feletti felügyeletet, akár egy ideiglenes fájl lekérésével a webhely dokumentumkönyvtárából, akár – DNS-érvényesítéshez – egy ideiglenes DNS TXT rekord ellenőrzésével.
+ssl_letsdesc2=Az új tanúsítvány felülírja a Webminben jelenleg konfiguráltat. A kibocsátás előtt az ACME-szolgáltatónak ellenőriznie kell az egyes hostnevek feletti felügyeletet a webhely dokumentumkönyvtárában található ideiglenes fájl vagy egy ideiglenes DNS TXT rekord segítségével.
 ssl_letsheader=Új SSL tanúsítvány lehetőségei
 ssl_letsdoms=A tanúsítvány gazdanevei
 ssl_subset=Kihagyja az ellenőrizhetetlen gazdagépneveket?

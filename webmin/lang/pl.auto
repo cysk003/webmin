@@ -52,11 +52,11 @@ ssl_ecert2=Plik certyfikatu SSL $1 nie zawiera certyfikatu formatu PEM
 ssl_edhparams=Nie udało się wygenerować pliku parametrów PFS DH : $1
 ssl_epfsversion=PFS wymaga wersji Net::SSLeay $2, ale ten system ma tylko wersję $1
 ssl_tablets=Dostawca SSL
-ssl_letsdesc=Użyj dostawcy SSL zgodnego ze standardem ACME, takiego jak Let's Encrypt, aby wygenerować zaufany certyfikat SSL dla Webmin.
+ssl_letsdesc=Ten formularz umożliwia złożenie wniosku o zaufany certyfikat SSL dla Webmin u dostawcy zgodnego ze standardem ACME, takiego jak Let's Encrypt.
 ssl_letserr=Niestety, ten system nie może zażądać certyfikatów od dostawcy SSL: $1.
 ssl_letserr2=Alternatywnie sprawdź stronę <a href='$1'>konfiguracji modułu</a>, aby upewnić się, że używasz prawidłowej ścieżki do skonfigurowanego polecenia klienta ACME.
 
-ssl_letsdesc2=Za pomocą tej strony można zażądać nowego certyfikatu, który nadpisze każdy certyfikat aktualnie skonfigurowany w Webmin. Przed wydaniem certyfikatu dostawca ACME musi zweryfikować kontrolę nad każdą nazwą hosta, pobierając plik tymczasowy z katalogu dokumentów witryny lub, w celu weryfikacji DNS, sprawdzając tymczasowy rekord DNS TXT.
+ssl_letsdesc2=Nowy certyfikat zastąpi ten obecnie skonfigurowany w Webminie. Przed jego wydaniem dostawca ACME musi zweryfikować kontrolę nad każdą nazwą hosta, używając pliku tymczasowego w katalogu dokumentów witryny lub tymczasowego rekordu DNS TXT.
 ssl_letsheader=Opcje nowego certyfikatu SSL
 ssl_letsdoms=Nazwy hostów dla certyfikatu
 ssl_subset=Pominąć niemożliwe do zweryfikowania nazwy hostów?

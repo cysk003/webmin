@@ -125,11 +125,11 @@ ssl_current=Táto časť zobrazuje podrobnosti o aktuálnom certifikáte SSL Web
 ssl_csralready=Zobraziť posledný kľúč a CSR.
 ssl_already1=Predtým vygenerovaný súkromný kľúč :
 ssl_already2=Doteraz vygenerovaná žiadosť o podpísanie certifikátu :
-ssl_letsdesc=Na vygenerovanie dôveryhodného SSL certifikátu pre Webmin použite poskytovateľa SSL kompatibilného s ACME, ako napríklad Let's Encrypt.
+ssl_letsdesc=Tento formulár vám umožňuje požiadať o dôveryhodný SSL certifikát pre Webmin od poskytovateľa kompatibilného s ACME, ako je napríklad Let's Encrypt.
 ssl_letserr=Tento systém bohužiaľ nemôže vyžiadať certifikáty od poskytovateľa SSL: $1.
 ssl_letserr2=Prípadne skontrolujte stránku <a href='$1'>konfigurácie modulu</a>, aby ste sa uistili, že používate správnu cestu k nakonfigurovanému príkazu klienta ACME.
 
-ssl_letsdesc2=Túto stránku je možné použiť na vyžiadanie nového certifikátu, ktorý prepíše akýkoľvek certifikát aktuálne nakonfigurovaný vo Webmine. Pred vydaním certifikátu musí poskytovateľ ACME overiť kontrolu nad každým názvom hostiteľa, a to buď načítaním dočasného súboru z adresára dokumentov webovej stránky, alebo pre overenie DNS kontrolou dočasného TXT záznamu DNS.
+ssl_letsdesc2=Nový certifikát nahradí certifikát, ktorý je momentálne nakonfigurovaný vo Webmine. Pred jeho vydaním musí poskytovateľ ACME overiť kontrolu nad každým názvom hostiteľa pomocou dočasného súboru v adresári dokumentov webovej stránky alebo dočasného TXT záznamu DNS.
 ssl_letsheader=Možnosti pre nový certifikát SSL
 ssl_letsdoms=Názvy hostiteľov pre certifikát
 ssl_subset=Preskočiť neoveriteľné názvy hostiteľov?

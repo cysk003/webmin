@@ -422,10 +422,10 @@ ssl_edownload=Ezin izan da PEM datuak ziurtagiririk atera
 ssl_csralready=Ikusi azken gakoa eta EGE ..
 ssl_already1=Aurretik sortutako gako pribatua :
 ssl_already2=Aurretik sortutako ziurtagiria sinatzeko eskaera :
-ssl_letsdesc=Erabili ACME-rekin bateragarria den SSL hornitzaile bat, hala nola Let's Encrypt, Webmin-erako SSL ziurtagiri fidagarri bat sortzeko.
+ssl_letsdesc=Inprimaki honek Webmin-erako SSL ziurtagiri fidagarri bat eskatzeko aukera ematen dizu ACME-rekin bateragarria den hornitzaile batetik, hala nola Let's Encrypt-etik.
 ssl_letserr=Zoritxarrez, sistema honek ezin ditu ziurtagiriak eskatu SSL hornitzaile batetik: $1.
 ssl_letserr2=Bestela, egiaztatu <a href='$1'>moduluaren konfigurazioa</a> orria konfiguratutako ACME bezero komandoaren bide zuzena erabiltzen ari zarela ziurtatzeko.
-ssl_letsdesc2=Orrialde hau ziurtagiri berri bat eskatzeko erabil daiteke, eta horrek Webminen konfiguratuta dagoen edozein ziurtagiri gainidatziko du. Ziurtagiri bat jaulki aurretik, ACME hornitzaileak ostalari-izen bakoitzaren kontrola egiaztatu behar du, webgunearen dokumentuen direktoriotik aldi baterako fitxategi bat eskuratuz edo, DNS baliozkotzeko, aldi baterako DNS TXT erregistro bat egiaztatuz.
+ssl_letsdesc2=Ziurtagiri berriak Webminen konfiguratuta dagoena ordezkatuko du. Jaulki aurretik, ACME hornitzaileak ostalari-izen bakoitzaren kontrola egiaztatu behar du webgunearen dokumentu-direktorioko aldi baterako fitxategi bat edo aldi baterako DNS TXT erregistro bat erabiliz.
 ssl_letsheader=SSL ziurtagiri berrirako aukerak
 ssl_letsdoms=Ziurtagiriaren ostalariaren izenak
 ssl_subset=Egiaztaezinak ostalari-izenak saltatu nahi dituzu?

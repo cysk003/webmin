@@ -307,10 +307,10 @@ ssl_edownload=Det gick inte att extrahera PEM-data från certifikatet
 ssl_csralready=Visa senaste nyckel och CSR ..
 ssl_already1=Tidigare genererad privat nyckel :
 ssl_already2=Tidigare genererad begäran om certifikatsignering :
-ssl_letsdesc=Använd en ACME-kompatibel SSL-leverantör som Let's Encrypt för att generera ett betrott SSL-certifikat för Webmin.
+ssl_letsdesc=Med det här formuläret kan du begära ett betrott SSL-certifikat för Webmin från en ACME-kompatibel leverantör som Let's Encrypt.
 ssl_letserr=Tyvärr kan det här systemet inte begära certifikat från en SSL-leverantör: $1.
 ssl_letserr2=Alternativt kan du kontrollera sidan <a href='$1'>modulkonfiguration</a> för att säkerställa att du använder rätt sökväg till det konfigurerade ACME-klientkommandot.
-ssl_letsdesc2=Den här sidan kan användas för att begära ett nytt certifikat, vilket kommer att skriva över alla certifikat som för närvarande är konfigurerade i Webmin. Innan ett certifikat kan utfärdas måste ACME-leverantören verifiera kontrollen över varje värdnamn, antingen genom att hämta en tillfällig fil från webbplatsens dokumentkatalog eller, för DNS-validering, genom att kontrollera en tillfällig DNS TXT-post.
+ssl_letsdesc2=Det nya certifikatet kommer att ersätta det som för närvarande är konfigurerat i Webmin. Innan det kan utfärdas måste ACME-leverantören verifiera kontrollen över varje värdnamn med hjälp av antingen en tillfällig fil i webbplatsens dokumentkatalog eller en tillfällig DNS TXT-post.
 ssl_letsheader=Alternativ för nytt SSL-certifikat
 ssl_letsdoms=Värdnamn för certifikat
 ssl_subset=Vill du hoppa över ej verifierbara värdnamn?

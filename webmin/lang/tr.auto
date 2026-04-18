@@ -205,10 +205,10 @@ ssl_edownload=Sertifikadan PEM verileri alınamadı
 ssl_csralready=En son anahtar ve CSR'yi görüntüleyin ..
 ssl_already1=Önceden oluşturulan özel anahtar :
 ssl_already2=Önceden oluşturulan sertifika imzalama isteği :
-ssl_letsdesc=Webmin için güvenilir bir SSL sertifikası oluşturmak üzere Let's Encrypt gibi ACME uyumlu bir SSL sağlayıcısı kullanın.
+ssl_letsdesc=Bu form, Let's Encrypt gibi ACME uyumlu bir sağlayıcıdan Webmin için güvenilir bir SSL sertifikası talep etmenizi sağlar.
 ssl_letserr=Maalesef bu sistem bir SSL sağlayıcısından sertifika talep edemiyor: $1.
 ssl_letserr2=Alternatif olarak, yapılandırılmış ACME istemci komutuna giden doğru yolu kullandığınızdan emin olmak için <a href='$1'>modül yapılandırması</a> sayfasını kontrol edin.
-ssl_letsdesc2=Bu sayfa, Webmin'de halihazırda yapılandırılmış herhangi bir sertifikanın üzerine yazacak yeni bir sertifika talep etmek için kullanılabilir. Bir sertifika verilmeden önce, ACME sağlayıcısının her bir ana bilgisayar adının kontrolünü doğrulaması gerekir; bu, web sitesinin belge dizininden geçici bir dosya alınarak veya DNS doğrulaması için geçici bir DNS TXT kaydı kontrol edilerek yapılabilir.
+ssl_letsdesc2=Yeni sertifika, Webmin'de şu anda yapılandırılmış olanın yerini alacaktır. Sertifika verilmeden önce, ACME sağlayıcısının, web sitesinin belge dizinindeki geçici bir dosya veya geçici bir DNS TXT kaydı kullanarak her bir ana bilgisayar adının kontrolünü doğrulaması gerekir.
 ssl_letsheader=Yeni SSL sertifikası seçenekleri
 ssl_letsdoms=Sertifika için ana bilgisayar adları
 ssl_subset=Doğrulanamayan ana bilgisayar adları atlansın mı?

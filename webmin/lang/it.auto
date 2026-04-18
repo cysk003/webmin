@@ -91,11 +91,11 @@ ssl_tablets=Fornitore SSL
 ssl_csralready=Visualizza la chiave e il CSR più recenti.
 ssl_already1=Chiave privata precedentemente generata :
 ssl_already2=Richiesta di firma del certificato generata in precedenza :
-ssl_letsdesc=Utilizza un provider SSL compatibile con ACME, come Let's Encrypt, per generare un certificato SSL attendibile per Webmin.
+ssl_letsdesc=Questo modulo consente di richiedere un certificato SSL affidabile per Webmin da un provider compatibile con ACME, come ad esempio Let's Encrypt.
 ssl_letserr=Purtroppo, questo sistema non può richiedere certificati a un provider SSL: $1.
 ssl_letserr2=In alternativa, controlla la pagina <a href='$1'>configurazione del modulo</a> per assicurarti di utilizzare il percorso corretto per il comando client ACME configurato.
 
-ssl_letsdesc2=Questa pagina può essere utilizzata per richiedere un nuovo certificato, che sovrascriverà qualsiasi certificato attualmente configurato in Webmin. Prima che un certificato possa essere emesso, il provider ACME deve verificare il controllo di ciascun nome host, recuperando un file temporaneo dalla directory dei documenti del sito web oppure, per la convalida DNS, controllando un record DNS TXT temporaneo.
+ssl_letsdesc2=Il nuovo certificato sostituirà quello attualmente configurato in Webmin. Prima di poterlo emettere, il provider ACME deve verificare il controllo di ciascun hostname utilizzando un file temporaneo nella directory dei documenti del sito web oppure un record DNS TXT temporaneo.
 ssl_letsheader=Opzioni per il nuovo certificato SSL
 ssl_letsdoms=Nomi host per certificato
 ssl_subset=Vuoi ignorare i nomi host non verificabili?

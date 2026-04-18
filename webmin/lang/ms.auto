@@ -53,11 +53,11 @@ ssl_ecert2=Fail sijil SSL $1 tidak mengandungi sijil format PEM
 ssl_edhparams=Gagal untuk menjana fail Parameter DH PFS : $1
 ssl_epfsversion=PFS memerlukan versi Bersih::SSLeay $2, tetapi sistem ini hanya mempunyai versi $1
 ssl_tablets=Pembekal SSL
-ssl_letsdesc=Gunakan pembekal SSL yang serasi dengan ACME seperti Let's Encrypt untuk menjana sijil SSL yang dipercayai untuk Webmin.
+ssl_letsdesc=Borang ini membolehkan anda meminta sijil SSL yang dipercayai untuk Webmin daripada pembekal yang serasi dengan ACME seperti Let's Encrypt.
 ssl_letserr=Malangnya, sistem ini tidak boleh meminta sijil daripada pembekal SSL: $1.
 ssl_letserr2=Secara alternatif, semak halaman <a href='$1'>konfigurasi modul</a> untuk memastikan anda menggunakan laluan yang betul kepada arahan klien ACME yang dikonfigurasikan.
 
-ssl_letsdesc2=Halaman ini boleh digunakan untuk meminta sijil baharu, yang akan menulis ganti mana-mana sijil yang sedang dikonfigurasikan dalam Webmin. Sebelum sijil boleh dikeluarkan, penyedia ACME mesti mengesahkan kawalan setiap nama hos, sama ada dengan mengambil fail sementara daripada direktori dokumen laman web atau, untuk pengesahan DNS, dengan menyemak rekod TXT DNS sementara.
+ssl_letsdesc2=Sijil baharu ini akan menggantikan sijil yang sedang dikonfigurasikan dalam Webmin. Sebelum ia boleh dikeluarkan, penyedia ACME mesti mengesahkan kawalan setiap nama hos menggunakan sama ada fail sementara dalam direktori dokumen laman web atau rekod TXT DNS sementara.
 ssl_letsheader=Pilihan untuk sijil SSL baru
 ssl_letsdoms=Nama hos untuk sijil
 ssl_subset=Langkau nama hos yang tidak boleh disahkan?

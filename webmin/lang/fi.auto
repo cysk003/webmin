@@ -422,10 +422,10 @@ ssl_edownload=PEM-tietojen nouto sertifikaatista epäonnistui
 ssl_csralready=Näytä viimeisin avain ja CSR ..
 ssl_already1=Aiemmin luotu yksityinen avain :
 ssl_already2=Aikaisemmin luotu varmenteen allekirjoituspyyntö :
-ssl_letsdesc=Käytä ACME-yhteensopivaa SSL-palveluntarjoajaa, kuten Let's Encryptiä, luodaksesi luotettavan SSL-varmenteen Webminille.
+ssl_letsdesc=Tämän lomakkeen avulla voit pyytää luotettavaa SSL-varmennetta Webminille ACME-yhteensopivalta tarjoajalta, kuten Let's Encryptiltä.
 ssl_letserr=Valitettavasti tämä järjestelmä ei voi pyytää varmenteita SSL-palveluntarjoajalta: $1.
 ssl_letserr2=Vaihtoehtoisesti voit tarkistaa <a href='$1'>moduulin määrityssivulta</a>, että käytät oikeaa polkua määritettyyn ACME-asiakaskomentoon.
-ssl_letsdesc2=Tätä sivua voidaan käyttää uuden varmenteen pyytämiseen, joka korvaa kaikki Webminissä tällä hetkellä määritetyt varmenteet. Ennen varmenteen myöntämistä ACME-tarjoajan on varmistettava jokaisen isäntänimen hallinta joko hakemalla väliaikaisen tiedoston verkkosivuston dokumenttihakemistosta tai tarkistamalla väliaikaisen DNS TXT -tietueen DNS-vahvistusta varten.
+ssl_letsdesc2=Uusi varmenne korvaa Webminissä tällä hetkellä määritetyn varmenteen. Ennen kuin se voidaan myöntää, ACME-tarjoajan on vahvistettava jokaisen isäntänimen hallinta joko verkkosivuston dokumenttihakemistossa olevan väliaikaisen tiedoston tai väliaikaisen DNS TXT -tietueen avulla.
 ssl_letsheader=Uuden SSL-varmenteen vaihtoehdot
 ssl_letsdoms=Varmenteen isäntänimet
 ssl_subset=Ohitetaanko varmentamattomat isäntänimet?

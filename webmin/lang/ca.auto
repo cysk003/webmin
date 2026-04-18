@@ -42,11 +42,11 @@ lang_dateformat_yyyy/mm/dd=aaaa/mm/dd (és a dir, 16/09/2001)
 ssl_enforce=Aplicar SSL
 ssl_hsts=Apliqueu SSL amb la capçalera HSTS
 ssl_tablets=Proveïdor SSL
-ssl_letsdesc=Feu servir un proveïdor SSL compatible amb ACME com ara Let's Encrypt per generar un certificat SSL de confiança per a Webmin.
+ssl_letsdesc=Aquest formulari us permet sol·licitar un certificat SSL de confiança per a Webmin d'un proveïdor compatible amb ACME com ara Let's Encrypt.
 ssl_letserr=Malauradament, aquest sistema no pot sol·licitar certificats d'un proveïdor SSL: $1.
 ssl_letserr2=Alternativament, consulteu la pàgina de <a href='$1'>configuració del mòdul</a> per assegurar-vos que esteu utilitzant la ruta correcta a l'ordre del client ACME configurat.
 
-ssl_letsdesc2=Aquesta pàgina es pot utilitzar per sol·licitar un certificat nou, que sobreescriurà qualsevol certificat configurat actualment a Webmin. Abans que es pugui emetre un certificat, el proveïdor ACME ha de verificar el control de cada nom d'amfitrió, ja sigui obtenint un fitxer temporal del directori de documents del lloc web o, per a la validació DNS, comprovant un registre TXT DNS temporal.
+ssl_letsdesc2=El nou certificat substituirà el que està configurat actualment a Webmin. Abans que es pugui emetre, el proveïdor ACME ha de verificar el control de cada nom d'amfitrió mitjançant un fitxer temporal al directori de documents del lloc web o un registre TXT DNS temporal.
 ssl_letsdoms=Noms d'amfitrió del certificat
 ssl_subset=Voleu saltar noms d'amfitrió no verificables?
 ssl_letsmode=Mètode de validació de domini

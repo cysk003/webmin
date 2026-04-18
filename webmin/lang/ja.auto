@@ -31,11 +31,11 @@ lang_dateformat_yyyy/mm/dd=yyyy/mm/dd (例: 2001/09/16)
 ssl_enforce=SSLを強制する
 ssl_hsts=HSTS ヘッダーで SSL を強制する
 ssl_tablets=SSLプロバイダー
-ssl_letsdesc=Webmin用の信頼できるSSL証明書を生成するには、Let's EncryptなどのACME互換SSLプロバイダーを使用してください。
+ssl_letsdesc=このフォームを使用すると、Let's EncryptなどのACME互換プロバイダーからWebmin用の信頼できるSSL証明書をリクエストできます。
 ssl_letserr=残念ながら、このシステムはSSLプロバイダーから証明書を要求することができません：$1。
 ssl_letserr2=または、<a href='$1'>モジュール設定</a>ページを確認して、設定済みのACMEクライアントコマンドへの正しいパスを使用していることを確認してください。
 
-ssl_letsdesc2=このページでは、Webminに現在設定されている証明書を上書きする新しい証明書をリクエストできます。証明書を発行する前に、ACMEプロバイダーは、Webサイトのドキュメントディレクトリから一時ファイルを取得するか、DNS検証の場合は一時的なDNS TXTレコードを確認することで、各ホスト名の所有権を確認する必要があります。
+ssl_letsdesc2=新しい証明書は、現在Webminに設定されている証明書と置き換えられます。発行前に、ACMEプロバイダーは、ウェブサイトのドキュメントディレクトリ内の一時ファイル、または一時的なDNS TXTレコードを使用して、各ホスト名の所有権を確認する必要があります。
 ssl_subset=検証できないホスト名をスキップしますか?
 ssl_letsmode=ドメイン検証方法
 ssl_letsmode0=ホスト名に一致する Apache 仮想ホスト

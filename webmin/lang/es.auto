@@ -169,11 +169,11 @@ ssl_edownload=Error al extraer datos de PEM del certificado
 ssl_csralready=Ver clave más reciente y CSR ..
 ssl_already1=Clave privada generada previamente :
 ssl_already2=Solicitud de firma de certificado generada previamente :
-ssl_letsdesc=Utilice un proveedor de SSL compatible con ACME, como Let's Encrypt, para generar un certificado SSL de confianza para Webmin.
+ssl_letsdesc=Este formulario le permite solicitar un certificado SSL de confianza para Webmin a un proveedor compatible con ACME, como Let's Encrypt.
 ssl_letserr=Lamentablemente, este sistema no puede solicitar certificados a un proveedor SSL: $1.
 ssl_letserr2=Alternativamente, compruebe la página <a href='$1'>configuración del módulo</a> para asegurarse de que está utilizando la ruta correcta al comando de cliente ACME configurado.
 
-ssl_letsdesc2=Esta página permite solicitar un nuevo certificado, que sobrescribirá cualquier certificado configurado actualmente en Webmin. Antes de emitir un certificado, el proveedor ACME debe verificar el control de cada nombre de host, ya sea obteniendo un archivo temporal del directorio de documentos del sitio web o, para la validación DNS, comprobando un registro DNS TXT temporal.
+ssl_letsdesc2=El nuevo certificado sustituirá al que está configurado actualmente en Webmin. Antes de su emisión, el proveedor ACME debe verificar el control de cada nombre de host mediante un archivo temporal en el directorio de documentos del sitio web o un registro DNS TXT temporal.
 ssl_letsheader=Opciones para el nuevo certificado SSL
 ssl_letsdoms=Nombres de host para el certificado
 ssl_subset=¿Omitir nombres de host no verificables?

@@ -227,10 +227,10 @@ ssl_edownload=無法從證書中提取PEM數據
 ssl_csralready=查看最新密鑰和CSR ..
 ssl_already1=先前生成的私鑰：
 ssl_already2=先前生成的證書籤名請求：
-ssl_letsdesc=使用與 ACME 相容的 SSL 提供者（例如 Let's Encrypt）為 Webmin 產生受信任的 SSL 憑證。
+ssl_letsdesc=此表單可讓您從 ACME 相容提供者（例如 Let's Encrypt）為 Webmin 要求受信任的 SSL 憑證。
 ssl_letserr=很遺憾，該系統無法從 SSL 提供者請求憑證：$1。
 ssl_letserr2=或者，檢查<a href='$1'>模組配置</a>頁面，以確保您使用的是已配置的 ACME 用戶端命令的正確路徑。
-ssl_letsdesc2=此頁面可用於申請新證書，該證書將覆蓋 Webmin 中目前配置的任何證書。在頒發證書之前，ACME 提供者必須驗證對每個主機名稱的控制權，驗證方式有兩種：一是從網站的文檔目錄中取得臨時文件；二是進行 DNS 驗證，即檢查臨時 DNS TXT 記錄。
+ssl_letsdesc2=新憑證將取代 Webmin 中目前配置的憑證。在頒發新憑證之前，ACME 提供者必須使用網站文件目錄中的暫存檔案或暫存 DNS TXT 記錄來驗證對每個主機名稱的控制權。
 ssl_letsheader=新SSL證書的選項
 ssl_letsdoms=證書的主機名
 ssl_subset=跳過無法驗證的主機名稱？

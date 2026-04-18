@@ -38,11 +38,11 @@ lang_dateformat_yyyy/mm/dd=aaaa/mm/jj (c.-à-d. 2001/09/16)
 ssl_enforce=Imposer le SSL
 ssl_hsts=Appliquer SSL avec l'en-tête HSTS
 ssl_tablets=Fournisseur SSL
-ssl_letsdesc=Utilisez un fournisseur SSL compatible ACME tel que Let's Encrypt pour générer un certificat SSL de confiance pour Webmin.
+ssl_letsdesc=Ce formulaire vous permet de demander un certificat SSL de confiance pour Webmin auprès d'un fournisseur compatible ACME tel que Let's Encrypt.
 ssl_letserr=Malheureusement, ce système ne peut pas demander de certificats à un fournisseur SSL : $1.
 ssl_letserr2=Vous pouvez également consulter la page <a href='$1'>configuration du module</a> pour vous assurer que vous utilisez le chemin correct vers la commande client ACME configurée.
 
-ssl_letsdesc2=Cette page permet de demander un nouveau certificat, qui remplacera tout certificat actuellement configuré dans Webmin. Avant l'émission d'un certificat, le fournisseur ACME doit vérifier la propriété de chaque nom d'hôte, soit en récupérant un fichier temporaire dans le répertoire des documents du site web, soit, pour la validation DNS, en vérifiant un enregistrement TXT DNS temporaire.
+ssl_letsdesc2=Le nouveau certificat remplacera celui actuellement configuré dans Webmin. Avant son émission, le fournisseur ACME doit vérifier le contrôle de chaque nom d'hôte à l'aide d'un fichier temporaire dans le répertoire des documents du site web ou d'un enregistrement DNS TXT temporaire.
 ssl_subset=Ignorer les noms d’hôtes non vérifiables ?
 ssl_letsmode=méthode de validation de domaine
 ssl_letsmode0=Hôte virtuel Apache correspondant au nom d'hôte

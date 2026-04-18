@@ -60,11 +60,11 @@ ssl_pfs=Alleen sterke cijfers met perfecte voorwaartse geheimhouding
 ssl_edhparams=Kan PFS DH-params-bestand niet genereren : $1
 ssl_epfsversion=PFS vereist Net::SSLeay-versie $2, maar dit systeem heeft alleen versie $1
 ssl_tablets=SSL-provider
-ssl_letsdesc=Gebruik een ACME-compatibele SSL-provider zoals Let's Encrypt om een vertrouwd SSL-certificaat voor Webmin te genereren.
+ssl_letsdesc=Met dit formulier kunt u een vertrouwd SSL-certificaat voor Webmin aanvragen bij een ACME-compatibele provider zoals Let's Encrypt.
 ssl_letserr=Helaas kan dit systeem geen certificaten aanvragen bij een SSL-provider: $1.
 ssl_letserr2=U kunt ook de pagina <a href='$1'>moduleconfiguratie</a> raadplegen om er zeker van te zijn dat u het juiste pad naar de geconfigureerde ACME-clientopdracht gebruikt.
 
-ssl_letsdesc2=Deze pagina kan worden gebruikt om een nieuw certificaat aan te vragen, waarmee elk certificaat dat momenteel in Webmin is geconfigureerd, wordt overschreven. Voordat een certificaat kan worden uitgegeven, moet de ACME-provider de controle over elke hostnaam verifiëren, hetzij door een tijdelijk bestand uit de documentmap van de website op te halen, hetzij, voor DNS-validatie, door een tijdelijk DNS TXT-record te controleren.
+ssl_letsdesc2=Het nieuwe certificaat vervangt het certificaat dat momenteel in Webmin is geconfigureerd. Voordat het kan worden uitgegeven, moet de ACME-provider de controle over elke hostnaam verifiëren met behulp van een tijdelijk bestand in de documentmap van de website of een tijdelijk DNS TXT-record.
 ssl_letsheader=Opties voor nieuw SSL-certificaat
 ssl_letsdoms=Hostnamen voor certificaat
 ssl_subset=Niet-verifieerbare hostnamen overslaan?

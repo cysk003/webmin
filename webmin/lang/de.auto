@@ -1,10 +1,10 @@
 ssl_enforce=SSL erzwingen
 ssl_tablets=SSL-Anbieter
-ssl_letsdesc=Verwenden Sie einen ACME-kompatiblen SSL-Anbieter wie Let's Encrypt, um ein vertrauenswürdiges SSL-Zertifikat für Webmin zu generieren.
+ssl_letsdesc=Mit diesem Formular können Sie ein vertrauenswürdiges SSL-Zertifikat für Webmin von einem ACME-kompatiblen Anbieter wie Let's Encrypt anfordern.
 ssl_letserr=Leider kann dieses System keine Zertifikate von einem SSL-Anbieter anfordern: $1.
 ssl_letserr2=Alternativ können Sie auf der <a href='$1'>Modulkonfigurationsseite</a> überprüfen, ob Sie den richtigen Pfad zum konfigurierten ACME-Clientbefehl verwenden.
 
-ssl_letsdesc2=Über diese Seite können Sie ein neues Zertifikat anfordern, das alle aktuell in Webmin konfigurierten Zertifikate überschreibt. Bevor ein Zertifikat ausgestellt werden kann, muss der ACME-Anbieter die Kontrolle über jeden Hostnamen überprüfen. Dies geschieht entweder durch Abrufen einer temporären Datei aus dem Dokumentenverzeichnis der Website oder, im Falle einer DNS-Validierung, durch Prüfen eines temporären DNS-TXT-Eintrags.
+ssl_letsdesc2=Das neue Zertifikat ersetzt das aktuell in Webmin konfigurierte. Bevor es ausgestellt werden kann, muss der ACME-Anbieter die Kontrolle über jeden Hostnamen entweder mithilfe einer temporären Datei im Dokumentenverzeichnis der Website oder eines temporären DNS-TXT-Eintrags überprüfen.
 ssl_letsmode=Domänenvalidierungsmethode
 ssl_staging=Provider-Server
 ssl_staging0=Produktion
