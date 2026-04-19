@@ -299,6 +299,12 @@ else {
 
 	# Apache vhost or other path
 	my @opts;
+	my $certbot_by_webmin = $letsencrypt_cmd
+		? &is_webmin_listening_on_port(80)
+		: 0;
+	my $certbot_warning = $letsencrypt_cmd
+		? &get_letsencrypt_certbot_port_error()
+		: undef;
 
 	my $webroot = $config{'letsencrypt_webroot'};
 	my $hasapache = &foreign_installed("apache");
@@ -339,8 +345,23 @@ else {
 	if ($letsencrypt_cmd) {
 		push(@opts, [ 4, $text{'ssl_letsmode4'} ]);
 		}
+	my $mode_html = &ui_radio_table("webroot_mode", $mode, \@opts);
+	if ($certbot_warning) {
+		# Keep the warning aligned with the validation options (hacky as
+		# we have no API for this yet)
+		$certbot_warning .= " ".$text{'ssl_certbotprehook'}
+		    if (!$certbot_by_webmin && $config{'letsencrypt_before'});
+		my $warning_note = &ui_note($certbot_warning, 0);
+		my $warning_html =
+			"<tr><td colspan='2'>".
+			&ui_tag('div', $warning_note,
+				{ 'style' => 'padding-left: 19px; '.
+					     'margin-top: -8px !important' }).
+			"</td></tr>\n";
+		$mode_html =~ s#</table>\s*$#$warning_html</table>#;
+		}
 	print &ui_table_row($text{'ssl_letsmode'},
-		&ui_radio_table("webroot_mode", $mode, \@opts));
+		$mode_html);
 
 	# Install in Webmin now?
 	print &ui_table_row($text{'ssl_usewebmin'},

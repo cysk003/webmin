@@ -46,6 +46,61 @@ if ($ver < 2.5) {
 return undef;
 }
 
+# can_bind_tcp_port(port)
+# Returns 1 if a TCP port appears to be free for binding, or 0 if it is in use
+sub can_bind_tcp_port
+{
+my ($port) = @_;
+my $proto = getprotobyname('tcp');
+return 1 if (!$proto);
+my @tests = (
+	[ PF_INET(), sub { pack_sockaddr_in($port, INADDR_ANY) } ],
+	);
+push(@tests, [ PF_INET6(), sub { pack_sockaddr_in6($port, in6addr_any()) },
+	       sub { setsockopt($_[0], 41, 26, pack("l", 1)) } ])
+	if (defined(&PF_INET6) && defined(&pack_sockaddr_in6) &&
+	    defined(&in6addr_any));
+foreach my $t (@tests) {
+	my ($family, $pack_func, $setup_func) = @$t;
+	my $sock;
+	next if (!socket($sock, $family, SOCK_STREAM, $proto));
+	&$setup_func($sock) if ($setup_func);
+	setsockopt($sock, SOL_SOCKET, SO_REUSEADDR, pack("l", 1));
+	my $ok = bind($sock, &$pack_func());
+	my $inuse = !$ok && $!{'EADDRINUSE'};
+	close($sock);
+	return 0 if ($inuse);
+	}
+return 1;
+}
+
+# is_webmin_listening_on_port(port)
+# Returns 1 if Miniserv is configured to listen on a TCP port
+sub is_webmin_listening_on_port
+{
+my ($port) = @_;
+my %miniserv;
+&get_miniserv_config(\%miniserv);
+return 1 if ($miniserv{'port'} && $miniserv{'port'} == $port);
+foreach my $s (split(/\s+/, $miniserv{'sockets'} || '')) {
+	return 1 if ($s =~ /^\Q$port\E$/ ||
+		     $s =~ /^\*:\Q$port\E$/ ||
+		     $s =~ /^\S+:\Q$port\E$/);
+	}
+return 0;
+}
+
+# get_letsencrypt_certbot_port_error()
+# Returns an error if Certbot standalone mode cannot listen on port 80
+sub get_letsencrypt_certbot_port_error
+{
+return undef if (&can_bind_tcp_port(80));
+if (&is_webmin_listening_on_port(80)) {
+	return $text{'letsencrypt_ecertbotwebmin'};
+	}
+return $text{'letsencrypt_ecertbotport'};
+}
+
 # get_letsencrypt_install_message(return-link, return-title)
 # Returns a link or form to install Let's Encrypt
 sub get_letsencrypt_install_message
@@ -263,6 +318,11 @@ if ($letsencrypt_cmd) {
 		}
 	elsif ($mode eq "certbot") {
 		# Use certbot's own webserver
+		my $err = &get_letsencrypt_certbot_port_error();
+		if ($err) {
+			@rv = (0, $err);
+			goto FAILED;
+			}
 		&clean_environment();
 		$out = &backquote_logged(
 			"cd $dir && (echo A | $letsencrypt_cmd certonly".
