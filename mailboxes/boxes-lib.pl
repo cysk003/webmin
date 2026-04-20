@@ -15,6 +15,111 @@ use Time::Local;
 $dbm_index_min = 1000000;
 $dbm_index_version = 3;
 
+# supports_tnef_module()
+# Returns 1 if the Convert::TNEF module is available for decoding winmail.dat
+my $supports_tnef_module;
+sub supports_tnef_module
+{
+if (!defined($supports_tnef_module)) {
+	$supports_tnef_module = eval { require Convert::TNEF; 1; } ? 1 : 0;
+	}
+return $supports_tnef_module;
+}
+
+# decode_tnef_attachment(&attach)
+# Expands a TNEF attachment into a list of normal attachments, or returns
+# an error string if decoding is not possible
+sub decode_tnef_attachment
+{
+my ($attach) = @_;
+my @rv;
+return (undef, "Convert::TNEF module not installed")
+	if (!&supports_tnef_module());
+
+my $tempdir = &transname();
+mkdir($tempdir, 0700) || return (undef, $!);
+
+# Only try to de-privilege the parser when we are currently fully root;
+# In Usermin or already-switched contexts, just decode as the current user
+my $parse_user = !$< && !$> ? &get_mail_parse_user($attach) : undef;
+my $tnef;
+if ($parse_user) {
+	# Convert::TNEF may create temp files under output_dir, so hand it a
+	# private directory owned by the mailbox user and run the parser as
+	# that user instead of root
+	local $main::mail_open_user = $parse_user;
+	my @uinfo = &get_switch_user_info();
+	@uinfo || return (undef, "Mail open user $parse_user does not exist");
+	&set_ownership_permissions($uinfo[2], $uinfo[3], 0700, $tempdir);
+	my $switched = &switch_to_mail_user();
+	my $io;
+	my $ok = eval {
+		open($io, "<", \$attach->{'data'}) || die "$!";
+		binmode($io);
+		$tnef = Convert::TNEF->read($io,
+			{ 'output_dir' => $tempdir,
+			  'buffer_size' => &get_buffer_size() });
+		close($io) || die "$!";
+		1;
+		};
+	if ($switched) {
+		# Restore root after decoding so the rest of the mailbox code
+		# keeps running with its original privileges
+		$) = 0;
+		$> = 0;
+		}
+	return (undef, $@) if (!$ok);
+	}
+else {
+	my $io;
+	if (!open($io, "<", \$attach->{'data'})) {
+		return (undef, $!);
+		}
+	binmode($io);
+	$tnef = eval {
+		Convert::TNEF->read($io,
+			{ 'output_dir' => $tempdir,
+			  'buffer_size' => &get_buffer_size() })
+		};
+	close($io);
+	}
+if ($@) {
+	return (undef, $@);
+	}
+if (!$tnef) {
+	return (undef, $Convert::TNEF::errstr ||
+		       "failed to decode winmail.dat");
+	}
+foreach my $ta ($tnef->attachments) {
+	my $fn = $ta->longname() || $ta->name();
+	$fn =~ s/\x00+$// if (defined($fn));
+	my $data = $ta->data();
+	next if (!defined($data));
+	my $ct = $fn ? &guess_mime_type($fn)
+		     : "application/octet-stream";
+	push(@rv,
+	     { 'type' => $ct,
+	       'header' => { 'content-type' => $ct },
+	       'headers' => [ [ 'Content-Type', $ct ] ],
+	       'filename' => $fn,
+	       'data' => $data });
+	}
+$tnef->purge();
+return (\@rv, undef);
+}
+
+# get_mail_parse_user(&mail-or-attach)
+# Returns the Unix user, if any, that should be used for unsafe mail parsing
+sub get_mail_parse_user
+{
+my ($obj) = @_;
+while ($obj) {
+	return $obj->{'open_user'} if ($obj->{'open_user'});
+	$obj = $obj->{'parent'};
+	}
+return undef;
+}
+
 # list_mails(user|file, [start], [end])
 # Returns a subset of mail from a mbox format file
 sub list_mails
@@ -540,49 +645,18 @@ if ($ct =~ /boundary="([^"]+)"/i || $ct =~ /boundary=([^;\s]+)/i) {
 		elsif (lc($attach->{'type'}) eq 'application/ms-tnef') {
 			# This attachment is a winmail.dat file, which may
 			# contain multiple other attachments!
-			local ($opentnef, $tnef);
-			if (!($opentnef = &has_command("opentnef")) &&
-			    !($tnef = &has_command("tnef"))) {
-				$attach->{'error'} = "tnef command not installed";
+			local ($tattach, $terror) =
+				&decode_tnef_attachment($attach);
+			if ($tattach && @{$tattach}) {
+				pop(@attach);	# lose winmail.dat
+				foreach my $ta (@{$tattach}) {
+					$ta->{'idx'} = scalar(@attach);
+					push(@attach, $ta);
+					}
 				}
 			else {
-				# Can actually decode
-				local $tempfile = &transname();
-				open(TEMPFILE, ">$tempfile");
-				print TEMPFILE $attach->{'data'};
-				close(TEMPFILE);
-				local $tempdir = &transname();
-				mkdir($tempdir, 0700);
-				if ($opentnef) {
-					system("$opentnef -d $tempdir -i $tempfile >/dev/null 2>&1");
-					}
-				else {
-					system("$tnef -C $tempdir -f $tempfile >/dev/null 2>&1");
-					}
-				pop(@attach);	# lose winmail.dat
-				opendir(DIR, $tempdir);
-				while($f = readdir(DIR)) {
-					next if ($f eq '.' || $f eq '..');
-					local $data;
-					open(FILE, "<$tempdir/$f");
-					while(<FILE>) {
-						$data .= $_;
-						}
-					close(FILE);
-					local $ct = &guess_mime_type($f);
-					push(@attach,
-					  { 'type' => $ct,
-					    'idx' => scalar(@attach),
-					    'header' =>
-						{ 'content-type' => $ct },
-					    'headers' =>
-						[ [ 'Content-Type', $ct ] ],
-					    'filename' => $f,
-					    'data' => $data });
-					}
-				closedir(DIR);
-				unlink(glob("$tempdir/*"), $tempfile);
-				rmdir($tempdir);
+				$attach->{'error'} = $terror ||
+						     "failed to decode winmail.dat";
 				}
 			}
 		last if ($l >= $max || $lines[$l] eq "$bound--");
@@ -3194,12 +3268,13 @@ return 0;
 # Returns the getpw* function array for the user to switch to
 sub get_switch_user_info
 {
-if ($main::mail_open_user =~ /^\d+$/) {
+my $user = @_ ? $_[0] : $main::mail_open_user;
+if ($user =~ /^\d+$/) {
 	# Could be by UID .. but fall back to by name if there is no such UID
-	my @rv = getpwuid($main::mail_open_user);
+	my @rv = getpwuid($user);
 	return @rv if (@rv > 0);
 	}
-return getpwnam($main::mail_open_user);
+return getpwnam($user);
 }
 
 # is_ascii()
