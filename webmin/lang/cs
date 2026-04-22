@@ -284,7 +284,6 @@ ssl_essl=Vypadá to, že modul Perlu Net::SSLeay není ve vašem systému nainst
 ssl_cpan=Případně můžete Webmin <a href='$1'>nahrávat a instalovat</a> s požadavkem na využití modulu Perlu Net::SSLeay.
 ssl_emessage=Chybová hláška z Perlu je : $1
 ssl_desc1=Host, na kterém běží Webmin, umožňuje nainstalovat modul Perlu SSLe. Pokud toho využijete, Webmin umožní komunikací pomocí SSL kryptování mezi prohlížečem a serverem. Pokud přistupujete k serveru Webminu prostřednictvím Internetu, můžete použitím SSL zásadně vyřešit problém útoků prostřednictvím hesla ve Webminu.
-ssl_desc2=POZOR - aktivace SSL je účinná pouze v případě, používáte-li prohlížeč, který podporuje SSL (jako Netscape nebo IE), a jestliže firewall neblokuje <b>https</b> požadavky mezi prohlížečem a hostem s Webminem.
 ssl_header=SSL podpora
 ssl_on=Zapnout SSL, je-li k dispozici?
 ssl_key=Soubor s primárním klíčem

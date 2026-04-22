@@ -35,14 +35,32 @@ lang_dateformat_dd/mm/yyyy=dd/mm/åååå (dvs. 16.09.2001)
 lang_dateformat_mm/dd/yyyy=mm/dd/åååå (dvs. 16.09.2001)
 lang_dateformat_yyyy/mm/dd=åååå/mm/dd (dvs. 2001/09/16)
 
+ssl_enforce=Håndhev SSL
 ssl_hsts=Håndhev SSL med HSTS-header
+ssl_tablets=SSL-leverandør
+ssl_letsdesc=Dette skjemaet lar deg be om et pålitelig SSL-sertifikat for Webmin fra en ACME-kompatibel leverandør, for eksempel Let's Encrypt.
+ssl_letserr=Dessverre kan ikke dette systemet be om sertifikater fra en SSL-leverandør: $1.
+ssl_letserr2=Alternativt kan du sjekke <a href='$1'>modulkonfigurasjonssiden</a> for å sikre at du bruker riktig bane til den konfigurerte ACME-klientkommandoen.
+
+ssl_letsdesc2=Det nye sertifikatet vil erstatte det som for øyeblikket er konfigurert i Webmin. Før det kan utstedes, må ACME-leverandøren bekrefte kontrollen over hvert vertsnavn ved hjelp av enten en midlertidig fil i nettstedets dokumentkatalog eller en midlertidig DNS TXT-oppføring.
 ssl_subset=Vil du hoppe over vertsnavn som ikke kan bekreftes?
-ssl_letsmode=La oss kryptere valideringsmetoden
+ssl_letsmode=Domenevalideringsmetode
 ssl_letsmode0=Apache virtuell vert som samsvarer med vertsnavn
 ssl_letsmode1=Valgt virtuell Apache-vert
 ssl_letsmode2=Annen webserver dokumentkatalog
 ssl_letsmode3=DNS-validering med BIND
 ssl_letsmode4=Certbot innebygd webserver
+ssl_staging=Leverandørserver
+ssl_staging0=Produksjon
+ssl_staging1=Staging (kun test)
+ssl_acmeopts=Leverandørinnstillinger
+ssl_acmeextra=Vis avanserte innstillinger
+ssl_acmedir=Tilpasset ACME-katalog-URL
+ssl_acmedirdesc=Hvis dette er angitt, overstyrer dette standardleverandørserveren ovenfor.
+ssl_acmekid=Nøkkel-ID for ekstern kontobinding
+ssl_acmekiddesc=Valgfritt. Noen ACME-leverandører krever dette i tillegg til katalog-URL-en.
+ssl_acmehmac=HMAC-nøkkel for ekstern kontobinding
+ssl_acmehmacdesc=Valgfritt. Krever den innebygde Certbot-klienten når den brukes.
 
 upgrade_repo=Siste versjon fra $1-depotet
 upgrade_setup=Kjører <tt>setup.sh</tt> skript for å oppgradere Webmin ..
@@ -52,20 +70,20 @@ upgrade_setuppackage=Kjører <tt>pkgadd</tt> for å oppgradere Webmin ..
 
 session_blockhost=Blokker klient-IP-er med mer enn $1 mislykkede pålogginger i $2 sekunder.
 session_utmp=Registrere pålogginger og utlogginger i <tt>utmp</tt>?
+session_rpc_timeout=RPC-øktens tidsavbrudd
+session_erpc_timeout=RPC-øktens tidsavbrudd mangler eller må være et tall større enn 0
 session_md5off=Bestem automatisk
 session_md5on=Bruk <tt>MD5</tt> hashing-format
 session_sha512=Bruk <tt>SHA512</tt> hashing-format
 session_yescrypt=Bruk <tt>yescrypt</tt> hashing-format
 session_emd5mod=MD5-hash-format kan ikke brukes, siden Perl $1-modulen ikke er installert
-session_esha512mod=SHA512 hashing-format kan ikke brukes, siden Perl $1-modulen ikke er installert
-session_eyescrypt=yescrypt hashing-format kan ikke brukes, siden Perl $1-modulen ikke er installert
+session_edigestcrypt=$1 hashingformat kan ikke brukes, fordi systemets <tt>crypt</tt>-funksjon ikke støtter det
 session_passapi=Vil du aktivere eksternt passordendrings -API?
 session_passapi0=API deaktivert
 session_passapi1=API aktivert for Unix -brukere
 session_passurl=Når den er aktivert, kan brukerpassord endres via en POST -forespørsel til $1
 session_forgot=Tillate gjenoppretting av glemt passord?
 session_eforgot=Gjenoppretting av glemt passord kan ikke aktiveres med mindre plugin-modulen <b>Virtualmin Password Recovery</b> først fjernes. Dette kan gjøres på siden <a href='$1'>Webmin-moduler</a>.
-
 session_passresetdesc=Begrensning av passordgjenoppretting
 session_passreset=Blokker klienter med mer enn $1 forespørsler i $2 minutter
 session_epassreset_failures=Manglende eller ugyldige blokkeringsforespørsler
@@ -74,6 +92,11 @@ session_passtimeout=Koblingen for tilbakestilling av passord utløper om $1 minu
 session_epassreset_timeout=Manglende eller ugyldig tidsavbrudd for tilbakestilling av passord
 
 log_fixrepo=Fikset Webmin-depot
+log_letsencrypt=Forespurte nytt SSL-sertifikat fra en ACME-leverandør
+log_letsencryptdns=Opprettet ACME DNS-oppføring for $1
+log_letsencryptcleanup=Fjernet ACME DNS-oppføring for $1
+
+themes_configure=Åpne temakonfigurasjonssiden
 
 themes_ok=Tema endret vellykket omdirigering nå ..
 themes_ok2=Temaoverlegg endret og omdirigerer nå ..
@@ -122,6 +145,7 @@ status_temp2=Samle CPU-temperaturer og viftehastighet?
 status_err=Kunne ikke lagre samling av bakgrunnsstatus
 status_einterval=Samlingsintervallet må være et helt tall
 
+sendmail_name=Visningsnavn
 sendmail_toaddr=Standard destinasjonsadresse for varsler
 sendmail_to_def=Ingen satt
 sendmail_etoaddr=Manglende eller feil formatert destinasjonsadresse
@@ -143,10 +167,20 @@ web_redirssl=Omdiriger SSL
 
 twofactor_totp=TOTP-autentisering
 twofactor_qrcode=Skriv inn den hemmelige koden $1 i TOTP-appen, eller skann QR-koden nedenfor.
+twofactor_qrcode_manual=Skriv inn den hemmelige koden $1 i TOTP-appen og konfigurer den manuelt, ettersom generering av QR-koder ikke støttes på dette systemet.
 twofactor_etotptoken=TOTP-token må være et tall
 
+letsencrypt_title=Forespørsel om SSL-leverandørsertifikat
+letsencrypt_err=Kunne ikke be om sertifikat
+letsencrypt_ecmds=Verken den innebygde ACME-klientkommandoen <tt>certbot</tt> eller <tt>python</tt> kommandoen ble funnet på systemet ditt
+letsencrypt_eacmedir=Manglende eller ugyldig URL-adresse for ACME-katalogen
+letsencrypt_eeabdir=En ACME-katalog-URL må angis når du bruker ekstern kontobinding
+letsencrypt_eeabpair=Både nøkkel-ID-en for den eksterne kontobindingen og HMAC-nøkkelen må oppgis
+letsencrypt_eeabnative=Ekstern kontobinding kan bare brukes når den innebygde ACME-klienten er installert
 letsencrypt_doingcertbot=Ber om et nytt sertifikat for $1 ved å bruke Certbot-nettserveren ..
-letsencrypt_eacmecertbot=Bare den offisielle Let's Encrypt-klienten støtter Certbot-validering
+letsencrypt_enative=Den innebygde ACME-klienten (certbot) ble brukt tidligere på dette systemet, og må brukes for alle fremtidige sertifikatforespørsler
+letsencrypt_eacmedns=Bare den innebygde ACME-klienten støtter DNS-basert validering
+letsencrypt_eacmecertbot=Bare den innebygde ACME-klienten støtter Certbot-validering
 
 os_eol=OS EOL nedtellingsvarsling
 os_eol_countdown=måneder før

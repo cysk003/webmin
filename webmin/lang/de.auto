@@ -1,0 +1,44 @@
+ssl_enforce=SSL erzwingen
+ssl_tablets=SSL-Anbieter
+ssl_letsdesc=Mit diesem Formular können Sie ein vertrauenswürdiges SSL-Zertifikat für Webmin von einem ACME-kompatiblen Anbieter wie Let's Encrypt anfordern.
+ssl_letserr=Leider kann dieses System keine Zertifikate von einem SSL-Anbieter anfordern: $1.
+ssl_letserr2=Alternativ können Sie auf der <a href='$1'>Modulkonfigurationsseite</a> überprüfen, ob Sie den richtigen Pfad zum konfigurierten ACME-Clientbefehl verwenden.
+
+ssl_letsdesc2=Das neue Zertifikat ersetzt das aktuell in Webmin konfigurierte. Bevor es ausgestellt werden kann, muss der ACME-Anbieter die Kontrolle über jeden Hostnamen entweder mithilfe einer temporären Datei im Dokumentenverzeichnis der Website oder eines temporären DNS-TXT-Eintrags überprüfen.
+ssl_letsmode=Domänenvalidierungsmethode
+ssl_staging=Provider-Server
+ssl_staging0=Produktion
+ssl_staging1=Staging (nur Test)
+ssl_acmeopts=Anbietereinstellungen
+ssl_acmeextra=Erweiterte Einstellungen anzeigen
+ssl_acmedir=Benutzerdefinierte ACME-Verzeichnis-URL
+ssl_acmedirdesc=Falls diese Option aktiviert ist, wird der oben genannte Standard-Provider-Server überschrieben.
+ssl_acmekid=Schlüssel-ID für die externe Kontobindung
+ssl_acmekiddesc=Optional. Einige ACME-Anbieter benötigen dies zusätzlich zur Verzeichnis-URL.
+ssl_acmehmac=HMAC-Schlüssel für die externe Kontobindung
+ssl_acmehmacdesc=Optional. Erfordert bei Verwendung den nativen Certbot-Client.
+
+session_rpc_timeout=RPC-Sitzungstimeout
+session_erpc_timeout=Das Timeout für die RPC-Sitzung fehlt oder muss eine Zahl größer als 0 sein
+session_edigestcrypt=Das Hash-Format $1 kann nicht verwendet werden, da die Systemfunktion <tt>crypt</tt> es nicht unterstützt
+
+log_letsencrypt=Neues SSL-Zertifikat von einem ACME-Anbieter angefordert
+log_letsencryptdns=ACME-DNS-Eintrag für $1 erstellt
+log_letsencryptcleanup=ACME-DNS-Eintrag für $1 entfernt
+
+themes_configure=Theme-Konfigurationsseite öffnen
+
+sendmail_name=Anzeigename
+
+twofactor_qrcode_manual=Geben Sie den Geheimcode $1 in der TOTP-App ein und richten Sie ihn manuell ein, da die QR-Code-Generierung auf diesem System nicht unterstützt wird.
+
+letsencrypt_title=SSL-Anbieterzertifikat anfordern
+letsencrypt_err=Zertifikat konnte nicht angefordert werden
+letsencrypt_ecmds=Weder der native ACME-Clientbefehl <tt>certbot</tt> noch der <tt>python</tt> -Befehl wurden auf Ihrem System gefunden
+letsencrypt_eacmedir=Fehlende oder ungültige ACME-Verzeichnis-URL
+letsencrypt_eeabdir=Bei Verwendung der externen Kontobindung muss eine ACME-Verzeichnis-URL eingegeben werden
+letsencrypt_eeabpair=Sowohl die Schlüssel-ID für die externe Kontobindung als auch der HMAC-Schlüssel müssen eingegeben werden
+letsencrypt_eeabnative=Die externe Kontobindung kann nur verwendet werden, wenn der native ACME-Client installiert ist
+letsencrypt_enative=Der native ACME-Client (certbot) wurde zuvor auf diesem System verwendet und muss für alle zukünftigen Zertifikatsanforderungen verwendet werden
+letsencrypt_eacmedns=Nur der native ACME-Client unterstützt die DNS-basierte Validierung
+letsencrypt_eacmecertbot=Nur der native ACME-Client unterstützt die Certbot-Validierung

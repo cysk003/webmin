@@ -209,7 +209,8 @@ return $newhash eq $hash;
 # Returns undef if SHA512 hashing is supported, or an error message if not
 sub check_sha512
 {
-return &unix_crypt_supports_sha512() ? undef : 'Crypt::SHA';
+return &unix_crypt_supports_sha512() ? undef :
+       'SHA512 is not supported by the system crypt() function';
 }
 
 # encrypt_sha512(password, [salt])
@@ -234,7 +235,8 @@ return $newhash eq $hash;
 # Returns undef if yescrypt hashing is supported, or an error message if not
 sub check_yescrypt
 {
-return &unix_crypt_supports_yescrypt() ? undef : 'Crypt::NaCl::Sodium';
+return &unix_crypt_supports_yescrypt() ? undef :
+       'yescrypt is not supported by the system crypt() function';
 }
 
 # encrypt_yescrypt(password, [salt])
@@ -328,4 +330,3 @@ return 0;
 }
 
 1;
-

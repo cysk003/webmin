@@ -306,7 +306,6 @@ ssl_essl=Sembla que el mòdul Net::SSLeay de Perl no està instal·lat al sistem
 ssl_cpan=Alternativament, pots fer que Webmin <a href='$1'>descarregui i instal·li</a> el mòdul Perl Net::SSLeay necessari per tu.
 ssl_emessage=El missatge d'error de Perl ha estat: $1
 ssl_desc1=Sembla que el host on s'està executant Webmin té instal·lat el mòdul Perl SSLeay. Utilitzant-lo, Webmin suporta comunicació xifrada SSL entre el teu navegador i el servidor. Si estàs accedint el servidor Webmin a través d'Internet, llavors hauries de pensar seriosament en utilitzar SSL per evitar que algun atacant capturi la teva contrasenya de Webmin.
-ssl_desc2=Atenció - activa el suport SSL només si tens un navegador que suporti SSL, i no hi ha cap tallafoc que bloquegi peticions <b>https</b> entre el teu navegador i el host Webmin.
 ssl_header=Suport SSL
 ssl_on=Activa SSL
 ssl_key=Fitxer de clau privada
@@ -375,7 +374,6 @@ ssl_tabcreate=Creació de Certificat Auto-signat
 ssl_tabcsr=Petició de Signatura de Certificat
 ssl_tabupload=Puja de Certificat
 ssl_tabcurrent=Certificat Actual
-ssl_tablets=Let's Encrypt
 ssl_cheader=Detalls del certificat actual
 ssl_typeself=Autosignat
 ssl_typereal=Signat per CA
@@ -387,19 +385,12 @@ ssl_edownload=No s'han pogut extreure les dades PEM del certificat
 ssl_csralready=Visualitza la clau i CSR més recent...
 ssl_already1=Clau privada generada anteriorment:
 ssl_already2=Petició de signatura de certificat generada anteriorment:
-ssl_letsdesc=Let's Encrypt és una autoritat de certificats oberta, automatitzada i lliure que es pot utilitzar per a generar un certificat SSL per a Webmin.
-ssl_letserr=Desgraciadament, no es pot utilitzar Let's Encrypt al teu sistema: $1.
-ssl_letserr2=Comprova la pàgina de <a href='$1'>configuració del mòdul</a> per assegurar que estàs utilitzant el camí correcte de l'ordre <tt>letsencrypt</tt> o <tt>letsencrypt-auto</tt>.
-ssl_letsdesc2=Aquesta pàgina es pot utilitzar per a demanar un nou certificat, que sobreescriurà qualsevol altre que estigui actualment configurat a Webmin. No obstant, el servei Let's Encrypt demana que la propietat del domini certificat sigui validada comprovant que aquests sistema allotja el lloc web del domini. Això es fa posant un petit fitxer temporal al directori de documents del lloc web.
 ssl_letsheader=Opcions del nou certificat SSL
 ssl_letsok=Demana el Certifica
 ssl_letsonly=Només Actualitza la Renovació
 ssl_usewebmin=Copia la nova clau i el nou certificat a Webmin
 ssl_letsrenew=Mesos entre renovació automàtica
 ssl_letsnotrenew=Només renovació automàtica
-ssl_staging=Servidor Let's Encrypt
-ssl_staging0=Real
-ssl_staging1=Staging (només proves)
 
 newkey_err=No s'ha pogut crear la clau SSL
 newkey_ecn=Hi falta el nom del servidor o bé és invàlid
@@ -674,9 +665,6 @@ log_delete_webmincron=S'han suprimit $1 funcions planificades
 log_run_webmincron=S'han executat $1 funcions planificades
 log_save_webmincron=S'ha actualitzat la funció planificada al mòdul $1
 log_onedelete_webmincron=S'ha suprimit la funció planificada del mòdul $1
-log_letsencrypt=S'ha demanat un nou certificat SSL per part de Let's Encrypt
-log_letsencryptdns=S'ha creat el registre DNS Let's Encrypt DNS de $1
-log_letsencryptcleanup=S'ha eliminat el registre DNS Let's Encrypt de $1
 
 themes_title=Temes Webmin
 themes_desc=Temes controla l'aparença de la interfície d'usuari de Webmin, incloent-hi les icones, els colors, els fons i la disposició de les pàgines. La caixa de selecció de sota es pot utilitzar per triar un dels temes instal·lats al sistema.
@@ -1074,9 +1062,6 @@ twofactor_secret0=Utilitza una clau de 16 caràcters
 twofactor_esecret=La clau secreta ha de tenir exactament 16 caràcters de llarg i ha de contenir només lletres i números
 twofactor_esession=L'autenticació de dos factors no es pot utilitzar si l'autenticació basada en sessió no està activa
 
-letsencrypt_title=Petició de Certificat Let's Encrypt
-letsencrypt_err=No s'ha pogut demanar el certificat
-letsencrypt_ecmds=No s'ha trobat al sistema l'ordre client de Let's Encrypt <tt>letsencrypt-auto</tt> ni l'ordre <tt>python</tt>
 letsencrypt_epythonmod=El mòdul $1 de Python necessari per al client integrat de Let's Encrypt no està instal·lat
 letsencrypt_epythonver=No s'ha pogut obtenir la versió de Python: $1
 letsencrypt_epythonver2=Cal la versió de Python $1 o superior, però només tens la versió $2.
@@ -1104,6 +1089,5 @@ letsencrypt_echain=No s'ha pogut baixar el certificat encadenat: $1
 letsencrypt_echain2=El certificat encadenat descarregat des de $1 està buit
 letsencrypt_ecsr=No s'ha pogut generar la petició CSR: $1
 letsencrypt_ekeygen=No s'ha pogut generar la clau privada: $1
-letsencrypt_enative=S'ha utilitzat anteriorment el client nadiu de Let's Encrypt (certbot) en aquest sistema, i s'ha de seguir utilitzant per a totes les peticions futures de certificats
 
 announce_hide=Amaga Aquest Anunci

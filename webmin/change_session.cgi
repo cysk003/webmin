@@ -145,12 +145,12 @@ if ($in{'md5pass'} == 1) {
 elsif ($in{'md5pass'} == 2) {
 	# SHA512 enabled .. check support
 	$need = &acl::check_sha512();
-	$need && &error(&text('session_esha512mod', "<tt>$need</tt>"));
+	$need && &error(&text('session_edigestcrypt', 'SHA512'));
 	}
 elsif ($in{'md5pass'} == 3) {
 	# yescrypt enabled .. check support
 	$need = &acl::check_yescrypt();
-	$need && &error(&text('session_eyescrypt', "<tt>$need</tt>"));
+	$need && &error(&text('session_edigestcrypt', 'yescrypt'));
 	}
 
 $gconfig{'md5pass'} = $in{'md5pass'};
@@ -191,4 +191,3 @@ $gconfig{'rpc_timeout'} = $rpc_timeout;
 
 &show_restart_page();
 &webmin_log("session", undef, undef, \%in);
-

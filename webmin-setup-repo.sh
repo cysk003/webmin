@@ -36,6 +36,7 @@ repo_mode="stable"
 download_curl="/usr/bin/curl"
 download="$download_curl -q -f -sS -L -O"
 force_setup=0
+tmp_dir=""
 
 # Colors
 NORMAL="$(tput sgr0 2>/dev/null || echo '')"
@@ -44,6 +45,7 @@ RED="$(tput setaf 1 2>/dev/null || echo '')"
 BOLD="$(tput bold 2>/dev/null || echo '')"
 ITALIC="$(tput sitm 2>/dev/null || echo '')"
 
+# Print the usage message and exit
 usage() {
   if [ -n "${1-}" ]; then
     echo "${RED}Error:${NORMAL} Unknown or invalid argument: $1"
@@ -92,6 +94,7 @@ EOF
   exit 1
 }
 
+# Print a success or failure status line and exit on failure
 post_status() {
     status="$1"
     message="$2"
@@ -107,6 +110,7 @@ post_status() {
     fi
 }
 
+# Parse CLI arguments and select the active repository settings
 process_args() {
   for arg in "$@"; do
     case "$arg" in
@@ -224,6 +228,7 @@ process_args() {
   esac
 }
 
+# Ensure the script is running with root privileges
 check_permission() {
   if [ "$(id -u)" -ne 0 ]; then
     echo "${RED}Error:${NORMAL} \`$(basename "$0")\` must be run as root!" >&2
@@ -231,14 +236,88 @@ check_permission() {
   fi
 }
 
+# Create a temporary working directory, preferring mktemp when available
+create_tmp_dir() {
+  if command -pv mktemp 1>/dev/null 2>&1; then
+    tmp_candidate=$(mktemp -d 2>/dev/null)
+    if [ $? -eq 0 ] && [ -n "$tmp_candidate" ]; then
+      printf '%s\n' "$tmp_candidate"
+      return 0
+    fi
+  fi
+
+  for candidate in "/tmp" "/var/tmp"; do
+    if [ ! -d "$candidate" ] || [ ! -w "$candidate" ]; then
+      continue
+    fi
+    tmp_try=0
+    while [ "$tmp_try" -lt 10 ]; do
+      tmp_candidate="$candidate/webmin-setup-repo.$$"
+      [ "$tmp_try" -gt 0 ] && tmp_candidate="$tmp_candidate.$tmp_try"
+      if ( umask 077 && mkdir "$tmp_candidate" ) 2>/dev/null; then
+        printf '%s\n' "$tmp_candidate"
+        return 0
+      fi
+      tmp_try=$((tmp_try + 1))
+    done
+  done
+  return 1
+}
+
+# Create a temporary file in a specific directory for safe replacement writes
+create_tmp_file() {
+  tmp_parent="$1"
+  tmp_prefix="$2"
+
+  if [ ! -d "$tmp_parent" ] || [ ! -w "$tmp_parent" ]; then
+    return 1
+  fi
+
+  if command -pv mktemp 1>/dev/null 2>&1; then
+    tmp_candidate=$(mktemp "$tmp_parent/$tmp_prefix.XXXXXX" 2>/dev/null)
+    if [ $? -eq 0 ] && [ -n "$tmp_candidate" ]; then
+      printf '%s\n' "$tmp_candidate"
+      return 0
+    fi
+  fi
+
+  tmp_try=0
+  while [ "$tmp_try" -lt 10 ]; do
+    tmp_candidate="$tmp_parent/$tmp_prefix.$$"
+    [ "$tmp_try" -gt 0 ] && tmp_candidate="$tmp_candidate.$tmp_try"
+    if ( umask 077 && set -C && : > "$tmp_candidate" ) 2>/dev/null; then
+      printf '%s\n' "$tmp_candidate"
+      return 0
+    fi
+    tmp_try=$((tmp_try + 1))
+  done
+  return 1
+}
+
+# Create and switch into the temporary working directory
 prepare_tmp() {
-  cd "/tmp" 1>/dev/null 2>&1
+  tmp_dir=$(create_tmp_dir)
+  if [ $? -ne 0 ] || [ -z "$tmp_dir" ]; then
+    echo "${RED}Error:${NORMAL} Failed to create temporary working directory!"
+    exit 1
+  fi
+  trap cleanup_tmp EXIT
+  trap 'cleanup_tmp; exit 1' HUP INT TERM
+  cd "$tmp_dir" 1>/dev/null 2>&1
   if [ $? -ne 0 ]; then
-    echo "${RED}Error:${NORMAL} Failed to switch to \`/tmp\`!"
+    echo "${RED}Error:${NORMAL} Failed to switch to temporary working directory!"
     exit 1
   fi
 }
 
+# Remove the temporary working directory on exit
+cleanup_tmp() {
+  if [ -n "$tmp_dir" ] && [ -d "$tmp_dir" ]; then
+    rm -rf "$tmp_dir"
+  fi
+}
+
+# Detect the current OS family and choose the package manager commands
 detect_os() {
   osrelease="/etc/os-release"
   if [ ! -f "$osrelease" ]; then
@@ -297,6 +376,7 @@ detect_os() {
   fi
 }
 
+# Derive package-manager-specific repository file paths
 set_os_variables() {
   # Debian-based
   debian_repo_file="/etc/apt/sources.list.d/$active_repo_name.list"
@@ -309,6 +389,7 @@ set_os_variables() {
   rpm_repo_file="$rpm_repo_dir/$active_repo_name.repo"
 }
 
+# Show the repository mode warning and ask for confirmation when needed
 ask_confirmation() {
   # Format description so only the first word keeps its case and the rest is
   # lowercased
@@ -337,6 +418,7 @@ ask_confirmation() {
   fi
 }
 
+# Ensure a supported download tool is available
 check_downloader() {
   if [ ! -x "$download_curl" ]; then
     if [ -x "/usr/bin/wget" ]; then
@@ -351,6 +433,7 @@ check_downloader() {
   fi
 }
 
+# Install GnuPG on Debian-like systems when it is required
 check_gpg() {
   if [ -n "$osid_debian_like" ]; then
     if [ ! -x /usr/bin/gpg ]; then
@@ -362,6 +445,7 @@ check_gpg() {
   fi
 }
 
+# Parse package preference rules for the requested package manager
 enforce_package_priority() {
   repo_pkg_pref=$1
   disttarget=$2
@@ -405,10 +489,10 @@ enforce_package_priority() {
   IFS=$old_ifs
 }
 
+# Download the configured repository signing key files
 download_key() {
   echo "  Downloading $repo_key_name key .."
   for key in $repo_key; do
-    rm -f "/tmp/$key"
     download_out=$($download "$repo_key_server/$key" 2>&1)
     if [ $? -ne 0 ]; then
       post_status 1 "$(printf '%s : %s' "$repo_key_server/$key" "$download_out" | tr '\n' ' ')"
@@ -418,6 +502,7 @@ download_key() {
   post_status 0 ""
 }
 
+# Extract RPM-specific repository preference lines
 rpm_repo_prefs() {
   for pref in $repo_prefs; do
     if echo "$pref" | grep "^rpm:" >/dev/null 2>&1; then
@@ -427,6 +512,7 @@ rpm_repo_prefs() {
   done
 }
 
+# Install keys, configure repository files, and refresh metadata
 setup_repos() {
   # Format description so only the first word keeps its case and the rest is
   # lowercased
@@ -539,8 +625,31 @@ EOF
       post_status $?
       # Set correct permissions on the repo key in case the system uses a restrictive umask
       chmod 644 "/usr/share/keyrings/$repoid_debian_like-$repo_key_suffix.gpg"
-      sources_list=$(grep -v "$repo_host" /etc/apt/sources.list)
-      echo "$sources_list" > /etc/apt/sources.list
+      # Remove any existing entries for this repo from sources.list to avoid
+      # conflicts
+      if [ -f /etc/apt/sources.list ]; then
+        tmp=$(create_tmp_file "/etc/apt" "sources.list")
+        if [ $? -ne 0 ] || [ -z "$tmp" ]; then
+          post_status 1 "Failed to create temporary \`sources.list\`"
+        fi
+        grep -vF "$repo_host" /etc/apt/sources.list >"$tmp"
+        status=$?
+        if [ "$status" -le 1 ]; then
+          chmod 644 "$tmp"
+          if [ $? -ne 0 ]; then
+            rm -f "$tmp"
+            post_status 1 "Failed to set permissions on temporary \`sources.list\`"
+          fi
+          mv "$tmp" /etc/apt/sources.list
+          status=$?
+          if [ "$status" -ne 0 ]; then
+            post_status "$status" "Failed to replace \`/etc/apt/sources.list\`"
+          fi
+        else
+          rm -f "$tmp"
+          post_status "$status" "Failed to update \`/etc/apt/sources.list\`"
+        fi
+      fi
       # Configure packages priority if provided
       debian_repo_prefs="/etc/apt/preferences.d/$repoid_debian_like-$repo_dist-package-priority"
       if [ -n "$repo_pkg_prefs" ]; then
@@ -626,6 +735,7 @@ $active_repo_download$repo_deb_pathname $repo_dist $repo_component"
   esac
 }
 
+# Print the final installation hint when Webmin is not yet installed
 final_msg() {
   if [ "$install_check_binary" != "0" ] && [ ! -x "$install_check_binary" ]; then
     echo "$install_message"

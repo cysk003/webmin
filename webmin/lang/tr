@@ -202,7 +202,6 @@ ssl_essl=Net::SSLeay perl modülü sisteminizde kurulu gibi görünmüyor. OpenS
 ssl_cpan=Alternatif olarak, gerekli Net::SSLeay Perl modülünü <a href='$1'>indirip kurmak</a> için Webmin'i kullanabilirsin.
 ssl_emessage=Perl'den gelen hata mesajı : $1
 ssl_desc1=Webmin'in çalışması için SSLeay Perl modülünün kurulu olması gerekmektedir. Bunu kullandığınızda Webmin, tarayıcı ve sunucu arasında SSL tabanlı şifreli iletişim kurmaktadır. Eğer Webmin sunucunuza internetten ulaşacaksanız, Webmin şifrenizin çalınma olasılığına karşı korunmak için MUTLAKA SSL kullanmalısınız.
-ssl_desc2=Uyarı! SSL desteğini sadece tarayıcınız destekliyorsa ve tarayıcınızla Webmin sunucu arasında <b>https</b> firewall koruması yoksa aktif hale getiriniz.
 ssl_header=SSL Support
 ssl_on=Mümkün ise SSL kullanılsın mı?
 ssl_key=Özel anahtar dosyası

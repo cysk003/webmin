@@ -95,7 +95,6 @@ lang_ok=Nyelvezet változtatása
 
 ssl_title=SSL titkosítás
 ssl_desc1=A hoszton, amelyen a Webmin fut, fellelhető az SSLeay Perl modul telepített változata. Ennek használatával a Webmin támogatni fogja a titkosított kommunikációt a böngésző és a kiszolgáló között. Ha Ön a Webmin kiszolgálóját az Internet-en keresztül haszálja, akkor különösen ajánlott az SSL használata, mellyel megakadályozható egy esetleges támadó abban, hogy elcsípje az Ön Webmin jelszavát.
-ssl_desc2=Figyelem! Csak akkor kapcsolja be az SSL támogatást, ha van olyan böngészője, amely támogatja az SSL-t (mint például a Netscape vagy az Internet Explorer), és nincs olyan tűzfal, amely blokkolja a <b>https</b> kéréseket az Ön böngészője és a Webmin hosztja között.
 ssl_header=SSL támogatás
 
 startpage_title=Index oldali opciók

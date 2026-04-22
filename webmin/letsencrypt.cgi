@@ -13,6 +13,7 @@ our %in;
 our $config_directory;
 our %config;
 our $module_name;
+our $letsencrypt_cmd;
 &error_setup($text{'letsencrypt_err'});
 
 # Re-check if let's encrypt is available
@@ -24,6 +25,19 @@ my $err = &check_letsencrypt();
 my @doms = split(/\s+/, $in{'dom'});
 foreach my $dom (@doms) {
 	$dom =~ /^(\*\.)?[a-z0-9\-\.\_]+$/i || &error($text{'letsencrypt_edom'});
+	}
+$in{'directory_url'} = &trim($in{'directory_url'});
+$in{'eab_kid'} = &trim($in{'eab_kid'});
+$in{'eab_hmac'} = &trim($in{'eab_hmac'});
+if ($in{'directory_url'}) {
+	my ($host, $port, $page, $ssl) = &parse_http_url($in{'directory_url'});
+	$host && $ssl < 2 || &error($text{'letsencrypt_eacmedir'});
+	}
+if ($in{'eab_kid'} || $in{'eab_hmac'}) {
+	$in{'directory_url'} || &error($text{'letsencrypt_eeabdir'});
+	$in{'eab_kid'} && $in{'eab_hmac'} ||
+		&error($text{'letsencrypt_eeabpair'});
+	$letsencrypt_cmd || &error($text{'letsencrypt_eeabnative'});
 	}
 $in{'renew_def'} || $in{'renew'} =~ /^[1-9][0-9]*$/ ||
 	&error($text{'letsencrypt_erenew'});
@@ -89,8 +103,10 @@ else {
 if ($in{'save'}) {
 	# Just update renewal
 	&save_renewal_only(\@doms, $webroot, $mode, $size,
-			   $in{'subset'}, $in{'use'});
-	&redirect("edit_ssl.cgi");
+			   $in{'subset'}, $in{'use'},
+			   $in{'directory_url'},
+			   $in{'eab_kid'}, $in{'eab_hmac'});
+	&redirect("edit_ssl.cgi?mode=lets");
 	}
 else {
 	# Request the cert
@@ -103,7 +119,8 @@ else {
 		    "<tt>".&html_escape($webroot)."</tt>"),"<p>\n";
 	my ($ok, $cert, $key, $chain) = &request_letsencrypt_cert(
 		\@doms, $webroot, undef, $size, $mode, $in{'staging'},
-		undef, undef, undef, undef, undef, undef, $in{'subset'});
+		undef, undef, undef, $in{'directory_url'},
+		$in{'eab_kid'}, $in{'eab_hmac'}, $in{'subset'});
 	if (!$ok) {
 		print &text('letsencrypt_failed', $cert),"<p>\n";
 		}
@@ -113,7 +130,9 @@ else {
 
 		# Save the renewal schedule
 		&save_renewal_only(\@doms, $webroot, $mode,
-				   $size, $in{'subset'}, $in{'use'});
+				   $size, $in{'subset'}, $in{'use'},
+				   $in{'directory_url'},
+				   $in{'eab_kid'}, $in{'eab_hmac'});
 
 		# Copy cert, key and chain to Webmin
 		if ($in{'use'}) {
@@ -162,17 +181,37 @@ else {
 	&ui_print_footer("", $text{'index_return'});
 	}
 
-# save_renewal_only(&doms, webroot, mode, size, subset-mode, used-by-webmin)
+# save_renewal_only(&doms, webroot, mode, size, subset-mode, used-by-webmin,
+#		    directory-url, eab-kid, eab-hmac)
 # Save for future renewals
 sub save_renewal_only
 {
-my ($doms, $webroot, $mode, $size, $subset, $usewebmin) = @_;
+my ($doms, $webroot, $mode, $size, $subset, $usewebmin, $directory_url,
+    $eab_kid, $eab_hmac) = @_;
 $config{'letsencrypt_doms'} = join(" ", @$doms);
 $config{'letsencrypt_webroot'} = $webroot;
 $config{'letsencrypt_mode'} = $mode;
 $config{'letsencrypt_size'} = $size;
 $config{'letsencrypt_subset'} = $subset;
 $config{'letsencrypt_nouse'} = $usewebmin ? 0 : 1;
+if ($directory_url) {
+	$config{'letsencrypt_directory_url'} = $directory_url;
+	}
+else {
+	delete($config{'letsencrypt_directory_url'});
+	}
+if ($directory_url && $eab_kid) {
+	$config{'letsencrypt_eab_kid'} = $eab_kid;
+	}
+else {
+	delete($config{'letsencrypt_eab_kid'});
+	}
+if ($directory_url && $eab_hmac) {
+	$config{'letsencrypt_eab_hmac'} = $eab_hmac;
+	}
+else {
+	delete($config{'letsencrypt_eab_hmac'});
+	}
 &save_module_config();
 if (&foreign_check("webmincron")) {
 	my $job = &find_letsencrypt_cron_job();

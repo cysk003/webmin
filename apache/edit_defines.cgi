@@ -11,7 +11,8 @@ print $text{'defines_desc'},"<p>\n";
 @defs = &get_httpd_defines(1);
 if (@defs) {
 	print &text('defines_config',
-		  "<tt><b>".join(" ", @defs)."</b></tt>"),"<p>\n";
+		  "<tt><b>".&html_escape(join(" ", @defs))."</b></tt>"),
+	      "<p>\n";
 	}
 
 print &ui_form_start("save_defines.cgi", "post");

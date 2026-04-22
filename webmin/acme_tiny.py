@@ -3,7 +3,7 @@
 import argparse, subprocess, json, os, sys, base64, binascii, time, hashlib, re, copy, textwrap, logging
 try:
     from urllib.request import urlopen, Request # Python 3
-except ImportError:
+except ImportError: # pragma: no cover
     from urllib2 import urlopen, Request # Python 2
 
 DEFAULT_CA = "https://acme-v02.api.letsencrypt.org" # DEPRECATED! USE DEFAULT_DIRECTORY_URL INSTEAD
@@ -13,7 +13,7 @@ LOGGER = logging.getLogger(__name__)
 LOGGER.addHandler(logging.StreamHandler())
 LOGGER.setLevel(logging.INFO)
 
-def get_crt(account_key, csr, acme_dir, log=LOGGER, CA=DEFAULT_CA, disable_check=False, directory_url=DEFAULT_DIRECTORY_URL, contact=None):
+def get_crt(account_key, csr, acme_dir, log=LOGGER, CA=DEFAULT_CA, disable_check=False, directory_url=DEFAULT_DIRECTORY_URL, contact=None, check_port=None):
     directory, acct_headers, alg, jwk = None, None, None, None # global variables
 
     # helper functions - base64 encode for jose spec
@@ -77,8 +77,7 @@ def get_crt(account_key, csr, acme_dir, log=LOGGER, CA=DEFAULT_CA, disable_check
     pub_hex, pub_exp = re.search(pub_pattern, out.decode('utf8'), re.MULTILINE|re.DOTALL).groups()
     pub_exp = "{0:x}".format(int(pub_exp))
     pub_exp = "0{0}".format(pub_exp) if len(pub_exp) % 2 else pub_exp
-    alg = "RS256"
-    jwk = {
+    alg, jwk = "RS256", {
         "e": _b64(binascii.unhexlify(pub_exp.encode("utf-8"))),
         "kty": "RSA",
         "n": _b64(binascii.unhexlify(re.sub(r"(\s|:)", "", pub_hex).encode("utf-8"))),
@@ -98,7 +97,7 @@ def get_crt(account_key, csr, acme_dir, log=LOGGER, CA=DEFAULT_CA, disable_check
         for san in subject_alt_names.group(1).split(", "):
             if san.startswith("DNS:"):
                 domains.add(san[4:])
-    log.info("Found domains: {0}".format(", ".join(domains)))
+    log.info(u"Found domains: {0}".format(", ".join(domains)))
 
     # get the ACME directory of urls
     log.info("Getting directory...")
@@ -108,12 +107,12 @@ def get_crt(account_key, csr, acme_dir, log=LOGGER, CA=DEFAULT_CA, disable_check
 
     # create account, update contact details (if any), and set the global key identifier
     log.info("Registering account...")
-    reg_payload = {"termsOfServiceAgreed": True}
+    reg_payload = {"termsOfServiceAgreed": True} if contact is None else {"termsOfServiceAgreed": True, "contact": contact}
     account, code, acct_headers = _send_signed_request(directory['newAccount'], reg_payload, "Error registering")
-    log.info("Registered!" if code == 201 else "Already registered!")
+    log.info("{0} Account ID: {1}".format("Registered!" if code == 201 else "Already registered!", acct_headers['Location']))
     if contact is not None:
         account, _, _ = _send_signed_request(acct_headers['Location'], {"contact": contact}, "Error updating contact details")
-        log.info("Updated contact details:\n{0}".format("\n".join(account['contact'])))
+        log.info("Updated contact details:\n{0}".format("\n".join(account.get('contact') or [])))
 
     # create a new order
     log.info("Creating new order...")
@@ -125,6 +124,11 @@ def get_crt(account_key, csr, acme_dir, log=LOGGER, CA=DEFAULT_CA, disable_check
     for auth_url in order['authorizations']:
         authorization, _, _ = _send_signed_request(auth_url, None, "Error getting challenges")
         domain = authorization['identifier']['value']
+
+        # skip if already valid
+        if authorization['status'] == "valid":
+            log.info("Already verified: {0}, skipping...".format(domain))
+            continue
         log.info("Verifying {0}...".format(domain))
 
         # find the http-01 challenge and write the challenge file
@@ -137,7 +141,7 @@ def get_crt(account_key, csr, acme_dir, log=LOGGER, CA=DEFAULT_CA, disable_check
 
         # check that the file is in place
         try:
-            wellknown_url = "http://{0}/.well-known/acme-challenge/{1}".format(domain, token)
+            wellknown_url = "http://{0}{1}/.well-known/acme-challenge/{2}".format(domain, "" if check_port is None else ":{0}".format(check_port), token)
             assert (disable_check or _do_request(wellknown_url)[0] == keyauthorization)
         except (AssertionError, ValueError) as e:
             raise ValueError("Wrote file to {0}, but couldn't download {1}: {2}".format(wellknown_path, wellknown_url, e))
@@ -169,15 +173,11 @@ def main(argv=None):
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=textwrap.dedent("""\
-            This script automates the process of getting a signed TLS certificate from Let's Encrypt using
-            the ACME protocol. It will need to be run on your server and have access to your private
-            account key, so PLEASE READ THROUGH IT! It's only ~200 lines, so it won't take long.
+            This script automates the process of getting a signed TLS certificate from Let's Encrypt using the ACME protocol.
+            It will need to be run on your server and have access to your private account key, so PLEASE READ THROUGH IT!
+            It's only ~200 lines, so it won't take long.
 
-            Example Usage:
-            python acme_tiny.py --account-key ./account.key --csr ./domain.csr --acme-dir /usr/share/nginx/html/.well-known/acme-challenge/ > signed_chain.crt
-
-            Example Crontab Renewal (once per month):
-            0 0 1 * * python /path/to/acme_tiny.py --account-key /path/to/account.key --csr /path/to/domain.csr --acme-dir /usr/share/nginx/html/.well-known/acme-challenge/ > /path/to/signed_chain.crt 2>> /var/log/acme_tiny.log
+            Example Usage: python acme_tiny.py --account-key ./account.key --csr ./domain.csr --acme-dir /usr/share/nginx/html/.well-known/acme-challenge/ > signed_chain.crt
             """)
     )
     parser.add_argument("--account-key", required=True, help="path to your Let's Encrypt account private key")
@@ -188,10 +188,11 @@ def main(argv=None):
     parser.add_argument("--directory-url", default=DEFAULT_DIRECTORY_URL, help="certificate authority directory url, default is Let's Encrypt")
     parser.add_argument("--ca", default=DEFAULT_CA, help="DEPRECATED! USE --directory-url INSTEAD!")
     parser.add_argument("--contact", metavar="CONTACT", default=None, nargs="*", help="Contact details (e.g. mailto:aaa@bbb.com) for your account-key")
+    parser.add_argument("--check-port", metavar="PORT", default=None, help="what port to use when self-checking the challenge file, default is port 80")
 
     args = parser.parse_args(argv)
     LOGGER.setLevel(args.quiet or LOGGER.level)
-    signed_crt = get_crt(args.account_key, args.csr, args.acme_dir, log=LOGGER, CA=args.ca, disable_check=args.disable_check, directory_url=args.directory_url, contact=args.contact)
+    signed_crt = get_crt(args.account_key, args.csr, args.acme_dir, log=LOGGER, CA=args.ca, disable_check=args.disable_check, directory_url=args.directory_url, contact=args.contact, check_port=args.check_port)
     sys.stdout.write(signed_crt)
 
 if __name__ == "__main__": # pragma: no cover

@@ -46,6 +46,61 @@ if ($ver < 2.5) {
 return undef;
 }
 
+# can_bind_tcp_port(port)
+# Returns 1 if a TCP port appears to be free for binding, or 0 if it is in use
+sub can_bind_tcp_port
+{
+my ($port) = @_;
+my $proto = getprotobyname('tcp');
+return 1 if (!$proto);
+my @tests = (
+	[ PF_INET(), sub { pack_sockaddr_in($port, INADDR_ANY) } ],
+	);
+push(@tests, [ PF_INET6(), sub { pack_sockaddr_in6($port, in6addr_any()) },
+	       sub { setsockopt($_[0], 41, 26, pack("l", 1)) } ])
+	if (defined(&PF_INET6) && defined(&pack_sockaddr_in6) &&
+	    defined(&in6addr_any));
+foreach my $t (@tests) {
+	my ($family, $pack_func, $setup_func) = @$t;
+	my $sock;
+	next if (!socket($sock, $family, SOCK_STREAM, $proto));
+	&$setup_func($sock) if ($setup_func);
+	setsockopt($sock, SOL_SOCKET, SO_REUSEADDR, pack("l", 1));
+	my $ok = bind($sock, &$pack_func());
+	my $inuse = !$ok && $!{'EADDRINUSE'};
+	close($sock);
+	return 0 if ($inuse);
+	}
+return 1;
+}
+
+# is_webmin_listening_on_port(port)
+# Returns 1 if Miniserv is configured to listen on a TCP port
+sub is_webmin_listening_on_port
+{
+my ($port) = @_;
+my %miniserv;
+&get_miniserv_config(\%miniserv);
+return 1 if ($miniserv{'port'} && $miniserv{'port'} == $port);
+foreach my $s (split(/\s+/, $miniserv{'sockets'} || '')) {
+	return 1 if ($s =~ /^\Q$port\E$/ ||
+		     $s =~ /^\*:\Q$port\E$/ ||
+		     $s =~ /^\S+:\Q$port\E$/);
+	}
+return 0;
+}
+
+# get_letsencrypt_certbot_port_error()
+# Returns an error if Certbot standalone mode cannot listen on port 80
+sub get_letsencrypt_certbot_port_error
+{
+return undef if (&can_bind_tcp_port(80));
+if (&is_webmin_listening_on_port(80)) {
+	return $text{'letsencrypt_ecertbotwebmin'};
+	}
+return $text{'letsencrypt_ecertbotport'};
+}
+
 # get_letsencrypt_install_message(return-link, return-title)
 # Returns a link or form to install Let's Encrypt
 sub get_letsencrypt_install_message
@@ -59,7 +114,7 @@ return &software::missing_install_link(
 # request_letsencrypt_cert(domain|&domains, webroot, [email], [keysize],
 # 			   [request-mode], [use-staging], [account-email],
 # 			   [key-type], [reuse-key],
-# 			   [server-url, server-key, server-hmac],
+# 			   [directory-url, server-key, server-hmac],
 # 			   [allow-subset])
 # Attempt to request a cert using a generated key with the Let's Encrypt client
 # command, and write it to the given path. Returns a status flag, and either
@@ -67,7 +122,8 @@ return &software::missing_install_link(
 sub request_letsencrypt_cert
 {
 my ($dom, $webroot, $email, $size, $mode, $staging, $account_email,
-    $key_type, $reuse_key, $server, $server_key, $server_hmac, $subset) = @_;
+    $key_type, $reuse_key, $directory_url, $server_key, $server_hmac,
+    $subset) = @_;
 my @doms = ref($dom) ? @$dom : ($dom);
 $email ||= "root\@$doms[0]";
 $mode ||= "web";
@@ -82,9 +138,8 @@ foreach my $d (@doms) {
 		}
 	}
 
-if ($server && !$letsencrypt_cmd) {
-	return (0, "A non-standard server can only be used when the native ".
-		   "Let's Encrypt client is installed");
+if (($server_key || $server_hmac) && !$letsencrypt_cmd) {
+	return (0, $text{'letsencrypt_eeabnative'});
 	}
 
 if ($mode eq "web") {
@@ -203,8 +258,8 @@ if ($letsencrypt_cmd) {
 	    &compare_version_numbers($cmd_ver, '<', '1.13.0')) {
 		$reuse_flags = ""
 		}
-	if ($server) {
-		$server_flags = " --server ".quotemeta($server);
+	if ($directory_url) {
+		$server_flags = " --server ".quotemeta($directory_url);
 		if ($server_key) {
 			$server_flags .= " --eab-kid ".quotemeta($server_key);
 			}
@@ -224,7 +279,7 @@ if ($letsencrypt_cmd) {
 			   " --rsa-key-size ".quotemeta($size).
 			   " --cert-name ".quotemeta($doms[0]).
 			   " --no-autorenew".
-			   ($staging ? " --test-cert" : "");
+			   (!$directory_url && $staging ? " --test-cert" : "");
 	if ($mode eq "web") {
 		# Webserver based validation
 		&clean_environment();
@@ -263,6 +318,11 @@ if ($letsencrypt_cmd) {
 		}
 	elsif ($mode eq "certbot") {
 		# Use certbot's own webserver
+		my $err = &get_letsencrypt_certbot_port_error();
+		if ($err) {
+			@rv = (0, $err);
+			goto FAILED;
+			}
 		&clean_environment();
 		$out = &backquote_logged(
 			"cd $dir && (echo A | $letsencrypt_cmd certonly".
@@ -325,13 +385,14 @@ if ($letsencrypt_cmd) {
 	$chain = undef if (!-r $chain);
 	&set_ownership_permissions(undef, undef, 0600, $cert);
 	&set_ownership_permissions(undef, undef, 0600, $key);
-	&set_ownership_permissions(undef, undef, 0600, $chain);
+	&set_ownership_permissions(undef, undef, 0600, $chain) if ($chain);
 
 	if ($account_email) {
 		# Attempt to update the contact email on file with let's encrypt
 		&system_logged(
 		    "$letsencrypt_cmd register --update-registration".
 		    " --email ".quotemeta($account_email).
+		    $server_flags.
 		    " >/dev/null 2>&1 </dev/null");
 		}
 
@@ -379,6 +440,11 @@ else {
 
 	# Request the cert and key
 	my $cert = &transname();
+	my $directory_flags = $directory_url
+		? "--directory-url ".quotemeta($directory_url)." --disable-check "
+		: $staging
+		  ? "--ca https://acme-staging-v02.api.letsencrypt.org "
+		  : "--disable-check ";
 	&clean_environment();
 	my $out = &backquote_logged(
 		"$python $module_root_directory/acme_tiny.py ".
@@ -387,8 +453,7 @@ else {
 		($mode eq "web" ? "--acme-dir ".quotemeta($challenge)." "
 				: "--dns-hook $dns_hook ".
 				  "--cleanup-hook $cleanup_hook ").
-		($staging ? "--ca https://acme-staging-v02.api.letsencrypt.org "
-			  : "--disable-check ").
+		$directory_flags.
 		"--quiet ".
 		"2>&1 >".quotemeta($cert));
 	&reset_environment();
@@ -433,25 +498,32 @@ else {
 		&close_tempfile($fh2);
 		}
 	else {
-		# Download the fixed list chained cert files
-		foreach my $url (@$letsencrypt_chain_urls) {
-			my $cout;
-			my ($host, $port, $page, $ssl) = &parse_http_url($url);
-			my $err;
-			&http_download($host, $port, $page, \$cout, \$err,
-				       undef, $ssl);
-			if ($err) {
-				@rv = (0, &text('letsencrypt_echain', $err));
-				goto FAILED;
+		if (!$directory_url) {
+			# Download the fixed list chained cert files for
+			# Let's Encrypt when the ACME response doesn't
+			# include the chain.
+			foreach my $url (@$letsencrypt_chain_urls) {
+				my $cout;
+				my ($host, $port, $page, $ssl) =
+					&parse_http_url($url);
+				my $err;
+				&http_download($host, $port, $page, \$cout,
+					       \$err, undef, $ssl);
+				if ($err) {
+					@rv = (0, &text('letsencrypt_echain',
+							$err));
+					goto FAILED;
+					}
+				if ($cout !~ /\S/ && !-r $chain) {
+					@rv = (0, &text('letsencrypt_echain2',
+							$url));
+					goto FAILED;
+					}
+				my $fh = "CHAIN";
+				&open_tempfile($fh, ">>$chain");
+				&print_tempfile($fh, $cout);
+				&close_tempfile($fh);
 				}
-			if ($cout !~ /\S/ && !-r $chain) {
-				@rv = (0, &text('letsencrypt_echain2', $url));
-				goto FAILED;
-				}
-			my $fh = "CHAIN";
-			&open_tempfile($fh, ">>$chain");
-			&print_tempfile($fh, $cout);
-			&close_tempfile($fh);
 			}
 		}
 
@@ -461,13 +533,18 @@ else {
 	my $chainfinal = "$module_config_directory/$doms[0].ca";
 	&copy_source_dest($cert, $certfinal, 1);
 	&copy_source_dest($key, $keyfinal, 1);
-	&copy_source_dest($chain, $chainfinal, 1);
 	&set_ownership_permissions(undef, undef, 0600, $certfinal);
 	&set_ownership_permissions(undef, undef, 0600, $keyfinal);
-	&set_ownership_permissions(undef, undef, 0600, $chainfinal);
+	if ($chain) {
+		&copy_source_dest($chain, $chainfinal, 1);
+		&set_ownership_permissions(undef, undef, 0600, $chainfinal);
+		}
+	else {
+		$chainfinal = undef;
+		}
 	&unlink_file($cert);
 	&unlink_file($key);
-	&unlink_file($chain);
+	&unlink_file($chain) if ($chain);
 
 	@rv = (1, $certfinal, $keyfinal, $chainfinal);
 	}

@@ -10,11 +10,33 @@ os_fix=确认检测到的变化
 
 lang_chardef=由语言决定
 
+ssl_enforce=强制执行 SSL
+ssl_tablets=SSL 提供商
+ssl_letsdesc=此表单允许您从 ACME 兼容提供商（例如 Let's Encrypt）为 Webmin 请求受信任的 SSL 证书。
+ssl_letserr=很遗憾，该系统无法从 SSL 提供商请求证书：$1。
+ssl_letserr2=或者，检查<a href='$1'>模块配置</a>页面，以确保您使用的是已配置的 ACME 客户端命令的正确路径。
+
+ssl_letsdesc2=新证书将替换 Webmin 中当前配置的证书。在颁发新证书之前，ACME 提供商必须使用网站文档目录中的临时文件或临时 DNS TXT 记录来验证对每个主机名的控制权。
+ssl_letsmode=域验证方法
+ssl_staging=提供商服务器
+ssl_staging0=生产
+ssl_staging1=测试阶段（仅供测试）
+ssl_acmeopts=提供商设置
+ssl_acmeextra=显示高级设置
+ssl_acmedir=自定义 ACME 目录 URL
+ssl_acmedirdesc=如果设置此项，则会覆盖上述默认提供商服务器。
+ssl_acmekid=外部帐户绑定密钥 ID
+ssl_acmekiddesc=可选。部分 ACME 提供商除了目录 URL 外，还需要此信息。
+ssl_acmehmac=外部帐户绑定 HMAC 密钥
+ssl_acmehmacdesc=可选。使用时需要 Certbot 原生客户端。
+
 startpage_title=索引页选项
 
+session_rpc_timeout=RPC会话超时
+session_erpc_timeout=RPC 会话超时时间缺失或必须大于 0 的数字。
+session_edigestcrypt=$1 哈希格式无法使用，因为系统 <tt>crypt</tt> 函数不支持它。
 session_forgot=允许恢复忘记的密码吗？
 session_eforgot=除非先删除 <b>Virtualmin 密码恢复</b> 插件模块，否则无法启用忘记密码恢复功能。您可以在 <a href='$1'>Webmin 模块</a> 页面上完成此操作。
-
 session_passresetdesc=密码恢复限制
 session_passreset=阻止请求数超过 $1 的客户端 $2 分钟
 session_epassreset_failures=拦截请求缺失或无效
@@ -22,16 +44,35 @@ session_passtimeoutdesc=密码重置链接已过期
 session_passtimeout=密码重置链接将在 $1 分钟后过期
 session_epassreset_timeout=密码重置超时缺失或无效
 
+log_letsencrypt=已向 ACME 提供商请求新的 SSL 证书
+log_letsencryptdns=为 $1 创建了 ACME DNS 记录
+log_letsencryptcleanup=已删除 ACME DNS 记录 $1
+
+themes_configure=打开主题配置页面
+
 themes_ok=主题更改已成功重定向现在 ..
 themes_ok2=主题覆盖已成功更改，现在重定向 ..
 
+sendmail_name=显示名称
 sendmail_toaddr=通知的默认目标地址
 sendmail_to_def=未设置
 sendmail_etoaddr=目的地地址缺失或格式不正确
 
 twofactor_totp=TOTP 认证器
 twofactor_qrcode=在 TOTP 应用程序中输入密码 $1，或者扫描下面的二维码。
+twofactor_qrcode_manual=请在 TOTP 应用中输入秘密代码 $1 并手动设置，因为该系统不支持生成二维码。
 twofactor_etotptoken=TOTP 令牌必须是数字
+
+letsencrypt_title=SSL 提供商证书请求
+letsencrypt_err=申请证书失败
+letsencrypt_ecmds=您的系统中未找到 ACME 原生客户端命令<tt>certbot</tt>或<tt>python</tt>命令。
+letsencrypt_eacmedir=ACME 目录 URL 缺失或无效
+letsencrypt_eeabdir=使用外部帐户绑定时，必须输入 ACME 目录 URL。
+letsencrypt_eeabpair=必须同时输入外部帐户绑定密钥 ID 和 HMAC 密钥。
+letsencrypt_eeabnative=只有在安装了原生 ACME 客户端后才能使用外部帐户绑定。
+letsencrypt_enative=该系统之前使用的是原生 ACME 客户端 (certbot)，以后所有证书请求都必须使用该客户端。
+letsencrypt_eacmedns=只有原生 ACME 客户端支持基于 DNS 的验证
+letsencrypt_eacmecertbot=只有原生 ACME 客户端支持 Certbot 验证
 
 qr_err=无法生成二维码
 qr_estr=缺少二维码字符串！

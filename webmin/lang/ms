@@ -300,7 +300,6 @@ ssl_essl=Modul perl Net :: SSLeay tidak ada untuk dipasang pada sistem anda. Unt
 ssl_cpan=Cara lain, anda boleh gunakan <a href='$1'>muat turun dan pasang</a> pada Webmin bagi modul Perl Net :: SSLeay untuk anda.
 ssl_emessage=Mesej ralat dari Perl adalah : $1
 ssl_desc1=Hos yang menjalankan Webmin nampaknya telah dipasang modul Perl SSLeay. Oleh itu, Webmin menyokong komunikasi penyulitan SSL antara pelayar anda dan pelayan. Sekiranya anda mencapai pelayan Webmin anda melalui Internet, maka anda perlu mempertimbangkan untuk menggunakan SSL bagi mengelakkan penyerang mengintip kata laluan Webmin anda.
-ssl_desc2=Amaran - hanya aktifkan sokongan SSL jika anda mempunyai pelayar yang menyokong SSL, dan tidak ada firewall yang menyekat permintaan <b>https</b> antara pelayar anda dan hos Webmin.
 ssl_header=Sokongan SSL
 ssl_on=Aktifkan SSL jika ada?
 ssl_key=Fail kunci peribadi

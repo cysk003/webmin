@@ -22,3 +22,4 @@ tarballs/
 minimal/
 .DS_Store
 .vscode/settings.json
+debug.cgi

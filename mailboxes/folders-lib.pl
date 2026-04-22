@@ -310,6 +310,10 @@ elsif ($_[2]->{'type'} == 7) {
 	print DEBUG "listing MBX $_[2]->{'file'}\n";
 	@mail = &list_mbxfile($_[2]->{'file'}, $_[0], $_[1]);
 	}
+foreach my $mail (@mail) {
+	$mail->{'open_user'} ||= $_[2]->{'user'}
+		if ($mail && $_[2]->{'user'});
+	}
 &switch_from_folder_user($_[2]);
 return @mail;
 }
@@ -558,6 +562,9 @@ elsif ($folder->{'type'} == 5 || $folder->{'type'} == 6) {
 elsif ($folder->{'type'} == 7) {
 	# MBX folder
 	@mail = &select_mbxfile($folder->{'file'}, $ids, $headersonly);
+	}
+foreach my $mail (@mail) {
+	$mail->{'open_user'} ||= $folder->{'user'} if ($mail && $folder->{'user'});
 	}
 &switch_from_folder_user($_[0]);
 return @mail;
