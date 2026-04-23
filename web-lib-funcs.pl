@@ -3207,7 +3207,9 @@ if ((!$error || !$$error) && !$nocache) {
 	}
 }
 
-=head2 complete_http_download(handle, destfile, [&error], [&callback], [osdn], [oldhost], [oldport], [&send-headers], [old-ssl], [no-cache], [timeout], [response-header])
+=head2 complete_http_download(handle, destfile, [&error], [&callback], [osdn],
+			      [oldhost], [oldport], [&send-headers], [old-ssl],
+			      [no-cache], [timeout], [response-header])
 
 Do a HTTP download, after the headers have been sent. For internal use only,
 typically called by http_download.
@@ -3267,11 +3269,11 @@ if ($rcode >= 300 && $rcode < 400) {
 		$port = $ssl ? 443 : 80;
 		$page = $3 || "/";
 		}
-	elsif ($header{'location'} =~ /^\// && $_[5]) {
+	elsif ($header{'location'} =~ /^\// && $oldhost) {
 		# Relative to same server
-		$host = $_[5];
-		$port = $_[6];
-		$ssl = $_[8];
+		$host = $oldhost;
+		$port = $oldport;
+		$ssl = $oldssl;
 		$page = $header{'location'};
 		}
 	elsif ($header{'location'}) {
@@ -3291,7 +3293,7 @@ if ($rcode >= 300 && $rcode < 400) {
 	$page =~ s/ /%20/g;
 	$page .= "?".$params if (defined($params));
 	&http_download($host, $port, $page, $destfile, $error, $cbfunc, $ssl,
-		       undef, undef, undef, $_[4], $_[9], $_[7]);
+		       undef, undef, undef, $osdn, $nocache, $headers);
 	}
 else {
 	# read data
