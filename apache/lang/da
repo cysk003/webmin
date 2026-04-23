@@ -78,7 +78,7 @@ acl_types=Tilgængelige direktiv typer
 acl_all=Alle
 acl_sel=Valgte ..
 acl_names=Kan redigere servernavne?
-acl_dirs=Apache direktiver tilgængelige<br><font size=-1>(Subjekt tor type begrænsinger ovenfor)</font>
+acl_dirs=Tilgængelige Apache-direktiver, begrænset af de direktivtyper, der er valgt ovenfor
 acl_dirs0=Alle
 acl_dirs1=Kun listede ..
 acl_dirs2=Alle undtagen listede ..

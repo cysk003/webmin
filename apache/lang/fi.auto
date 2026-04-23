@@ -331,7 +331,7 @@ acl_types=Direktiivityyppejä saatavana
 acl_all=Kaikki
 acl_sel=Valitut ..
 acl_names=Voiko palvelimen nimiä muokata?
-acl_dirs=Apache-direktiivit saatavilla <br><font size=-1> (Ellei tyyppirajoitusta ole yllä) </font>
+acl_dirs=Saatavilla olevat Apache-direktiivit, joita yllä valitut direktiivityypit rajoittavat
 acl_dirs0=Kaikki
 acl_dirs1=Vain listattu ..
 acl_dirs2=Kaikki paitsi luetellut ..

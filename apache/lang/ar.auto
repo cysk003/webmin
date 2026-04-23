@@ -330,7 +330,7 @@ acl_types=أنواع التوجيه المتاحة
 acl_all=الكل
 acl_sel=المحدد ..
 acl_names=يمكن تعديل أسماء الخادم؟
-acl_dirs=Apache directives available<br><font size=-1>(Subject to types limit above)</font>
+acl_dirs=توجيهات Apache المتاحة، وفقًا لأنواع التوجيهات المحددة أعلاه
 acl_dirs0=الكل
 acl_dirs1=المدرجة فقط ..
 acl_dirs2=كل ما عدا المدرجة ..

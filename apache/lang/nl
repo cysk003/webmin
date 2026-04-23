@@ -328,7 +328,7 @@ acl_types=Beschikbare soorten richtlijnen
 acl_all=Alles
 acl_sel=Geselecteerd..
 acl_names=Mag server namen bewerken?
-acl_dirs=Beschikbare Apache richtlijnen<br><font size=-1>(Behalve de soorten hierboven)</font>
+acl_dirs=Beschikbare Apache-richtlijnen, beperkt door de hierboven geselecteerde richtlijntypen
 acl_dirs0=Alles
 acl_dirs1=Alleen die in de lijst
 acl_dirs2=Alles behalve die in de lijst ..

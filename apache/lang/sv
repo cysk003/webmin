@@ -323,7 +323,7 @@ acl_types=Tillgängliga direktiv typer
 acl_all=Alla
 acl_sel=Angivna ...
 acl_names=Kan ändra server namn?
-acl_dirs=Apache direktiv tillgängliga<br><font size=-1> (Ämnen av typ begränsning under) </font>
+acl_dirs=Tillgängliga Apache-direktiv, begränsade av de direktivtyper som valts ovan
 acl_dirs0=Alla
 acl_dirs1=Endast listade ..
 acl_dirs2=Alla utom listade ..

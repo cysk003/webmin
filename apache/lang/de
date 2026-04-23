@@ -331,7 +331,7 @@ acl_types=Verfügbare Direktiventypen
 acl_all=Alle
 acl_sel=Ausgewählt..
 acl_names=Kann Servernamen bearbeiten?
-acl_dirs=Verfügbare Apache-Direktiven<br><font size=-1>(Abhängig von obigen Typenbeschränkungen)</font>
+acl_dirs=Verfügbare Apache-Direktiven, eingeschränkt durch die oben ausgewählten Direktivtypen
 acl_dirs0=Alle
 acl_dirs1=Nur aufgeführte ..
 acl_dirs2=Alle außer aufgeführte ..

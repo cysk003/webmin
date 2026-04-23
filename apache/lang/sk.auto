@@ -331,7 +331,7 @@ acl_types=Dostupné typy smernice
 acl_all=všetko
 acl_sel=Vybraný ..
 acl_names=Môžete upravovať názvy serverov?
-acl_dirs=Dostupné direktívy Apache <br><font size=-1> (podľa obmedzenia typov vyššie) </font>
+acl_dirs=Dostupné direktívy Apache, obmedzené typmi direktív vybranými vyššie
 acl_dirs0=všetko
 acl_dirs1=Iba uvedené ..
 acl_dirs2=Všetky okrem uvedených ..

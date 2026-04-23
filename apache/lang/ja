@@ -322,7 +322,7 @@ acl_types=利用可能なディレクティブのタイプ
 acl_all=すべて
 acl_sel=選択済み..
 acl_names=サーバー名を編集できますか？
-acl_dirs=利用可能なApacheディレクティブ<br> <font size = -1>（上記のタイプ制限に従う）</font>
+acl_dirs=利用可能な Apache ディレクティブ。上で選択したディレクティブタイプに制限されます
 acl_dirs0=All
 acl_dirs1=のみ記載..
 acl_dirs2=All except listed ..

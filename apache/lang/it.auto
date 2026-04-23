@@ -45,7 +45,7 @@ restart_ecannot=Non è consentito applicare modifiche
 acl_apply=È possibile applicare le modifiche?
 acl_aliasdir=Limita gli alias alla directory
 acl_names=Puoi modificare i nomi dei server?
-acl_dirs=Direttive Apache disponibili <br><font size=-1> (Soggetto al limite di tipi sopra) </font>
+acl_dirs=Direttive Apache disponibili, limitate dai tipi di direttiva selezionati sopra
 acl_dirs0=Tutti
 acl_dirs1=Solo elencato ..
 acl_dirs2=Tutti tranne quelli elencati. ..

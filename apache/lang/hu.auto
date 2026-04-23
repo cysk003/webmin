@@ -32,7 +32,7 @@ htaccess_err=Nem sikerült létrehozni az opciós fájlt
 defines_list=Meghatározott paraméterek
 
 acl_aliasdir=Korlátozza az álneveket a könyvtárba
-acl_dirs=Apache-irányelvek elérhetőek <br><font size=-1> (A fenti típuskorlátozástól függően) </font>
+acl_dirs=Elérhető Apache-irányelvek, a fent kiválasztott irányelvtípusok által korlátozva
 acl_dirs0=Összes
 acl_dirs1=Csak felsorolt ..
 acl_dirs2=Minden, kivéve a felsorolt ..

@@ -134,7 +134,7 @@ acl_defserv=Varsayılan Sunucu
 acl_apply=Değişiklikler uygulayabilir mi?
 acl_aliasdir=Diğer adları dizine sınırla
 acl_names=Sunucu adlarını düzenleyebilir mi?
-acl_dirs=Apache yönergeleri mevcut <br><font size=-1> (Yukarıdaki tür sınırlamasına tabidir) </font>
+acl_dirs=Kullanılabilir Apache yönergeleri, yukarıda seçilen yönerge türleriyle sınırlıdır
 acl_dirs0=Herşey
 acl_dirs1=Sadece listelenmiş ..
 acl_dirs2=Listelenenler hariç tümü ..

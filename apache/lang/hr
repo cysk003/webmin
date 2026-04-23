@@ -322,7 +322,7 @@ acl_types=Tipovi propisa dostupni
 acl_all=Sve
 acl_sel=Odabrano..
 acl_names=Ne možete urediti nazive poslužitelja?
-acl_dirs=Apache propisi dostupni<br><font size=-1>(Mterija tipova limita je iznad)</font>
+acl_dirs=Dostupne Apache direktive, ograničene vrstama direktiva odabranima iznad
 acl_dirs0=Sve
 acl_dirs1=Samo izlistano ..
 acl_dirs2=Sve prihvaćene liste ..

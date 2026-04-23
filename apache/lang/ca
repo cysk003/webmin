@@ -329,7 +329,7 @@ acl_types=Tipus de directives disponibles
 acl_all=Tots
 acl_sel=Seleccionats...
 acl_names=Pot editar els noms dels servidors
-acl_dirs=Directives Apache disponibles<br><font size=-1>(Subjectes al límit de tipus superior)</font>
+acl_dirs=Directives Apache disponibles, limitades pels tipus de directiva seleccionats a sobre
 acl_dirs0=Totes
 acl_dirs1=Només les llistades
 acl_dirs2=Totes excepte les llistades

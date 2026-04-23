@@ -35,7 +35,7 @@ defines_list=پارامترهای تعریف شده
 
 acl_aliasdir=نام مستعار را به فهرست راهنما محدود كنيد
 acl_names=آیا می توانید نام سرور را ویرایش کنید؟
-acl_dirs=Apache directives available<br><font size=-1>(Subject to types limit above)</font>
+acl_dirs=دستورهای Apache موجود، محدود به انواع دستور انتخاب‌شده در بالا
 acl_dirs0=همه
 acl_dirs1=فقط ذکر شده ..
 acl_dirs2=همه به جز ذکر شده ..

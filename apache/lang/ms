@@ -297,7 +297,7 @@ acl_types=Jenis arahan boleh didapati
 acl_all=Semua
 acl_sel=Dipilih ..
 acl_names=Boleh sunting nama pelayan?
-acl_dirs=Arahan Apache yang tersedia <br> <font size=-1> (Tertakluk kepada jenis had seperti diatas) </font>
+acl_dirs=Arahan Apache yang tersedia, dihadkan oleh jenis arahan yang dipilih di atas
 acl_dirs0=Semua
 acl_dirs1=Hanya disenaraikan ..
 acl_dirs2=Semua kecuali yang disenaraikan ..
