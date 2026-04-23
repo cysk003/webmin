@@ -5,85 +5,63 @@ require 'mysql-lib.pl';
 # Output HTML for editing security options for the mysql module
 sub acl_security_form
 {
-print "<tr> <td valign=top rowspan=3><b>$text{'acl_dbs'}</b></td>\n";
-print "<td rowspan=3 valign=top>\n";
-printf "<input type=radio name=dbs_def value=1 %s> %s\n",
-	$_[0]->{'dbs'} eq '*' ? 'checked' : '', $text{'acl_dall'};
-printf "<input type=radio name=dbs_def value=0 %s> %s<br>\n",
-	$_[0]->{'dbs'} eq '*' ? '' : 'checked', $text{'acl_dsel'};
-print "<select name=dbs size=3 multiple width=100>\n";
-map { $dcan{$_}++ } split(/\s+/, $_[0]->{'dbs'});
-foreach $d (&list_databases()) {
-	printf "<option %s>%s</option>\n",
-		$dcan{$d} ? 'selected' : '', $d;
-	}
-print "</select></td>\n";
+my ($o) = @_;
+my @dbs = &list_databases();
 
-print "<td><b>$text{'acl_delete'}</b></td> <td>\n";
-printf "<input type=radio name=delete value=1 %s> %s\n",
-	$_[0]->{'delete'} ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=delete value=0 %s> %s</td> </tr>\n",
-	$_[0]->{'delete'} ? '' : 'checked', $text{'no'};
+print &ui_table_row($text{'acl_dbs'},
+	&ui_radio("dbs_def", $o->{'dbs'} eq '*' ? 1 : 0,
+		  [ [ 1, $text{'acl_dall'} ],
+		    [ 0, $text{'acl_dsel'} ] ])."<br>\n".
+	&ui_select("dbs", [ split(/\s+/, $o->{'dbs'}) ], \@dbs, 3, 1),
+	3);
 
-print "<tr> <td><b>$text{'acl_stop'}</b></td> <td>\n";
-printf "<input type=radio name=stop value=1 %s> %s\n",
-	$_[0]->{'stop'} ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=stop value=0 %s> %s</td> </tr>\n",
-	$_[0]->{'stop'} ? '' : 'checked', $text{'no'};
+print &ui_table_row($text{'acl_delete'},
+	&ui_yesno_radio("delete", $o->{'delete'}));
+print &ui_table_row($text{'acl_stop'},
+	&ui_yesno_radio("stop", $o->{'stop'}));
+print &ui_table_row($text{'acl_edonly'},
+	&ui_yesno_radio("edonly", $o->{'edonly'}));
 
-print "<tr> <td><b>$text{'acl_edonly'}</b></td> <td>\n";
-printf "<input type=radio name=edonly value=1 %s> %s\n",
-	$_[0]->{'edonly'} ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=edonly value=0 %s> %s</td> </tr>\n",
-	$_[0]->{'edonly'} ? '' : 'checked', $text{'no'};
+print &ui_table_row($text{'acl_indexes'},
+	&ui_yesno_radio("indexes", $o->{'indexes'}));
+print &ui_table_row($text{'acl_views'},
+	&ui_yesno_radio("views", $o->{'views'}));
 
-print "<tr> <td><b>$text{'acl_indexes'}</b></td>\n";
-print "<td>",&ui_yesno_radio("indexes", $_[0]->{'indexes'}),"</td>\n";
+print &ui_table_row($text{'acl_create'},
+	&ui_radio_table("create",
+		defined($o->{'create'}) ? $o->{'create'} : 0,
+		[ [ 1, $text{'yes'} ],
+		  [ 2, $text{'acl_max'},
+		    &ui_textbox("max", $o->{'max'}, 5) ],
+		  [ 0, $text{'no'} ] ], 1),
+	3);
 
-print "<td><b>$text{'acl_views'}</b></td>\n";
-print "<td>",&ui_yesno_radio("views", $_[0]->{'views'}),"</td> </tr>\n";
+print &ui_table_row($text{'acl_perms'},
+	&ui_radio("perms", defined($o->{'perms'}) ? $o->{'perms'} : 0,
+		  [ [ 1, $text{'yes'} ],
+		    [ 2, $text{'acl_only'} ],
+		    [ 0, $text{'no'} ] ]),
+	3);
 
-print "<tr> <td><b>$text{'acl_create'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=create value=1 %s> %s\n",
-	$_[0]->{'create'} == 1 ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=create value=2 %s> %s\n",
-	$_[0]->{'create'} == 2 ? 'checked' : '', $text{'acl_max'};
-printf "<input name=max size=5 value='%s'>\n",
-	$_[0]->{'max'};
-printf "<input type=radio name=create value=0 %s> %s</td> </tr>\n",
-	$_[0]->{'create'} == 0 ? 'checked' : '', $text{'no'};
+print &ui_table_row($text{'acl_login'},
+	&ui_radio_table("user_def", $o->{'user'} ? 0 : 1,
+		[ [ 1, $text{'acl_user_def'} ],
+		  [ 0, "",
+		    $text{'acl_user'}." ".
+		    &ui_textbox("user", $o->{'user'}, 10)." ".
+		    $text{'acl_pass'}." ".
+		    &ui_password("pass", $o->{'pass'}, 10) ] ], 1),
+	3);
 
-print "<tr> <td><b>$text{'acl_perms'}</b></td> <td colspan=3>\n";
-printf "<input name=perms type=radio value=1 %s> %s\n",
-	$_[0]->{'perms'} == 1 ? 'checked' : '', $text{'yes'};
-printf "<input name=perms type=radio value=2 %s> %s\n",
-	$_[0]->{'perms'} == 2 ? 'checked' : '', $text{'acl_only'};
-printf "<input name=perms type=radio value=0 %s> %s\n",
-	$_[0]->{'perms'} == 0 ? 'checked' : '', $text{'no'};
-print "</td> </tr>\n";
+print &ui_table_row($text{'acl_buser'},
+	&ui_opt_textbox("buser", $o->{'buser'}, 8, $text{'acl_bnone'})." ".
+	&user_chooser_button("buser"),
+	3);
 
-print "<tr> <td valign=top><b>$text{'acl_login'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=user_def value=1 %s> %s<br>\n",
-	$_[0]->{'user'} ? '' : 'checked', $text{'acl_user_def'};
-printf "<input type=radio name=user_def value=0 %s>\n",
-	$_[0]->{'user'} ? 'checked' : '';
-printf "%s <input name=user size=10 value='%s'>\n",
-	$text{'acl_user'}, $_[0]->{'user'};
-printf "%s <input name=pass type=password size=10 value='%s'></td> </tr>\n",
-	$text{'acl_pass'}, $_[0]->{'pass'};
-
-print "<tr> <td><b>$text{'acl_buser'}</b></td>\n";
-printf "<td colspan=3><input type=radio name=buser_def value=1 %s> %s\n",
-	$_[0]->{'buser'} ? "" : "checked", $text{'acl_bnone'};
-printf "<input type=radio name=buser_def value=0 %s>\n",
-	$_[0]->{'buser'} ? "checked" : "";
-printf "<input name=buser size=8 value='%s'> %s</td> </tr>\n",
-	$_[0]->{'buser'}, &user_chooser_button("buser");
-
-print "<tr> <td><b>$text{'acl_bpath'}</b></td>\n";
-printf "<td colspan=3><input name=bpath size=40 value='%s'> %s</td> </tr>\n",
-	$_[0]->{'bpath'}, &file_chooser_button("bpath", 1);
-
+print &ui_table_row($text{'acl_bpath'},
+	&ui_textbox("bpath", $o->{'bpath'}, 40)." ".
+	&file_chooser_button("bpath", 1),
+	3);
 }
 
 # acl_security_save(&options)

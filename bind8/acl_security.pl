@@ -11,18 +11,10 @@ our (%config, %text, %in);
 # Output HTML for editing security options for the bind8 module
 sub acl_security_form
 {
-my $m = $_[0]->{'zones'} eq '*' ? 1 :
-	   $_[0]->{'zones'} =~ /^\!/ ? 2 : 0;
-print "<tr> <td valign=top><b>$text{'acl_zones'}</b></td>\n";
-print "<td colspan=3><table cellpadding=0 cellspacing=0> <tr><td valign=top>\n";
-printf "<input type=radio name=zones_def value=1 %s> %s<br>\n",
-	$m == 1 ? 'checked' : '', $text{'acl_zall'};
-printf "<input type=radio name=zones_def value=0 %s> %s<br>\n",
-	$m == 0 ? 'checked' : '', $text{'acl_zsel'};
-printf "<input type=radio name=zones_def value=2 %s> %s</td>\n",
-	$m == 2 ? 'checked' : '', $text{'acl_znsel'};
+my ($o) = @_;
+my $m = $o->{'zones'} eq '*' ? 1 :
+	   $o->{'zones'} =~ /^\!/ ? 2 : 0;
 
-print "<td><select name=zones multiple size=4 width=150>\n";
 my $conf = &get_config();
 my @zones = grep { $_->{'value'} ne "." }
 		    &find("zone", $conf);
@@ -31,188 +23,117 @@ foreach my $v (@views) {
 	push(@zones, grep { $_->{'value'} ne "." }
 			  &find("zone", $v->{'members'}));
 	}
-my %zcan;
-map { $zcan{$_}++ } split(/\s+/, $_[0]->{'zones'});
+my @zoneopts;
 foreach my $z (sort { $a->{'value'} cmp $b->{'value'} } @zones) {
-	printf "<option value='%s' %s>%s</option>\n",
-		$z->{'value'},
-		$zcan{$z->{'value'}} ? "selected" : "",
-		&arpa_to_ip($z->{'value'});
+	push(@zoneopts, [ $z->{'value'}, &arpa_to_ip($z->{'value'}) ]);
 	}
 foreach my $v (sort { $a->{'value'} cmp $b->{'value'} } @views) {
-	printf "<option value='%s' %s>%s</option>\n",
-		'view_'.$v->{'value'},
-		$zcan{'view_'.$v->{'value'}} ? "selected" : "",
-		&text('acl_inview', $v->{'value'});
+	push(@zoneopts, [ 'view_'.$v->{'value'},
+			  &text('acl_inview', $v->{'value'}) ]);
 	}
-print "</select></td> </tr></table></td></tr>\n";
+
+print &ui_table_row($text{'acl_zones'},
+	&ui_radio("zones_def", $m,
+		  [ [ 1, $text{'acl_zall'} ],
+		    [ 0, $text{'acl_zsel'} ],
+		    [ 2, $text{'acl_znsel'} ] ])."<br>\n".
+	&ui_select("zones", [ split(/\s+/, $o->{'zones'}) ], \@zoneopts, 4, 1),
+	3);
 
 if (@views) {
-	print "<tr> <td valign=top><b>$text{'acl_inviews'}</b></td>\n";
-	print "<td colspan=3>\n";
-	print &ui_radio("inviews_def", $_[0]->{'inviews'} eq "*" ? 1 : 0,
-			[ [ 1, $text{'acl_vall'} ],
-			  [ 0, $text{'acl_vsel'} ] ]),"<br>\n";
-	print "<select name=inviews multiple size=4 width=150>\n";
-	my %vcan;
-	map { $vcan{$_}++ } split(/\s+/, $_[0]->{'inviews'});
-	printf "<option value='%s' %s>%s</option>\n",
-		"_", $vcan{"_"} ? "selected" : "",
-		"&lt;".$text{'acl_toplevel'}."&gt;";
+	my @viewopts = [ "_", "&lt;".$text{'acl_toplevel'}."&gt;" ];
 	foreach my $v (sort { $a->{'value'} cmp $b->{'value'} } @views) {
-		printf "<option value='%s' %s>%s</option>\n",
-			$v->{'value'},
-			$vcan{$v->{'value'}} ? "selected" : "", $v->{'value'};
+		push(@viewopts, [ $v->{'value'}, $v->{'value'} ]);
 		}
-	print "</select></td></tr>\n";
+
+	print &ui_table_row($text{'acl_inviews'},
+		&ui_radio("inviews_def", $o->{'inviews'} eq "*" ? 1 : 0,
+			  [ [ 1, $text{'acl_vall'} ],
+			    [ 0, $text{'acl_vsel'} ] ])."<br>\n".
+		&ui_select("inviews", [ split(/\s+/, $o->{'inviews'}) ], \@viewopts,
+			   4, 1),
+		3);
 	}
 
-print "<tr> <td><b>$text{'acl_types'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=types_def value=1 %s> %s\n",
-	$_[0]->{'types'} ? "" : "checked", $text{'acl_types1'};
-printf "<input type=radio name=types_def value=0 %s> %s\n",
-	$_[0]->{'types'} ? "checked" : "", $text{'acl_types0'};
-printf "<input name=types size=40 value='%s'></td> </tr>\n",
-	$_[0]->{'types'};
+print &ui_table_row($text{'acl_types'},
+	&ui_opt_textbox("types", $o->{'types'}, 40,
+			$text{'acl_types1'}, $text{'acl_types0'}),
+	3);
 
-print "<tr> <td valign=top><b>$text{'acl_dir'}</b></td>\n";
-printf "<td colspan=3><input name=dir size=30 value='%s'> %s<br>\n",
-	$_[0]->{'dir'}, &file_chooser_button("dir", 1);
-printf "<input type=checkbox name=dironly value=1 %s> %s</td> </tr>\n",
-	$_[0]->{'dironly'} ? "checked" : "", $text{'acl_dironly'};
+print &ui_table_row($text{'acl_dir'},
+	&ui_textbox("dir", $o->{'dir'}, 30)." ".&file_chooser_button("dir", 1).
+	"<br>\n".&ui_checkbox("dironly", 1, $text{'acl_dironly'}, $o->{'dironly'}),
+	3);
 
-print "<tr> <td><b>$text{'acl_defaults'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=defaults value=1 %s> $text{'yes'}\n",
-	$_[0]->{'defaults'} ? "checked" : "";
-printf "<input type=radio name=defaults value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'defaults'} ? "" : "checked";
+print &ui_table_row($text{'acl_defaults'},
+	&ui_yesno_radio("defaults", $o->{'defaults'}));
 
-print "<tr> <td><b>$text{'acl_ztypes'}</b></td> <td colspan=3>\n";
-foreach my $t ("master", "slave", "forward", "delegation") {
-	printf "<input type=checkbox name=%s %s> %s\n",
-		$t, $_[0]->{$t} ? "checked" : "", $text{'acl_ztypes_'.$t};
-	}
-print "</td> </tr>\n";
+print &ui_table_row($text{'acl_ztypes'},
+	join("", map { &ui_checkbox($_, 1, $text{'acl_ztypes_'.$_}, $o->{$_}) }
+		    ("master", "slave", "forward", "delegation")),
+	3);
 
-print "<tr> <td><b>$text{'acl_reverse'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=reverse value=1 %s> $text{'yes'}\n",
-	$_[0]->{'reverse'} ? "checked" : "";
-printf "<input type=radio name=reverse value=0 %s> $text{'no'}</td>\n",
-	$_[0]->{'reverse'} ? "" : "checked";
+print &ui_table_row($text{'acl_reverse'},
+	&ui_yesno_radio("reverse", $o->{'reverse'}));
+print &ui_table_row($text{'acl_multiple'},
+	&ui_yesno_radio("multiple", $o->{'multiple'}));
 
-print "<td><b>$text{'acl_multiple'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=multiple value=1 %s> $text{'yes'}\n",
-	$_[0]->{'multiple'} ? "checked" : "";
-printf "<input type=radio name=multiple value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'multiple'} ? "" : "checked";
+print &ui_table_row($text{'acl_ro'},
+	&ui_yesno_radio("ro", $o->{'ro'}));
+print &ui_table_row($text{'acl_apply'},
+	&ui_select("apply",
+		   defined($o->{'apply'}) && $o->{'apply'} ne '' ? $o->{'apply'} : 0,
+		   [ [ 1, $text{'yes'} ],
+		     [ 2, $text{'acl_applyonly'} ],
+		     [ 3, $text{'acl_applygonly'} ],
+		     [ 0, $text{'no'} ] ]));
 
-print "<tr> <td><b>$text{'acl_ro'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=ro value=1 %s> $text{'yes'}\n",
-	$_[0]->{'ro'} ? "checked" : "";
-printf "<input type=radio name=ro value=0 %s> $text{'no'}</td>\n",
-	$_[0]->{'ro'} ? "" : "checked";
+print &ui_table_row($text{'acl_file'},
+	&ui_yesno_radio("file", $o->{'file'}));
+print &ui_table_row($text{'acl_params'},
+	&ui_yesno_radio("params", $o->{'params'}));
 
-print "<td><b>$text{'acl_apply'}</b></td> <td nowrap>\n";
-print &ui_select("apply", $_[0]->{'apply'},
-		[ [ 1, $text{'yes'} ],
-		  [ 2, $text{'acl_applyonly'} ],
-		  [ 3, $text{'acl_applygonly'} ],
-		  [ 0, $text{'no'} ] ]),"</td> </tr>\n";
+print &ui_table_row($text{'acl_opts'},
+	&ui_yesno_radio("opts", $o->{'opts'}));
+print &ui_table_row($text{'acl_delete'},
+	&ui_yesno_radio("delete", $o->{'delete'}));
 
-print "<tr> <td><b>$text{'acl_file'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=file value=1 %s> $text{'yes'}\n",
-	$_[0]->{'file'} ? "checked" : "";
-printf "<input type=radio name=file value=0 %s> $text{'no'}</td>\n",
-	$_[0]->{'file'} ? "" : "checked";
+print &ui_table_row($text{'acl_gen'},
+	&ui_yesno_radio("gen", $o->{'gen'}));
+print &ui_table_row($text{'acl_whois'},
+	&ui_yesno_radio("whois", $o->{'whois'}));
 
-print "<td><b>$text{'acl_params'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=params value=1 %s> $text{'yes'}\n",
-	$_[0]->{'params'} ? "checked" : "";
-printf "<input type=radio name=params value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'params'} ? "" : "checked";
+print &ui_table_row($text{'acl_findfree'},
+	&ui_yesno_radio("findfree", $o->{'findfree'}));
+print &ui_table_row($text{'acl_remote'},
+	&ui_yesno_radio("remote", $o->{'remote'}));
 
-print "<tr> <td><b>$text{'acl_opts'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=opts value=1 %s> $text{'yes'}\n",
-	$_[0]->{'opts'} ? "checked" : "";
-printf "<input type=radio name=opts value=0 %s> $text{'no'}</td>\n",
-	$_[0]->{'opts'} ? "" : "checked";
+print &ui_table_row($text{'acl_slaves'},
+	&ui_yesno_radio("slaves", $o->{'slaves'}));
+print &ui_table_row($text{'acl_dnssec'},
+	&ui_yesno_radio("dnssec", $o->{'dnssec'}));
 
-print "<td><b>$text{'acl_delete'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=delete value=1 %s> $text{'yes'}\n",
-	$_[0]->{'delete'} ? "checked" : "";
-printf "<input type=radio name=delete value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'delete'} ? "" : "checked";
-
-print "<tr> <td><b>$text{'acl_gen'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=gen value=1 %s> $text{'yes'}\n",
-	$_[0]->{'gen'} ? "checked" : "";
-printf "<input type=radio name=gen value=0 %s> $text{'no'}</td>\n",
-	$_[0]->{'gen'} ? "" : "checked";
-
-print "<td><b>$text{'acl_whois'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=whois value=1 %s> $text{'yes'}\n",
-	$_[0]->{'whois'} ? "checked" : "";
-printf "<input type=radio name=whois value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'whois'} ? "" : "checked";
-
-print "<tr> <td><b>$text{'acl_findfree'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=findfree value=1 %s> $text{'yes'}\n",
-	$_[0]->{'findfree'} ? "checked" : "";
-printf "<input type=radio name=findfree value=0 %s> $text{'no'}</td>\n",
-	$_[0]->{'findfree'} ? "" : "checked";
-
-print "<td><b>$text{'acl_remote'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=remote value=1 %s> $text{'yes'}\n",
-	$_[0]->{'remote'} ? "checked" : "";
-printf "<input type=radio name=remote value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'remote'} ? "" : "checked";
-
-print "<tr> <td><b>$text{'acl_slaves'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=slaves value=1 %s> $text{'yes'}\n",
-	$_[0]->{'slaves'} ? "checked" : "";
-printf "<input type=radio name=slaves value=0 %s> $text{'no'}</td>\n",
-	$_[0]->{'slaves'} ? "" : "checked";
-
-print "<td><b>$text{'acl_dnssec'}</b></td> <td nowrap>\n";
-printf "<input type=radio name=dnssec value=1 %s> $text{'yes'}\n",
-	$_[0]->{'dnssec'} ? "checked" : "";
-printf "<input type=radio name=dnssec value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'dnssec'} ? "" : "checked";
-
-print "</tr>\n";
-
-print "<tr> <td><b>$text{'acl_views'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=views value=1 %s> $text{'yes'}\n",
-	$_[0]->{'views'} == 1 ? "checked" : "";
-printf "<input type=radio name=views value=2 %s> $text{'acl_edonly'}\n",
-	$_[0]->{'views'} == 2 ? "checked" : "";
-printf "<input type=radio name=views value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'views'} ? "" : "checked";
+print &ui_table_row($text{'acl_views'},
+	&ui_radio("views", defined($o->{'views'}) ? $o->{'views'} : 0,
+		  [ [ 1, $text{'yes'} ],
+		    [ 2, $text{'acl_edonly'} ],
+		    [ 0, $text{'no'} ] ]),
+	3);
 
 if (@views) {
-	my $m = $_[0]->{'vlist'} eq '*' ? 1 :
-		   $_[0]->{'vlist'} =~ /^\!/ ? 2 :
-		   $_[0]->{'vlist'} eq '' ? 3 : 0;
-	print "<tr> <td valign=top><b>$text{'acl_vlist'}</b></td>\n";
-	print "<td colspan=3><table cellpadding=0 cellspacing=0> <tr><td valign=top>\n";
-	printf "<input type=radio name=vlist_def value=1 %s> %s<br>\n",
-		$m == 1 ? 'checked' : '', $text{'acl_vall'};
-	printf "<input type=radio name=vlist_def value=0 %s> %s<br>\n",
-		$m == 0 ? 'checked' : '', $text{'acl_vsel'};
-	printf "<input type=radio name=vlist_def value=2 %s> %s<br>\n",
-		$m == 2 ? 'checked' : '', $text{'acl_vnsel'};
-	printf "<input type=radio name=vlist_def value=3 %s> %s</td>\n",
-		$m == 3 ? 'checked' : '', $text{'acl_vnone'};
-
-	print "<td><select name=vlist multiple size=4 width=150>\n";
-	my ($v, %vcan);
-	map { $vcan{$_}++ } split(/\s+/, $_[0]->{'vlist'});
-	foreach my $v (sort { $a->{'value'} cmp $b->{'value'} } @views) {
-		printf "<option value='%s' %s>%s</option>\n",
-			$v->{'value'},
-			$vcan{$v->{'value'}} ? "selected" : "", $v->{'value'};
-		}
-	print "</select></td> </tr></table></td></tr>\n";
+	my $vm = $o->{'vlist'} eq '*' ? 1 :
+		 $o->{'vlist'} =~ /^\!/ ? 2 :
+		 $o->{'vlist'} eq '' ? 3 : 0;
+	my @vopts = map { [ $_->{'value'}, $_->{'value'} ] }
+		    sort { $a->{'value'} cmp $b->{'value'} } @views;
+	print &ui_table_row($text{'acl_vlist'},
+		&ui_radio("vlist_def", $vm,
+			  [ [ 1, $text{'acl_vall'} ],
+			    [ 0, $text{'acl_vsel'} ],
+			    [ 2, $text{'acl_vnsel'} ],
+			    [ 3, $text{'acl_vnone'} ] ])."<br>\n".
+		&ui_select("vlist", [ split(/\s+/, $o->{'vlist'}) ], \@vopts, 4, 1),
+		3);
 	}
 }
 

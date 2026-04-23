@@ -5,164 +5,53 @@ require 'dhcpd-lib.pl';
 # Output HTML for editing security options for the dhcpd module
 sub acl_security_form
 {
-print "<tr>\n<td><b>$text{'acl_apply'}</b></td> <td>\n";
-printf "<input type=radio name=apply value=1 %s> $text{'yes'}\n",
-		$_[0]->{'apply'} ? "checked" : "";
-printf "<input type=radio name=apply value=0 %s> $text{'no'}</td>\n",
-		$_[0]->{'apply'} ? "" : "checked";
-print "</tr>\n";
+my ($o) = @_;
 
-print "<tr>\n<td><b>$text{'acl_global'}</b></td> <td>\n";
-printf "<input type=radio name=global value=1 %s> $text{'yes'}\n",
-		$_[0]->{'global'} ? "checked" : "";
-printf "<input type=radio name=global value=0 %s> $text{'no'}</td>\n",
-		$_[0]->{'global'} ? "" : "checked";
-print "</tr>\n";
+foreach my $f ('apply', 'global', 'r_leases', 'w_leases', 'zones') {
+	print &ui_table_row($text{'acl_'.$f},
+		&ui_yesno_radio($f, $o->{$f}));
+	}
 
-print "<tr>\n<td><b>$text{'acl_r_leases'}</b></td> <td>\n";
-printf "<input type=radio name=r_leases value=1 %s> $text{'yes'}\n",
-		$_[0]->{'r_leases'} ? "checked" : "";
-printf "<input type=radio name=r_leases value=0 %s> $text{'no'}</td>\n",
-		$_[0]->{'r_leases'} ? "" : "checked";
-print "</tr>\n";
+print &ui_table_hr();
 
-print "<tr>\n<td><b>$text{'acl_w_leases'}</b></td> <td>\n";
-printf "<input type=radio name=w_leases value=1 %s> $text{'yes'}\n",
-		$_[0]->{'w_leases'} ? "checked" : "";
-printf "<input type=radio name=w_leases value=0 %s> $text{'no'}</td>\n",
-		$_[0]->{'w_leases'} ? "" : "checked";
-print "</tr>\n";
+foreach my $f ('uniq_hst', 'uniq_sub', 'uniq_sha') {
+	print &ui_table_row($text{'acl_'.$f},
+		&ui_yesno_radio($f, $o->{$f}));
+	}
 
-print "<tr>\n<td><b>$text{'acl_zones'}</b></td> <td>\n";
-printf "<input type=radio name=zones value=1 %s> $text{'yes'}\n",
-		$_[0]->{'zones'} ? "checked" : "";
-printf "<input type=radio name=zones value=0 %s> $text{'no'}</td>\n",
-		$_[0]->{'zones'} ? "" : "checked";
-print "</tr>\n";
+print &ui_table_hr();
 
-print "<tr> <td colspan=4><hr></td> </tr>\n";
+print &ui_table_row($text{'acl_seclevel'},
+	&ui_radio("smode", defined($o->{'smode'}) ? $o->{'smode'} : 0,
+		  [ map { [ $_, $_ ] } 0 .. 3 ]),
+	3);
 
-# uniqs
-print "<tr>\n<td><b>$text{'acl_uniq_hst'}</b></td> <td>\n";
-printf "<input type=radio name=uniq_hst value=1 %s> $text{'yes'}\n",
-		$_[0]->{'uniq_hst'} ? "checked" : "";
-printf "<input type=radio name=uniq_hst value=0 %s> $text{'no'}</td>\n",
-		$_[0]->{'uniq_hst'} ? "" : "checked";
-print "</tr>\n";
+print &ui_table_row($text{'acl_hide'},
+	&ui_yesno_radio("hide", defined($o->{'hide'}) ? $o->{'hide'} : 0));
 
-print "<tr>\n<td><b>$text{'acl_uniq_sub'}</b></td> <td>\n";
-printf "<input type=radio name=uniq_sub value=1 %s> $text{'yes'}\n",
-		$_[0]->{'uniq_sub'} ? "checked" : "";
-printf "<input type=radio name=uniq_sub value=0 %s> $text{'no'}</td>\n",
-		$_[0]->{'uniq_sub'} ? "" : "checked";
-print "</tr>\n";
+print &ui_table_hr();
 
-print "<tr>\n<td><b>$text{'acl_uniq_sha'}</b></td> <td>\n";
-printf "<input type=radio name=uniq_sha value=1 %s> $text{'yes'}\n",
-		$_[0]->{'uniq_sha'} ? "checked" : "";
-printf "<input type=radio name=uniq_sha value=0 %s> $text{'no'}</td>\n",
-		$_[0]->{'uniq_sha'} ? "" : "checked";
-print "</tr>\n";
+foreach my $type (['hst', 'acl_ahst'], ['grp', 'acl_agrp'],
+		  ['sub', 'acl_asub'], ['sha', 'acl_asha']) {
+	print &ui_table_row($text{$type->[1]},
+		join("", map { &ui_checkbox($_."_".$type->[0], 1,
+					    $text{"acl_".$_},
+					    $o->{$_."_".$type->[0]}) }
+			 qw(c r w)),
+		3);
+	}
 
-print "<tr> <td colspan=4><hr></td> </tr>\n";
+print &ui_table_hr();
 
-# security mode settings
-print "<tr>\n<td><b>$text{'acl_seclevel'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=smode value=0 %s> 0\n",
-		$_[0]->{'smode'} == 0 ? "checked" : "";
-printf "<input type=radio name=smode value=1 %s> 1\n",
-		$_[0]->{'smode'} == 1 ? "checked" : "";
-printf "<input type=radio name=smode value=2 %s> 2\n",
-		$_[0]->{'smode'} == 2 ? "checked" : "";
-printf "<input type=radio name=smode value=3 %s> 3\n",
-		$_[0]->{'smode'} == 3 ? "checked" : "";
-print "</td>\n</tr>\n";
+foreach my $f ('per_sub_acls', 'per_sha_acls',
+	       'per_hst_acls', 'per_grp_acls') {
+	print &ui_table_row($text{'acl_'.$f},
+		&ui_yesno_radio($f, $o->{$f}));
+	}
 
-print "<tr>\n<td><b>$text{'acl_hide'}</b></td> <td>\n";
-printf "<input type=radio name=hide value=1 %s> $text{'yes'}\n",
-		$_[0]->{'hide'} == 1 ? "checked" : "";
-printf "<input type=radio name=hide value=0 %s> $text{'no'}</td>\n",
-		$_[0]->{'hide'} == 0 ? "checked" : "";
-print "</tr>\n";
-
-print "<tr> <td colspan=4><hr></td> </tr>\n";
-
-# global acls
-print "<tr>\n<td><b>$text{'acl_ahst'}</b></td>\n";
-print "<td colspan=3>\n";
-printf "<input type=checkbox name=c_hst value=1 %s> %s\n",
-		$_[0]->{'c_hst'} ? "checked" : "", $text{"acl_c"};
-printf "<input type=checkbox name=r_hst value=1 %s> %s\n",
-		$_[0]->{'r_hst'} ? "checked" : "", $text{"acl_r"};
-printf "<input type=checkbox name=w_hst value=1 %s> %s\n",
-		$_[0]->{'w_hst'} ? "checked" : "", $text{"acl_w"};
-print "</td> </tr>\n";
-
-print "<tr>\n<td><b>$text{'acl_agrp'}</b></td>\n";
-print "<td colspan=3>\n";
-printf "<input type=checkbox name=c_grp value=1 %s> %s\n",
-		$_[0]->{'c_grp'} ? "checked" : "", $text{"acl_c"};
-printf "<input type=checkbox name=r_grp value=1 %s> %s\n",
-		$_[0]->{'r_grp'} ? "checked" : "", $text{"acl_r"};
-printf "<input type=checkbox name=w_grp value=1 %s> %s\n",
-		$_[0]->{'w_grp'} ? "checked" : "", $text{"acl_w"};
-print "</td> </tr>\n";
-
-print "<tr>\n<td><b>$text{'acl_asub'}</b></td>\n";
-print "<td colspan=3>\n";
-printf "<input type=checkbox name=c_sub value=1 %s> %s\n",
-		$_[0]->{'c_sub'} ? "checked" : "", $text{"acl_c"};
-printf "<input type=checkbox name=r_sub value=1 %s> %s\n",
-		$_[0]->{'r_sub'} ? "checked" : "", $text{"acl_r"};
-printf "<input type=checkbox name=w_sub value=1 %s> %s\n",
-		$_[0]->{'w_sub'} ? "checked" : "", $text{"acl_w"};
-print "</td> </tr>\n";
-
-print "<tr>\n<td><b>$text{'acl_asha'}</b></td>\n";
-print "<td colspan=3>\n";
-printf "<input type=checkbox name=c_sha value=1 %s> %s\n",
-		$_[0]->{'c_sha'} ? "checked" : "", $text{"acl_c"};
-printf "<input type=checkbox name=r_sha value=1 %s> %s\n",
-		$_[0]->{'r_sha'} ? "checked" : "", $text{"acl_r"};
-printf "<input type=checkbox name=w_sha value=1 %s> %s\n",
-		$_[0]->{'w_sha'} ? "checked" : "", $text{"acl_w"};
-print "</td> </tr>\n";
-
-print "<tr> <td colspan=4><hr></td> </tr>\n";
-
-# per-subnet and per-host acls
-print "<tr><td><b>$text{'acl_per_sub_acls'}</b></td> <td>\n";
-printf "<input type=radio name=per_sub_acls value=1 %s> $text{'yes'}\n",
-		$_[0]->{'per_sub_acls'} ? "checked" : "";
-printf "<input type=radio name=per_sub_acls value=0 %s> $text{'no'}\n",
-		$_[0]->{'per_sub_acls'} ? "" : "checked";
-print "</td></tr>\n";
-
-print "<tr><td><b>$text{'acl_per_sha_acls'}</b></td> <td>\n";
-printf "<input type=radio name=per_sha_acls value=1 %s> $text{'yes'}\n",
-		$_[0]->{'per_sha_acls'} ? "checked" : "";
-printf "<input type=radio name=per_sha_acls value=0 %s> $text{'no'}\n",
-		$_[0]->{'per_sha_acls'} ? "" : "checked";
-print "</td></tr>\n";
-
-print "<tr><td><b>$text{'acl_per_hst_acls'}</b></td> <td>\n";
-printf "<input type=radio name=per_hst_acls value=1 %s> $text{'yes'}\n",
-		$_[0]->{'per_hst_acls'} ? "checked" : "";
-printf "<input type=radio name=per_hst_acls value=0 %s> $text{'no'}\n",
-		$_[0]->{'per_hst_acls'} ? "" : "checked";
-print "</td></tr>\n";
-
-print "<tr><td><b>$text{'acl_per_grp_acls'}</b></td> <td>\n";
-printf "<input type=radio name=per_grp_acls value=1 %s> $text{'yes'}\n",
-		$_[0]->{'per_grp_acls'} ? "checked" : "";
-printf "<input type=radio name=per_grp_acls value=0 %s> $text{'no'}\n",
-		$_[0]->{'per_grp_acls'} ? "" : "checked";
-print "</td></tr>\n";
-
-print "<tr> <td colspan=4><hr></td> </tr>\n";
-
-print "<tr>\n<td $tb><b>$text{'acl_per_obj_acls'}</b></td></tr> \n";
-&display_tree($_[0],&get_parent_config(),-2);
+print &ui_table_hr();
+print &ui_table_span($text{'acl_per_obj_acls'});
+&display_tree($o, &get_parent_config(), -2);
 }
 
 # acl_security_save(&options)
@@ -254,36 +143,18 @@ if (!$name && $node->{'name'} eq 'group') {
 	}
 local $nodetype=$onames{$node->{'name'}};
 local $aclname='ACL'.$nodetype.'_'.$name;
-
-print "<tr>\n<td>","&nbsp"x$padding,
-	  " $node->{'name'}: <b>$name</b></td>\n";
-
 if (($nodetype eq 'hst')||($nodetype eq 'sub')||
     ($nodetype eq 'grp')||($nodetype eq 'sha')) {
-	print "<td colspan=3>\n";
-	if($acc->{$aclname}) {
-		printf "<input type=radio name=$aclname value='' %s> %s\n",
-				!&perm_to('r',$nodetype,$acc,$name) ? 
-					"checked" : "", $text{"acl_na"};
-		printf "<input type=radio name=$aclname value='r' %s> %s\n",
-				&perm_to('r',$nodetype,$acc,$name) && 
-				!&perm_to('rw',$nodetype,$acc,$name) ? 
-					"checked" : "",$text{"acl_r1"};
-		printf "<input type=radio name=$aclname value='rw' %s> %s\n",
-				&perm_to('rw',$nodetype,$acc,$name) ? 
-					"checked" : "", $text{"acl_rw"};
-		}
-	else {
-		printf "<input type=radio name=$aclname value='' checked> %s\n",
-				$text{"acl_na"};
-		printf "<input type=radio name=$aclname value='r'> %s\n", 
-				$text{"acl_r1"};
-		printf "<input type=radio name=$aclname value='rw'> %s\n",
-				$text{"acl_rw"};
-		}
-	print "</td>\n";
+	my $sel = !$acc->{$aclname} || !&perm_to('r', $nodetype, $acc, $name) ? '' :
+		  &perm_to('rw', $nodetype, $acc, $name) ? 'rw' : 'r';
+	print &ui_table_row(
+		("&nbsp;" x $padding)." ".$node->{'name'}.": <b>$name</b>",
+		&ui_radio($aclname, $sel,
+			  [ [ '', $text{'acl_na'} ],
+			    [ 'r', $text{'acl_r1'} ],
+			    [ 'rw', $text{'acl_rw'} ] ]),
+		3);
 	}
-print "</tr>\n";		
 }
 
 1;

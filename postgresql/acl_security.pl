@@ -5,108 +5,62 @@ require 'postgresql-lib.pl';
 # Output HTML for editing security options for the postgresql module
 sub acl_security_form
 {
-my (@listdb)=&list_databases();
-print "<tr> <td valign=top rowspan=4><b>$text{'acl_dbs'}</b>\n";
-print "<br>$text{'acl_dbscannot'}" unless @listdb;
-print "</td>\n";
-print "<td rowspan=4 valign=top>\n";
+my ($o) = @_;
+my @listdb = &list_databases();
+
 if (@listdb) {
-	printf "<input type=radio name=dbs_def value=1 %s> %s\n",
-		$_[0]->{'dbs'} eq '*' ? 'checked' : '', $text{'acl_dall'};
-	printf "<input type=radio name=dbs_def value=0 %s> %s<br>\n",
-		$_[0]->{'dbs'} eq '*' ? '' : 'checked', $text{'acl_dsel'};
-	print "<select name=dbs size=5 multiple width=100>\n";
-		map { $dcan{$_}++ } split(/\s+/, $_[0]->{'dbs'});
-	foreach $d (@listdb) {
-		printf "<option %s>%s</option>\n",
-			$dcan{$d} ? 'selected' : '', $d;
-		}
-	print "</select>";
-	print "<input type=hidden name=dblist value=\"1\">\n";
-	} 
-else {
-	print "<input type=hidden name=dblist value=\"0 ".$_[0]->{'dbs'}."\">\n";
+	print &ui_table_row($text{'acl_dbs'},
+		&ui_radio("dbs_def", $o->{'dbs'} eq '*' ? 1 : 0,
+			  [ [ 1, $text{'acl_dall'} ],
+			    [ 0, $text{'acl_dsel'} ] ])."<br>\n".
+		&ui_select("dbs", [ split(/\s+/, $o->{'dbs'}) ], \@listdb, 5, 1).
+		&ui_hidden("dblist", "1"),
+		3);
 	}
-print "</td>\n";
+else {
+	print &ui_table_row($text{'acl_dbs'},
+		$text{'acl_dbscannot'}.&ui_hidden("dblist", "0 ".$o->{'dbs'}),
+		3);
+	}
 
-print "<td><b>$text{'acl_create'}</b></td> <td>\n";
-printf "<input type=radio name=create value=1 %s> %s\n",
-	$_[0]->{'create'} == 1 ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=create value=2 %s> %s\n",
-	$_[0]->{'create'} == 2 ? 'checked' : '', $text{'acl_max'};
-printf "<input name=max size=5 value='%s'>\n",
-	$_[0]->{'max'};
-printf "<input type=radio name=create value=0 %s> %s</td> </tr>\n",
-	$_[0]->{'create'} == 0 ? 'checked' : '', $text{'no'};
+print &ui_table_row($text{'acl_create'},
+	&ui_radio_table("create",
+		defined($o->{'create'}) ? $o->{'create'} : 0,
+		[ [ 1, $text{'yes'} ],
+		  [ 2, $text{'acl_max'}, &ui_textbox("max", $o->{'max'}, 5) ],
+		  [ 0, $text{'no'} ] ], 1),
+	3);
 
-print "<tr> <td><b>$text{'acl_delete'}</b></td> <td>\n";
-printf "<input type=radio name=delete value=1 %s> %s\n",
-	$_[0]->{'delete'} ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=delete value=0 %s> %s</td> </tr>\n",
-	$_[0]->{'delete'} ? '' : 'checked', $text{'no'};
+print &ui_table_row($text{'acl_delete'},
+	&ui_yesno_radio("delete", $o->{'delete'}));
+print &ui_table_row($text{'acl_stop'},
+	&ui_yesno_radio("stop", $o->{'stop'}));
+print &ui_table_row($text{'acl_users'},
+	&ui_yesno_radio("users", $o->{'users'}));
 
-print "<tr> <td><b>$text{'acl_stop'}</b></td> <td>\n";
-printf "<input type=radio name=stop value=1 %s> %s\n",
-	$_[0]->{'stop'} ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=stop value=0 %s> %s</td> </tr>\n",
-	$_[0]->{'stop'} ? '' : 'checked', $text{'no'};
+print &ui_table_row($text{'acl_login'},
+	&ui_radio_table("user_def", $o->{'user'} ? 0 : 1,
+		[ [ 1, $text{'acl_user_def'} ],
+		  [ 0, "",
+		    $text{'acl_user'}." ".&ui_textbox("user", $o->{'user'}, 10)." ".
+		    $text{'acl_pass'}." ".&ui_password("pass", $o->{'pass'}, 10)."<br>\n".
+		    &ui_checkbox("sameunix", 1, $text{'acl_sameunix'}, $o->{'sameunix'}) ] ], 1),
+	3);
 
-print "<tr> <td><b>$text{'acl_users'}</b></td> <td>\n";
-printf "<input type=radio name=users value=1 %s> %s\n",
-	$_[0]->{'users'} ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=users value=0 %s> %s</td> </tr>\n",
-	$_[0]->{'users'} ? '' : 'checked', $text{'no'};
+print &ui_table_row($text{'acl_backup'},
+	&ui_yesno_radio("backup", $o->{'backup'}));
+print &ui_table_row($text{'acl_restore'},
+	&ui_yesno_radio("restore", $o->{'restore'}));
 
-print "<tr> <td valign=top><b>$text{'acl_login'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=user_def value=1 %s> %s<br>\n",
-	$_[0]->{'user'} ? '' : 'checked', $text{'acl_user_def'};
-printf "<input type=radio name=user_def value=0 %s>\n",
-	$_[0]->{'user'} ? 'checked' : '';
-printf "%s <input name=user size=10 value='%s'>\n",
-	$text{'acl_user'}, $_[0]->{'user'};
-printf "%s <input name=pass type=password size=10 value='%s'><br>\n",
-	$text{'acl_pass'}, $_[0]->{'pass'};
-print "&nbsp;&nbsp;&nbsp;\n";
-printf "<input type=checkbox name=sameunix value=1 %s> %s</td> </tr>\n",
-	$_[0]->{'sameunix'} ? "checked" : "", $text{'acl_sameunix'};
+print &ui_table_row($text{'acl_cmds'},
+	&ui_yesno_radio("cmds", $o->{'cmds'}));
+print &ui_table_row($text{'acl_views'},
+	&ui_yesno_radio("views", $o->{'views'}));
 
-print "<tr> <td><b>$text{'acl_backup'}</b></td> <td>\n";
-printf "<input type=radio name=backup value=1 %s> %s\n",
-	$_[0]->{'backup'} ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=backup value=0 %s> %s</td>\n",
-	$_[0]->{'backup'} ? '' : 'checked', $text{'no'};
-
-print "<td><b>$text{'acl_restore'}</b></td> <td>\n";
-printf "<input type=radio name=restore value=1 %s> %s\n",
-	$_[0]->{'restore'} ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=restore value=0 %s> %s</td> </tr>\n",
-	$_[0]->{'restore'} ? '' : 'checked', $text{'no'};
-
-print "<tr> <td valign=top><b>$text{'acl_cmds'}</b></td> <td>\n";
-printf "<input type=radio name=cmds value=1 %s> %s\n",
-        $_[0]->{'cmds'} ? "checked" : "", $text{'yes'};
-printf "<input type=radio name=cmds value=0 %s> %s</td>\n",
-        $_[0]->{'cmds'} ? "" : "checked", $text{'no'};
-
-print "<td><b>$text{'acl_views'}</b></td> <td>\n";
-printf "<input type=radio name=views value=1 %s> %s\n",
-	$_[0]->{'views'} ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=views value=0 %s> %s</td> </tr>\n",
-	$_[0]->{'views'} ? '' : 'checked', $text{'no'};
-
-print "<tr> <td valign=top><b>$text{'acl_indexes'}</b></td> <td>\n";
-printf "<input type=radio name=indexes value=1 %s> %s\n",
-        $_[0]->{'indexes'} ? "checked" : "", $text{'yes'};
-printf "<input type=radio name=indexes value=0 %s> %s</td>\n",
-        $_[0]->{'indexes'} ? "" : "checked", $text{'no'};
-
-print "<td><b>$text{'acl_seqs'}</b></td> <td>\n";
-printf "<input type=radio name=seqs value=1 %s> %s\n",
-	$_[0]->{'seqs'} ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=seqs value=0 %s> %s</td> </tr>\n",
-	$_[0]->{'seqs'} ? '' : 'checked', $text{'no'};
-
-print "</tr>\n";
+print &ui_table_row($text{'acl_indexes'},
+	&ui_yesno_radio("indexes", $o->{'indexes'}));
+print &ui_table_row($text{'acl_seqs'},
+	&ui_yesno_radio("seqs", $o->{'seqs'}));
 }
 
 # acl_security_save(&options)

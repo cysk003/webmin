@@ -5,115 +5,84 @@ require 'apache-lib.pl';
 # Output HTML for editing security options for the apache module
 sub acl_security_form
 {
-print "<tr> <td valign=top rowspan=4><b>$text{'acl_virts'}</b></td>\n";
-print "<td rowspan=4 valign=top>\n";
-printf "<input type=radio name=virts_def value=1 %s> %s\n",
-	$_[0]->{'virts'} eq '*' ? 'checked' : '', $text{'acl_vall'};
-printf "<input type=radio name=virts_def value=0 %s> %s<br>\n",
-	$_[0]->{'virts'} eq '*' ? '' : 'checked', $text{'acl_vsel'};
-print "<select name=virts multiple size=5>\n";
-local $conf = &get_config();
-local @virts = ( { 'value' => '__default__' },
-		 &find_directive_struct("VirtualHost", $conf) );
-local %vcan = map { $_, 1 } split(/\s+/, $_[0]->{'virts'});
-local $v;
-foreach $v (@virts) {
-	local @vn = &virt_acl_name($v);
-	local ($can) = grep { $vcan{$_} } @vn;
-	local $vn = $can || $vn[0];
-	printf "<option value=\"%s\" %s>%s</option>\n",
-		$vn, $can ? "selected" : "",
-		$vn eq "__default__" ? $text{'acl_defserv'} : $vn;
+my ($o) = @_;
+
+my $conf = &get_config();
+my @virts = ( { 'value' => '__default__' },
+	      &find_directive_struct("VirtualHost", $conf) );
+my @vsel = $o->{'virts'} eq '*' ? () : split(/\s+/, $o->{'virts'});
+my %vcan = map { $_, 1 } @vsel;
+my @vopts;
+foreach my $v (@virts) {
+	my @vn = &virt_acl_name($v);
+	my ($can) = grep { $vcan{$_} } @vn;
+	my $show = $can || $vn[0];
+	push(@vopts, [ $show,
+		       $show eq "__default__" ? $text{'acl_defserv'}
+					      : $show ]);
 	delete($vcan{$can}) if ($can);
 	}
-foreach $vn (keys %vcan) {
-	next if ($vn eq "*");
-	printf "<option value=\"%s\" %s>%s</option>\n",
-		$vn, "selected",
-		$vn eq "__default__" ? $text{'acl_defserv'} : $vn;
+print &ui_table_row($text{'acl_virts'},
+	&ui_radio("virts_def", $o->{'virts'} eq '*' ? 1 : 0,
+		  [ [ 1, $text{'acl_vall'} ],
+		    [ 0, $text{'acl_vsel'} ] ])."<br>\n".
+	&ui_select("virts", \@vsel, \@vopts, 5, 1, 1),
+	3);
+
+print &ui_table_row($text{'acl_global'},
+	&ui_select("global",
+		   defined($o->{'global'}) && $o->{'global'} ne '' ?
+			$o->{'global'} : 0,
+		   [ [ 1, $text{'yes'} ],
+		     [ 2, $text{'acl_htaccess'} ],
+		     [ 0, $text{'no'} ] ]));
+print &ui_table_row($text{'acl_create'},
+	&ui_yesno_radio("create", $o->{'create'}));
+
+print &ui_table_row($text{'acl_vuser'},
+	&ui_yesno_radio("vuser", $o->{'vuser'}));
+print &ui_table_row($text{'acl_vaddr'},
+	&ui_yesno_radio("vaddr", $o->{'vaddr'}));
+
+print &ui_table_row($text{'acl_pipe'},
+	&ui_yesno_radio("pipe", $o->{'pipe'}));
+print &ui_table_row($text{'acl_stop'},
+	&ui_yesno_radio("stop", $o->{'stop'}));
+
+print &ui_table_row($text{'acl_apply'},
+	&ui_yesno_radio("apply", $o->{'apply'}));
+print &ui_table_row($text{'acl_names'},
+	&ui_yesno_radio("names", $o->{'names'}));
+
+print &ui_table_row($text{'acl_dir'},
+	&ui_textbox("dir", $o->{'dir'}, 30)." ".
+	&file_chooser_button("dir", 1),
+	3);
+
+print &ui_table_row($text{'acl_aliasdir'},
+	&ui_textbox("aliasdir", $o->{'aliasdir'}, 30)." ".
+	&file_chooser_button("aliasdir", 1),
+	3);
+
+my @typesel = $o->{'types'} eq '*' ? () : split(/\s+/, $o->{'types'});
+my @typeopts;
+for (my $i = 0; $text{"type_$i"}; $i++) {
+	push(@typeopts, [ $i, $text{"type_$i"} ]);
 	}
-print "</select></td>\n";
+print &ui_table_row($text{'acl_types'},
+	&ui_radio("types_def", $o->{'types'} eq '*' ? 1 : 0,
+		  [ [ 1, $text{'acl_all'} ],
+		    [ 0, $text{'acl_sel'} ] ])."<br>\n".
+	&ui_select("types", \@typesel, \@typeopts, 5, 1),
+	3);
 
-print "<td><b>$text{'acl_global'}</b></td> <td><select name=global>\n";
-printf "<option value=1 %s>$text{'yes'}</option>\n",
-	$_[0]->{'global'} == 1 ? "selected" : "";
-printf "<option value=2 %s>$text{'acl_htaccess'}</option>\n",
-	$_[0]->{'global'} == 2 ? "selected" : "";
-printf "<option value=0 %s>$text{'no'}</option></select></td> </tr>\n",
-	$_[0]->{'global'} == 0 ? "selected" : "";
-
-print "<tr> <td><b>$text{'acl_create'}</b></td> <td>\n";
-printf "<input type=radio name=create value=1 %s> $text{'yes'}\n",
-	$_[0]->{'create'} ? "checked" : "";
-printf "<input type=radio name=create value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'create'} ? "" : "checked";
-
-print "<tr> <td><b>$text{'acl_vuser'}</b></td> <td>\n";
-printf "<input type=radio name=vuser value=1 %s> $text{'yes'}\n",
-	$_[0]->{'vuser'} ? "checked" : "";
-printf "<input type=radio name=vuser value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'vuser'} ? "" : "checked";
-
-print "<tr> <td><b>$text{'acl_vaddr'}</b></td> <td>\n";
-printf "<input type=radio name=vaddr value=1 %s> $text{'yes'}\n",
-	$_[0]->{'vaddr'} ? "checked" : "";
-printf "<input type=radio name=vaddr value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'vaddr'} ? "" : "checked";
-
-print "<tr> <td><b>$text{'acl_pipe'}</b></td> <td>\n";
-printf "<input type=radio name=pipe value=1 %s> $text{'yes'}\n",
-	$_[0]->{'pipe'} ? "checked" : "";
-printf "<input type=radio name=pipe value=0 %s> $text{'no'}</td>\n",
-	$_[0]->{'pipe'} ? "" : "checked";
-
-print "<td><b>$text{'acl_stop'}</b></td> <td>\n";
-printf "<input type=radio name=stop value=1 %s> $text{'yes'}\n",
-	$_[0]->{'stop'} ? "checked" : "";
-printf "<input type=radio name=stop value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'stop'} ? "" : "checked";
-
-print "<tr> <td><b>$text{'acl_apply'}</b></td> <td>\n";
-printf "<input type=radio name=apply value=1 %s> $text{'yes'}\n",
-	$_[0]->{'apply'} ? "checked" : "";
-printf "<input type=radio name=apply value=0 %s> $text{'no'}</td>\n",
-	$_[0]->{'apply'} ? "" : "checked";
-
-print "<td><b>$text{'acl_names'}</b></td> <td>\n";
-printf "<input type=radio name=names value=1 %s> $text{'yes'}\n",
-	$_[0]->{'names'} ? "checked" : "";
-printf "<input type=radio name=names value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'names'} ? "" : "checked";
-
-print "<tr> <td><b>$text{'acl_dir'}</b></td>\n";
-printf "<td colspan=3><input name=dir size=30 value='%s'> %s</td> </tr>\n",
-	$_[0]->{'dir'}, &file_chooser_button("dir", 1);
-
-print "<tr> <td><b>$text{'acl_aliasdir'}</b></td>\n";
-printf "<td colspan=3><input name=aliasdir size=30 value='%s'> %s</td> </tr>\n",
-	$_[0]->{'aliasdir'}, &file_chooser_button("aliasdir", 1);
-
-print "<tr> <td valign=top><b>$text{'acl_types'}</b></td>\n";
-print "<td colspan=3>\n";
-printf "<input type=radio name=types_def value=1 %s> $text{'acl_all'}&nbsp;\n",
-	$_[0]->{'types'} eq '*' ? "checked" : "";
-printf "<input type=radio name=types_def value=0 %s> $text{'acl_sel'}<br>\n",
-	$_[0]->{'types'} eq '*' ? "" : "checked";
-map { $types{$_}++ } split(/\s+/, $_[0]->{'types'});
-print "<select name=types size=5 multiple>\n";
-for($i=0; $text{"type_$i"}; $i++) {
-	printf "<option value=\"%d\" %s>%s</option>\n",
-		$i, $types{$i} ? "selected" : "", $text{"type_$i"};
-	}
-print "</select></td> </tr>\n";
-
-print "<tr> <td valign=top><b>$text{'acl_dirs'}</b></td>\n";
-print "<td colspan=3>\n";
-print &ui_radio("dirsmode", $_[0]->{'dirsmode'},
-		[ [ 0, $text{'acl_dirs0'} ],
-		  [ 1, $text{'acl_dirs1'} ],
-		  [ 2, $text{'acl_dirs2'} ] ]),"<br>\n";
-print &ui_textarea("dirs", join("\n", split(/\s+/, $_[0]->{'dirs'})), 5, 50);
-print "</td> </tr>\n";
+print &ui_table_row($text{'acl_dirs'},
+	&ui_radio("dirsmode", $o->{'dirsmode'},
+		  [ [ 0, $text{'acl_dirs0'} ],
+		    [ 1, $text{'acl_dirs1'} ],
+		    [ 2, $text{'acl_dirs2'} ] ])."<br>\n".
+	&ui_textarea("dirs", join("\n", split(/\s+/, $o->{'dirs'})), 5, 50),
+	3);
 }
 
 # acl_security_save(&options)
@@ -141,4 +110,3 @@ $_[0]->{'names'} = $in{'names'};
 $_[0]->{'dirsmode'} = $in{'dirsmode'};
 $_[0]->{'dirs'} = join(" ", split(/\s+/, $in{'dirs'}));
 }
-

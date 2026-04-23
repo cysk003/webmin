@@ -9,29 +9,23 @@ require 'squid-lib.pl';
 # Output HTML for editing security options for the squid module
 sub acl_security_form
 {
-print "<tr> <td valign=top><b>$text{'acl_sections'}</b></td>\n";
-print "<td colspan=3><select name=sections multiple size=6>\n";
-foreach $s (@accopts) {
-	printf "<option value=%s %s>%s</option>\n",
-		$s, $_[0]->{$s} ? 'selected' : '', $text{"index_${s}"};
-	}
-print "</select></td> </tr>\n";
+my ($o) = @_;
 
-print "<tr> <td><b>$text{'acl_root'}</b></td>\n";
-printf "<td colspan=3><input name=root size=40 value='%s'> %s</td> </tr>\n",
-	$_[0]->{'root'}, &file_chooser_button("root", 1);
+print &ui_table_row($text{'acl_sections'},
+	&ui_select("sections",
+		   [ grep { $o->{$_} } @accopts ],
+		   [ map { [ $_, $text{"index_${_}"} ] } @accopts ],
+		   6, 1),
+	3);
 
-print "<tr> <td><b>$text{'acl_start'}</b></td>\n";
-printf "<td><input type=radio name=start value=1 %s> %s\n",
-	$_[0]->{'start'} ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=start value=0 %s> %s</td> </tr>\n",
-	$_[0]->{'start'} ? '' : 'checked', $text{'no'};
+print &ui_table_row($text{'acl_root'},
+	&ui_textbox("root", $o->{'root'}, 40)." ".&file_chooser_button("root", 1),
+	3);
 
-print "<tr> <td><b>$text{'acl_restart'}</b></td>\n";
-printf "<td><input type=radio name=restart value=1 %s> %s\n",
-	$_[0]->{'restart'} ? 'checked' : '', $text{'yes'};
-printf "<input type=radio name=restart value=0 %s> %s</td> </tr>\n",
-	$_[0]->{'restart'} ? '' : 'checked', $text{'no'};
+print &ui_table_row($text{'acl_start'},
+	&ui_yesno_radio("start", $o->{'start'}));
+print &ui_table_row($text{'acl_restart'},
+	&ui_yesno_radio("restart", $o->{'restart'}));
 }
 
 # acl_security_save(&options)
