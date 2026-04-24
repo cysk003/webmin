@@ -37,6 +37,11 @@ foreach $a (@attach) {
 	else {
 		$fn = "file".(++$n).".".&type_to_extension($a->{'type'});
 		}
+	$fn =~ s/[\r\n\0]//g;
+	$fn =~ s/\\/\//g;
+	$fn =~ s/^.*\///g;
+	$fn =~ /^\.+$/ && ($fn = "");
+	$fn ||= "file".(++$n);
 
 	# Write the file
 	&open_tempfile(FILE, ">$temp/$fn", 0, 1);

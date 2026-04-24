@@ -320,7 +320,7 @@ acl_types=Typy direktiv k dispozici
 acl_all=Všechny
 acl_sel=Vybrané..
 acl_names=Mohu upravovat názvy serverů?
-acl_dirs=Direktivy Apache jsou přístupné<br><font size=-1>(Subject to types limit above)</font>
+acl_dirs=Dostupné direktivy Apache, omezené typy direktiv vybranými výše
 acl_dirs0=Vše
 acl_dirs1=Jen vybrané ..
 acl_dirs2=Vše kromě vybraných ..

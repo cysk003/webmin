@@ -5,90 +5,55 @@ require 'lpadmin-lib.pl';
 # Output HTML for editing security options for the lpadmin module
 sub acl_security_form
 {
-print "<tr> <td valign=top><b>$text{'acl_printers'}</b></td>\n";
-print "<td colspan=3>\n";
-printf "<input name=printers_def type=radio value=1 %s> %s\n",
-	$_[0]->{'printers'} eq '*' ? 'checked' : '', $text{'acl_pall'};
-printf "<input name=printers_def type=radio value=0 %s> %s<br>\n",
-	$_[0]->{'printers'} eq '*' ? '' : 'checked', $text{'acl_psel'};
-print "<select name=printers multiple size=4 width=15>\n";
-local @plist = &list_printers();
-local ($p, %pcan);
-map { $pcan{$_}++ } split(/\s+/, $_[0]->{'printers'});
-foreach $p (@plist) {
-	local $prn = &get_printer($p);
-	printf "<option value=%s %s>%s (%s)</option>\n",
-		$p, $pcan{$p} ? 'selected' : '',
-		$prn->{'desc'}, $p;
-	}
-print "</select></td> </tr>\n";
+my ($o) = @_;
+my @plist = &list_printers();
+my @popts = map {
+	my $prn = &get_printer($_);
+	[ $_, $prn->{'desc'}." ($_)" ]
+	} @plist;
 
-print "<tr> <td valign=top><b>$text{'acl_cancel'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=cancel value=0 %s> $text{'no'}\n",
-	$_[0]->{'cancel'} == 0 ? "checked" : "";
-printf "<input type=radio name=cancel value=1 %s> $text{'yes'}\n",
-	$_[0]->{'cancel'} == 1 ? "checked" : "";
-printf "<input type=radio name=cancel value=2 %s> $text{'acl_listed'}<br>\n",
-	$_[0]->{'cancel'} == 2 ? "checked" : "";
-print "<select name=jobs multiple size=4 width=15>\n";
-map { $jcan{$_}++ } split(/\s+/, $_[0]->{'jobs'});
-foreach $p (@plist) {
-	local $prn = &get_printer($p);
-	printf "<option value=%s %s>%s (%s)</option>\n",
-		$p, $jcan{$p} ? 'selected' : '',
-		$prn->{'desc'}, $p;
-	}
-print "</select></td> </tr>\n";
+print &ui_table_row($text{'acl_printers'},
+	&ui_radio("printers_def", $o->{'printers'} eq '*' ? 1 : 0,
+		  [ [ 1, $text{'acl_pall'} ],
+		    [ 0, $text{'acl_psel'} ] ])."<br>\n".
+	&ui_select("printers", [ split(/\s+/, $o->{'printers'}) ], \@popts, 4, 1),
+	3);
 
-print "<tr> <td><b>$text{'acl_user'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=user_def value=1 %s> %s\n",
-	$_[0]->{'user'} eq '*' ? 'checked' : '', $text{'acl_user_all'};
-printf "<input type=radio name=user_def value=2 %s> %s\n",
-	$_[0]->{'user'} ? '' : 'checked', $text{'acl_user_this'};
-printf "<input type=radio name=user_def value=0 %s>\n",
-	$_[0]->{'user'} eq '*' || !$_[0]->{'user'} ? '' : 'checked';
-printf "<input name=user size=13 value='%s'></td> </tr>\n",
-	$_[0]->{'user'} eq '*' || !$_[0]->{'user'} ? '' : $_[0]->{'user'};
+print &ui_table_row($text{'acl_cancel'},
+	&ui_radio_table("cancel",
+		defined($o->{'cancel'}) ? $o->{'cancel'} : 0,
+		[ [ 0, $text{'no'} ],
+		  [ 1, $text{'yes'} ],
+		  [ 2, $text{'acl_listed'},
+		    &ui_select("jobs", [ split(/\s+/, $o->{'jobs'}) ], \@popts, 4, 1) ] ], 1),
+	3);
 
-print "<tr> <td><b>$text{'acl_add'}</b></td>\n";
-printf "<td><input type=radio name=add value=1 %s> $text{'yes'}\n",
-	$_[0]->{'add'} ? "checked" : "";
-printf "<input type=radio name=add value=0 %s> $text{'no'}</td>\n",
-	$_[0]->{'add'} ? "" : "checked";
+my $user_def = $o->{'user'} eq '*' ? 1 : $o->{'user'} ? 0 : 2;
+print &ui_table_row($text{'acl_user'},
+	&ui_radio_table("user_def", $user_def,
+		[ [ 1, $text{'acl_user_all'} ],
+		  [ 2, $text{'acl_user_this'} ],
+		  [ 0, "", &ui_textbox("user",
+				       $user_def == 0 ? $o->{'user'} : "", 13) ] ], 1),
+	3);
 
-print "<td><b>$text{'acl_stop'}</b></td>\n";
-printf "<td><input type=radio name=stop value=1 %s> $text{'yes'}\n",
-	$_[0]->{'stop'} == 1 ? "checked" : "";
-printf "<input type=radio name=stop value=2 %s> $text{'acl_restart'}\n",
-	$_[0]->{'stop'} == 2 ? "checked" : "";
-printf "<input type=radio name=stop value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'stop'} == 0 ? "checked" : "";
+print &ui_table_row($text{'acl_add'},
+	&ui_yesno_radio("add", $o->{'add'}));
+print &ui_table_row($text{'acl_stop'},
+	&ui_radio("stop", defined($o->{'stop'}) ? $o->{'stop'} : 0,
+		  [ [ 1, $text{'yes'} ],
+		    [ 2, $text{'acl_restart'} ],
+		    [ 0, $text{'no'} ] ]));
 
-print "<tr> <td><b>$text{'acl_view'}</b></td>\n";
-printf "<td><input type=radio name=view value=1 %s> $text{'yes'}\n",
-	$_[0]->{'view'} ? "checked" : "";
-printf "<input type=radio name=view value=0 %s> $text{'no'}</td>\n",
-	$_[0]->{'view'} ? "" : "checked";
+print &ui_table_row($text{'acl_view'},
+	&ui_yesno_radio("view", $o->{'view'}));
+print &ui_table_row($text{'acl_test'},
+	&ui_yesno_radio("test", $o->{'test'}));
 
-print "<td><b>$text{'acl_test'}</b></td>\n";
-printf "<td><input type=radio name=test value=1 %s> $text{'yes'}\n",
-	$_[0]->{'test'} ? "checked" : "";
-printf "<input type=radio name=test value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'test'} ? "" : "checked";
-
-print "<tr> <td><b>$text{'acl_delete'}</b></td>\n";
-printf "<td><input type=radio name=delete value=1 %s> $text{'yes'}\n",
-	$_[0]->{'delete'} ? "checked" : "";
-printf "<input type=radio name=delete value=0 %s> $text{'no'}</td>\n",
-	$_[0]->{'delete'} ? "" : "checked";
-
-print "<td><b>$text{'acl_cluster'}</b></td>\n";
-printf "<td><input type=radio name=cluster value=1 %s> $text{'yes'}\n",
-	$_[0]->{'cluster'} ? "checked" : "";
-printf "<input type=radio name=cluster value=0 %s> $text{'no'}</td> </tr>\n",
-	$_[0]->{'cluster'} ? "" : "checked";
-
-print "</tr>\n";
+print &ui_table_row($text{'acl_delete'},
+	&ui_yesno_radio("delete", $o->{'delete'}));
+print &ui_table_row($text{'acl_cluster'},
+	&ui_yesno_radio("cluster", $o->{'cluster'}));
 }
 
 # acl_security_save(&options)

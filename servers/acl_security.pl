@@ -5,47 +5,41 @@ require 'servers-lib.pl';
 # Output HTML for editing security options for the servers module
 sub acl_security_form
 {
-print "<tr> <td valign=top><b>$text{'acl_servers'}</b></td>\n";
-print "<td colspan=3>\n";
-printf "<input type=radio name=servers_def value=1 %s> %s\n",
-        $_[0]->{'servers'} eq '*' ? 'checked' : '', $text{'acl_sall'};
-printf "<input type=radio name=servers_def value=0 %s> %s<br>\n",
-        $_[0]->{'servers'} eq '*' ? '' : 'checked', $text{'acl_ssel'};
-print "<select name=servers multiple size=4 width=15>\n";
-local @servers = sort { $a->{'host'} cmp $b->{'host'} } &list_servers();
-local ($z, %zcan);
-map { $zcan{$_}++ } split(/\s+/, $_[0]->{'servers'});
-foreach $z (sort { $a->{'value'} cmp $b->{'value'} } @servers) {
-        printf "<option value='%s' %s>%s</option>\n",
-                $z->{'id'},
-                $zcan{$z->{'host'}} || $zcan{$z->{'id'}} ? "selected" : "",
-                $z->{'host'} ;
-        }
-print "</select></td></tr>\n";
+my ($o) = @_;
+my @servers = sort { $a->{'host'} cmp $b->{'host'} } &list_servers();
+my %scan = map { $_, 1 } split(/\s+/, $o->{'servers'});
+my (@sopts, @ssel);
+foreach my $s (sort { $a->{'value'} cmp $b->{'value'} } @servers) {
+	push(@sopts, [ $s->{'id'}, $s->{'host'} ]);
+	push(@ssel, $s->{'id'}) if ($scan{$s->{'host'}} || $scan{$s->{'id'}});
+	}
 
-print "<tr> <td><b>$text{'acl_edit'}</b></td> <td>\n";
-print &ui_yesno_radio("edit", $_[0]->{'edit'}),"</td>\n";
+print &ui_table_row($text{'acl_servers'},
+	&ui_radio("servers_def", $o->{'servers'} eq '*' ? 1 : 0,
+		  [ [ 1, $text{'acl_sall'} ],
+		    [ 0, $text{'acl_ssel'} ] ])."<br>\n".
+	&ui_select("servers", \@ssel, \@sopts, 4, 1),
+	3);
 
-print "<td><b>$text{'acl_find'}</b></td> <td>\n";
-print &ui_yesno_radio("find", $_[0]->{'find'}),"</td> </tr>\n";
+print &ui_table_row($text{'acl_edit'},
+	&ui_yesno_radio("edit", $o->{'edit'}));
+print &ui_table_row($text{'acl_find'},
+	&ui_yesno_radio("find", $o->{'find'}));
 
-print "<tr> <td><b>$text{'acl_auto'}</b></td> <td>\n";
-print &ui_yesno_radio("auto", $_[0]->{'auto'}),"</td>\n";
+print &ui_table_row($text{'acl_auto'},
+	&ui_yesno_radio("auto", $o->{'auto'}));
+print &ui_table_row($text{'acl_add'},
+	&ui_yesno_radio("add", $o->{'add'}));
 
-print "<td><b>$text{'acl_add'}</b></td> <td>\n";
-print &ui_yesno_radio("add", $_[0]->{'add'}),"</td> </tr>\n";
+print &ui_table_row($text{'acl_forcefast'},
+	&ui_yesno_radio("forcefast", $o->{'forcefast'}));
+print &ui_table_row($text{'acl_forcetype'},
+	&ui_yesno_radio("forcetype", $o->{'forcetype'}));
 
-print "<tr> <td><b>$text{'acl_forcefast'}</b></td> <td>\n";
-print &ui_yesno_radio("forcefast", $_[0]->{'forcefast'}),"</td>\n";
-
-print "<td><b>$text{'acl_forcetype'}</b></td> <td>\n";
-print &ui_yesno_radio("forcetype", $_[0]->{'forcetype'}),"</td> </tr>\n";
-
-print "<tr> <td><b>$text{'acl_forcelink'}</b></td> <td>\n";
-print &ui_yesno_radio("forcelink", $_[0]->{'forcelink'}),"</td>\n";
-
-print "<td><b>$text{'acl_links'}</b></td> <td>\n";
-print &ui_yesno_radio("links", $_[0]->{'links'}),"</td> </tr>\n";
+print &ui_table_row($text{'acl_forcelink'},
+	&ui_yesno_radio("forcelink", $o->{'forcelink'}));
+print &ui_table_row($text{'acl_links'},
+	&ui_yesno_radio("links", $o->{'links'}));
 }
 
 # acl_security_save(&options)

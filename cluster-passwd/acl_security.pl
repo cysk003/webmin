@@ -5,66 +5,47 @@ require 'cluster-passwd-lib.pl';
 # Output HTML for editing security options for the passwd module
 sub acl_security_form
 {
-print "<tr> <td valign=top><b>$passwd::text{'acl_users'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=mode value=0 %s> %s\n",
-	$_[0]->{'mode'} == 0 ? 'checked' : '', $passwd::text{'acl_mode0'};
+my ($o) = @_;
 
-printf "<input type=radio name=mode value=3 %s> %s<br>\n",
-	$_[0]->{'mode'} == 3 ? 'checked' : '', $passwd::text{'acl_mode3'};
+print &ui_table_row($passwd::text{'acl_users'},
+	&ui_radio_table("mode", defined($o->{'mode'}) ? $o->{'mode'} : 0,
+		[ [ 0, $passwd::text{'acl_mode0'} ],
+		  [ 3, $passwd::text{'acl_mode3'} ],
+		  [ 1, $passwd::text{'acl_mode1'},
+		    &ui_textbox("users1", $o->{'mode'} == 1 ? $o->{'users'} : "",
+				40)." ".&user_chooser_button("users1", 1) ],
+		  [ 2, $passwd::text{'acl_mode2'},
+		    &ui_textbox("users2", $o->{'mode'} == 2 ? $o->{'users'} : "",
+				40)." ".&user_chooser_button("users2", 1) ],
+		  [ 4, $passwd::text{'acl_mode4'},
+		    &ui_textbox("low", $o->{'mode'} == 4 ? $o->{'low'} : "", 8).
+		    " - ".&ui_textbox("high",
+				      $o->{'mode'} == 4 ? $o->{'high'} : "", 8) ],
+		  [ 5, $passwd::text{'acl_mode5'},
+		    &ui_textbox("groups", $o->{'mode'} == 5 ? $o->{'users'} : "",
+				20)." ".&group_chooser_button("groups", 1)."<br>\n".
+		    &ui_checkbox("sec", 1, $passwd::text{'acl_sec'}, $o->{'sec'}) ],
+		  [ 6, $passwd::text{'acl_mode6'},
+		    &ui_textbox("match", $o->{'mode'} == 6 ? $o->{'users'} : "",
+				15) ] ], 1),
+		3);
 
-printf "<input type=radio name=mode value=1 %s> %s\n",
-	$_[0]->{'mode'} == 1 ? 'checked' : '', $passwd::text{'acl_mode1'};
-printf "<input name=users1 size=40 value='%s'> %s<br>\n",
-	$_[0]->{'mode'} == 1 ? $_[0]->{'users'} : '',
-	&user_chooser_button("users1", 1);
+print &ui_table_row($passwd::text{'acl_repeat'},
+	&ui_yesno_radio("repeat", $o->{'repeat'}), 3);
 
-printf "<input type=radio name=mode value=2 %s> %s\n",
-	$_[0]->{'mode'} == 2 ? 'checked' : '', $passwd::text{'acl_mode2'};
-printf "<input name=users2 size=40 value='%s'> %s<br>\n",
-	$_[0]->{'mode'} == 2 ? $_[0]->{'users'} : '',
-	&user_chooser_button("users2", 1);
+print &ui_table_row($passwd::text{'acl_others'},
+	&ui_radio("others", defined($o->{'others'}) ? $o->{'others'} : 0,
+		  [ [ 1, $passwd::text{'yes'} ],
+		    [ 2, $passwd::text{'acl_opt'} ],
+		    [ 0, $passwd::text{'no'} ] ]),
+	3);
 
-printf "<input type=radio name=mode value=4 %s> %s\n",
-	$_[0]->{'mode'} == 4 ? 'checked' : '', $passwd::text{'acl_mode4'};
-printf "<input name=low size=8 value='%s'> -\n",
-	$_[0]->{'mode'} == 4 ? $_[0]->{'low'} : '';
-printf "<input name=high size=8 value='%s'><br>\n",
-	$_[0]->{'mode'} == 4 ? $_[0]->{'high'} : '';
-
-printf "<input type=radio name=mode value=5 %s> %s\n",
-	$_[0]->{'mode'} == 5 ? 'checked' : '', $passwd::text{'acl_mode5'};
-printf "<input name=groups size=20 value='%s'> %s<br>\n",
-	$_[0]->{'mode'} == 5 ? $_[0]->{'users'} : '',
-	&group_chooser_button("groups", 1);
-printf "%s <input type=checkbox name=sec value=1 %s> %s<br>\n",
-        "&nbsp;" x 5, $_[0]->{'sec'} ? 'checked' : '',$passwd::text{'acl_sec'};
-
-printf "<input type=radio name=mode value=6 %s> %s\n",
-	$_[0]->{'mode'} == 6 ? 'checked' : '', $passwd::text{'acl_mode6'};
-printf "<input name=match size=15 value='%s'></td> </tr>\n",
-	$_[0]->{'mode'} == 6 ? $_[0]->{'users'} : '';
-
-print "<tr> <td><b>$passwd::text{'acl_repeat'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=repeat value=1 %s> $passwd::text{'yes'}\n",
-	$_[0]->{'repeat'} ? "checked" : "";
-printf "<input type=radio name=repeat value=0 %s> $passwd::text{'no'}</td> </tr>\n",
-	$_[0]->{'repeat'} ? "" : "checked";
-
-print "<td><b>$passwd::text{'acl_others'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=others value=1 %s> $passwd::text{'yes'}\n",
-	$_[0]->{'others'} == 1 ? "checked" : "";
-printf "<input type=radio name=others value=2 %s> $passwd::text{'acl_opt'}\n",
-	$_[0]->{'others'} == 2 ? "checked" : "";
-printf "<input type=radio name=others value=0 %s> $passwd::text{'no'}</td> </tr>\n",
-	$_[0]->{'others'} == 0 ? "checked" : "";
-
-print "<tr> <td><b>$passwd::text{'acl_old'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=old value=1 %s> $passwd::text{'yes'}\n",
-	$_[0]->{'old'} == 1 ? "checked" : "";
-printf "<input type=radio name=old value=2 %s> $passwd::text{'acl_old_this'}\n",
-	$_[0]->{'old'} == 2 ? "checked" : "";
-printf "<input type=radio name=old value=0 %s> $passwd::text{'no'}</td> </tr>\n",
-	$_[0]->{'old'} == 0 ? "checked" : "";
+print &ui_table_row($passwd::text{'acl_old'},
+	&ui_radio("old", defined($o->{'old'}) ? $o->{'old'} : 0,
+		  [ [ 1, $passwd::text{'yes'} ],
+		    [ 2, $passwd::text{'acl_old_this'} ],
+		    [ 0, $passwd::text{'no'} ] ]),
+	3);
 }
 
 # acl_security_save(&options)

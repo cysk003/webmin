@@ -68,8 +68,21 @@ if ($in{'scale'}) {
 else {
 	# Just output the attachment
 	print "X-no-links: 1\n";
+	$fn = $attach->{'filename'} ? &decode_mimewords($attach->{'filename'})
+				    : "attachment";
+	$fn =~ s/[\r\n\0"\\\/]//g;
+	$fn ||= "attachment";
 	@download = split(/\t+/, $config{'download'});
-	if ($in{'type'}) {
+	if ($attach->{'type'} =~ /^image\/svg(\+xml)?/i ||
+	    $in{'type'} =~ /^image\/svg(\+xml)?/i ||
+	    $fn =~ /\.svgz?$/i) {
+		# SVG can execute scripts when served from the Webmin origin.
+		print "Content-Disposition: Attachment; filename=\"$fn\"\n"
+			if ($in{'save'});
+		print "Content-type: text/plain\n\n";
+		print $attach->{'data'};
+		}
+	elsif ($in{'type'}) {
                 # Display as a specific MIME type
                 print "Content-type: $in{'type'}\n\n";
                 print $attach->{'data'};
@@ -78,7 +91,7 @@ else {
 		# Auto-detect type
                 if ($in{'save'}) {
                         # Force download
-                        print "Content-Disposition: Attachment; filename=\"$attach->{'filename'}\"\n";
+                        print "Content-Disposition: Attachment; filename=\"$fn\"\n";
                         }
                 if ($attach->{'type'} eq 'message/delivery-status') {
                         print "Content-type: text/plain\n\n";

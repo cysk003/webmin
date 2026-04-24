@@ -120,7 +120,7 @@ acl_defserv=Servidor Padrão
 acl_apply=Pode aplicar alterações?
 acl_aliasdir=Limitar aliases ao diretório
 acl_names=Pode editar nomes de servidores?
-acl_dirs=Diretivas Apache disponíveis <br><font size=-1> (Sujeito ao limite de tipos acima) </font>
+acl_dirs=Diretivas Apache disponíveis, limitadas pelos tipos de diretiva selecionados acima
 acl_dirs0=Todos
 acl_dirs1=Apenas listado ..
 acl_dirs2=Todos, exceto listados ..

@@ -77,7 +77,7 @@ restart_ecannot=변경 사항을 적용 할 수 없습니다
 acl_apply=변경 사항을 적용 할 수 있습니까?
 acl_aliasdir=디렉토리로 별명 제한
 acl_names=서버 이름을 편집 할 수 있습니까?
-acl_dirs=Apache 지시문 사용 가능 <br><font size=-1> (위의 유형 제한에 따름) </font>
+acl_dirs=사용 가능한 Apache 지시문, 위에서 선택한 지시문 유형으로 제한됨
 acl_dirs0=모두
 acl_dirs1=목록 만 ..
 acl_dirs2=목록을 제외한 모든 ..

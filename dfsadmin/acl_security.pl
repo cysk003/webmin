@@ -5,9 +5,11 @@ require 'dfsadmin-lib.pl';
 # Output HTML for editing security options for the format module
 sub acl_security_form
 {
-print "<tr> <td><b>$text{'acl_view'}</b></td>\n";
-print "<td>",&ui_radio("view", $access{'view'}, 
-	       [ [ 0, $text{'yes'} ], [ 1, $text{'no'} ] ]),"</td> </tr>\n";
+my ($o) = @_;
+
+print &ui_table_row($text{'acl_view'},
+	&ui_radio("view", $o->{'view'},
+		  [ [ 0, $text{'yes'} ], [ 1, $text{'no'} ] ]));
 }
 
 # acl_security_save(&options)

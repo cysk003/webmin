@@ -33,7 +33,7 @@ htaccess_err=Error al crear el archivo de opciones
 defines_list=Parámetros definidos
 
 acl_aliasdir=Limite los alias al directorio
-acl_dirs=Directivas de Apache disponibles <br><font size=-1> (Sujeto al límite de tipos anterior) </font>
+acl_dirs=Directivas de Apache disponibles, limitadas por los tipos de directiva seleccionados arriba
 acl_dirs0=Todos
 acl_dirs1=Solo listado ..
 acl_dirs2=Todos excepto los enumerados.

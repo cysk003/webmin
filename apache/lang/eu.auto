@@ -331,7 +331,7 @@ acl_types=Zuzentarau motak eskuragarri
 acl_all=guztiak
 acl_sel=Hautatutako ..
 acl_names=Editatu al ditzakezu zerbitzariaren izenak?
-acl_dirs=Apache zuzentzaileak eskuragarri daude <font size=-1>(Aurreko muga moten menpe)</font>
+acl_dirs=Eskuragarri dauden Apache zuzentarauak, goian hautatutako zuzentarau motez mugatuta
 acl_dirs0=guztiak
 acl_dirs1=Zerrenda bakarra ..
 acl_dirs2=Zerrendatu guztiak ..

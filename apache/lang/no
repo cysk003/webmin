@@ -331,7 +331,7 @@ acl_types=Tilgjengelige direktivtyper
 acl_all=Alle
 acl_sel=Valgte..
 acl_names=Kan redigere tjenernavn?
-acl_dirs=Tilgjengelig Apache direktiver<br><font size=-1>(Med typebegrensninger som angitt ovenfor)</font>
+acl_dirs=Tilgjengelige Apache-direktiver, begrenset av direktivtypene som er valgt ovenfor
 acl_dirs0=Alle
 acl_dirs1=Kun de i listen ..
 acl_dirs2=Alle unntatt de i listen ..

@@ -39,7 +39,7 @@ start_eafter=Apache似乎沒有運行
 
 acl_aliasdir=將別名限制為目錄
 acl_names=可以編輯服務器名稱嗎？
-acl_dirs=可用的Apache指令<br><font size=-1>（受上述類型限制）</font>
+acl_dirs=可用的 Apache 指令，受上方所選指令類型限制
 acl_dirs0=所有
 acl_dirs1=只列出 ..
 acl_dirs2=除了列出的所有 ..

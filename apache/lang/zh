@@ -331,7 +331,7 @@ acl_types=可用的指令类型
 acl_all=全部
 acl_sel=选择的…
 acl_names=是否编辑服务器名称吗
-acl_dirs=Apache指令可用<br><font size=-1>(受上述类型限制)</font>
+acl_dirs=可用的 Apache 指令，受上方所选指令类型限制
 acl_dirs0=全部
 acl_dirs1=仅列出 ..
 acl_dirs2=除列出外的所有内容 ..

@@ -6,225 +6,173 @@ require 'user-lib.pl';
 sub acl_security_form
 {
 local $o = $_[0];
+my $uedit_group = $o->{'uedit_mode'} == 5 ?
+	join(" ", map { "".&my_getgrgid($_) } split(/\s+/, $o->{'uedit'})) : "";
 
-print "<tr> <td valign=top><b>$text{'acl_uedit'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=uedit_mode value=0 %s> $text{'acl_uedit_all'}&nbsp;&nbsp;\n",
-	$o->{'uedit_mode'} == 0 ? "checked" : "";
-printf "<input type=radio name=uedit_mode value=1 %s> $text{'acl_uedit_none'}&nbsp;\n",
-	$o->{'uedit_mode'} == 1 ? "checked" : "";
-printf "<input type=radio name=uedit_mode value=6 %s> $text{'acl_uedit_this'}<br>\n",
-	$o->{'uedit_mode'} == 6 ? "checked" : "";
-printf "<input type=radio name=uedit_mode value=2 %s> $text{'acl_uedit_only'}\n",
-	$o->{'uedit_mode'} == 2 ? "checked" : "";
-printf "<input name=uedit_can size=40 value='%s'> %s<br>\n",
-	$o->{'uedit_mode'} == 2 ? $o->{'uedit'} : "",
-	&user_chooser_button("uedit_can", 1);
-printf "<input type=radio name=uedit_mode value=3 %s> $text{'acl_uedit_except'}\n",
-	$o->{'uedit_mode'} == 3 ? "checked" : "";
-printf "<input name=uedit_cannot size=40 value='%s'> %s<br>\n",
-	$o->{'uedit_mode'} == 3 ? $o->{'uedit'} : "",
-	&user_chooser_button("uedit_cannot", 1);
-printf "<input type=radio name=uedit_mode value=4 %s> $text{'acl_uedit_uid'}\n",
-	$o->{'uedit_mode'} == 4 ? "checked" : "";
-printf "<input name=uedit_uid size=6 value='%s'> - \n",
-	$o->{'uedit_mode'} == 4 ? $o->{'uedit'} : "";
-printf "<input name=uedit_uid2 size=6 value='%s'><br>\n",
-	$o->{'uedit_mode'} == 4 ? $o->{'uedit2'} : "";
-printf "<input type=radio name=uedit_mode value=5 %s> $text{'acl_uedit_group'}\n",
-	$o->{'uedit_mode'} == 5 ? "checked" : "";
-printf "<input name=uedit_group size=40 value='%s'> %s<br>\n",
-	$o->{'uedit_mode'} == 5 ?
-	 join(" ", map { "".&my_getgrgid($_) } split(/\s+/, $o->{'uedit'})) :"",
-	&group_chooser_button("uedit_group", 1);
-printf "%s <input type=checkbox name=uedit_sec value=1 %s> %s<br>\n",
-	"&nbsp;" x 5, $o->{'uedit_sec'} ? 'checked' : '',$text{'acl_uedit_sec'};
-printf "<input type=radio name=uedit_mode value=7 %s> $text{'acl_uedit_re'}\n",
-	$o->{'uedit_mode'} == 7 ? "checked" : "";
-printf "<input name=uedit_re size=40 value='%s'> %s<br>\n",
-	$o->{'uedit_mode'} == 7 ? $o->{'uedit_re'} : "";
-print "</td> </tr>\n";
+print &ui_table_row($text{'acl_uedit'},
+	&ui_radio_table("uedit_mode",
+		defined($o->{'uedit_mode'}) ? $o->{'uedit_mode'} : 0,
+		[ [ 0, $text{'acl_uedit_all'} ],
+		  [ 1, $text{'acl_uedit_none'} ],
+		  [ 6, $text{'acl_uedit_this'} ],
+		  [ 2, $text{'acl_uedit_only'},
+		    &ui_textbox("uedit_can",
+				$o->{'uedit_mode'} == 2 ? $o->{'uedit'} : "", 40).
+		    " ".&user_chooser_button("uedit_can", 1) ],
+		  [ 3, $text{'acl_uedit_except'},
+		    &ui_textbox("uedit_cannot",
+				$o->{'uedit_mode'} == 3 ? $o->{'uedit'} : "", 40).
+		    " ".&user_chooser_button("uedit_cannot", 1) ],
+		  [ 4, $text{'acl_uedit_uid'},
+		    &ui_textbox("uedit_uid",
+				$o->{'uedit_mode'} == 4 ? $o->{'uedit'} : "", 6).
+		    " - ".&ui_textbox("uedit_uid2",
+				      $o->{'uedit_mode'} == 4 ? $o->{'uedit2'} : "", 6) ],
+		  [ 5, $text{'acl_uedit_group'},
+		    &ui_textbox("uedit_group", $uedit_group, 40)." ".
+		    &group_chooser_button("uedit_group", 1)."<br>\n".
+		    &ui_checkbox("uedit_sec", 1, $text{'acl_uedit_sec'},
+				 $o->{'uedit_sec'}) ],
+		  [ 7, $text{'acl_uedit_re'},
+		    &ui_textbox("uedit_re",
+				$o->{'uedit_mode'} == 7 ? $o->{'uedit_re'} : "", 40) ] ], 1),
+	3);
 
-print "<tr> <td><b>$text{'acl_ucreate'}</b></td> <td>\n";
-printf "<input type=radio name=ucreate value=1 %s> $text{'yes'}\n",
-	$o->{'ucreate'} ? "checked" : "";
-printf "<input type=radio name=ucreate value=0 %s> $text{'no'}</td> </tr>\n",
-	$o->{'ucreate'} ? "" : "checked";
+print &ui_table_row($text{'acl_ucreate'},
+	&ui_yesno_radio("ucreate", $o->{'ucreate'}));
+print &ui_table_row($text{'acl_batch'},
+	&ui_yesno_radio("batch", $o->{'batch'}));
 
-print "<tr> <td><b>$text{'acl_batch'}</b></td> <td>\n";
-printf "<input type=radio name=batch value=1 %s> $text{'yes'}\n",
-	$o->{'batch'} ? "checked" : "";
-printf "<input type=radio name=batch value=0 %s> $text{'no'}</td> </tr>\n",
-	$o->{'batch'} ? "" : "checked";
+print &ui_table_row($text{'acl_export'},
+	&ui_radio("export", defined($o->{'export'}) ? $o->{'export'} : 0,
+		  [ [ 2, $text{'yes'} ],
+		    [ 1, $text{'acl_export1'} ],
+		    [ 0, $text{'no'} ] ]),
+	3);
 
-print "<tr> <td><b>$text{'acl_export'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=export value=2 %s> $text{'yes'}\n",
-	$o->{'export'} == 2 ? "checked" : "";
-printf "<input type=radio name=export value=1 %s> $text{'acl_export1'}\n",
-	$o->{'export'} == 1 ? "checked" : "";
-printf "<input type=radio name=export value=0 %s> $text{'no'}</td> </tr>\n",
-	$o->{'export'} == 0 ? "checked" : "";
-
-print "<tr> <td valign=top><b>$text{'acl_uid'}</b></td>\n";
-print "<td colspan=3><input name=lowuid size=6 value='$o->{'lowuid'}'> -\n";
-print "<input name=hiuid size=6 value='$o->{'hiuid'}'><br>\n";
-printf "<input type=checkbox name=autouid value=1 %s> %s<br>\n",
-	$o->{'autouid'} ? "checked" : "", $text{'acl_autouid'};
-printf "<input type=checkbox name=calcuid value=1 %s> %s<br>\n",
-	$o->{'calcuid'} ? "checked" : "", $text{'acl_calcuid'};
-printf "<input type=checkbox name=useruid value=1 %s> %s<br>\n",
-	$o->{'useruid'} ? "checked" : "", $text{'acl_useruid'};
-printf "<input type=checkbox name=umultiple value=1 %s> %s<br>\n",
-	$o->{'umultiple'} ? "checked" : "", $text{'acl_umultiple'};
-printf "<input type=checkbox name=uuid value=1 %s> %s</td> </tr>\n",
-	$o->{'uuid'} ? "checked" : "", $text{'acl_uuid'};
+print &ui_table_row($text{'acl_uid'},
+	&ui_textbox("lowuid", $o->{'lowuid'}, 6)." - ".
+	&ui_textbox("hiuid", $o->{'hiuid'}, 6)."<br>\n".
+	join("<br>", map { &ui_checkbox($_, 1, $text{'acl_'.$_}, $o->{$_}) }
+		    ('autouid', 'calcuid', 'useruid', 'umultiple', 'uuid')),
+	3);
 
 local $uedit_gmode = defined($o->{'uedit_gmode'}) ? $o->{'uedit_gmode'} :
 		     $o->{'ugroups'} eq '*' ? 0 : 2;
-print "<tr> <td valign=top><b>$text{'acl_ugroups'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=uedit_gmode value=0 %s> $text{'acl_gedit_all'}<br>\n",
-	$uedit_gmode == 0 ? "checked" : "";
-printf "<input type=radio name=uedit_gmode value=2 %s> $text{'acl_gedit_only'}\n",
-	$uedit_gmode == 2 ? "checked" : "";
-printf "<input name=uedit_gcan size=40 value='%s'> %s<br>\n",
-	$uedit_gmode == 2 ? $o->{'ugroups'} : "",
-	&group_chooser_button("uedit_gcan", 1);
-printf "<input type=radio name=uedit_gmode value=3 %s> $text{'acl_gedit_except'}\n",
-	$uedit_gmode == 3 ? "checked" : "";
-printf "<input name=uedit_gcannot size=40 value='%s'> %s<br>\n",
-	$uedit_gmode == 3 ? $o->{'ugroups'} : "",
-	&group_chooser_button("uedit_gcannot", 1);
-printf "<input type=radio name=uedit_gmode value=4 %s> $text{'acl_gedit_gid'}\n",
-	$uedit_gmode == 4 ? "checked" : "";
-printf "<input name=uedit_gid size=6 value='%s'> -\n",
-	$uedit_gmode == 4 ? $o->{'ugroups'} : "";
-printf "<input name=uedit_gid2 size=6 value='%s'></td> </tr>\n",
-	$uedit_gmode == 4 ? $o->{'ugroups2'} : "";
 
-print "<tr> <td valign=top><b>$text{'acl_shells'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=shells_def value=1 %s> $text{'acl_any'}\n",
-	$o->{'shells'} eq "*" ? "checked" : "";
-printf "<input type=radio name=shells_def value=0 %s> $text{'acl_listed'}<br>\n",
-	$o->{'shells'} eq "*" ? "" : "checked";
-print "<textarea name=shells rows=3 cols=40>",
-	$o->{'shells'} eq "*" ? "" : join("\n", split(/\s+/, $o->{'shells'})),
-	"</textarea></td> </tr>\n";
+print &ui_table_row($text{'acl_ugroups'},
+	&ui_radio_table("uedit_gmode", $uedit_gmode,
+		[ [ 0, $text{'acl_gedit_all'} ],
+		  [ 2, $text{'acl_gedit_only'},
+		    &ui_textbox("uedit_gcan",
+				$uedit_gmode == 2 ? $o->{'ugroups'} : "", 40).
+		    " ".&group_chooser_button("uedit_gcan", 1) ],
+		  [ 3, $text{'acl_gedit_except'},
+		    &ui_textbox("uedit_gcannot",
+				$uedit_gmode == 3 ? $o->{'ugroups'} : "", 40).
+		    " ".&group_chooser_button("uedit_gcannot", 1) ],
+		  [ 4, $text{'acl_gedit_gid'},
+		    &ui_textbox("uedit_gid",
+				$uedit_gmode == 4 ? $o->{'ugroups'} : "", 6).
+		    " - ".&ui_textbox("uedit_gid2",
+				      $uedit_gmode == 4 ? $o->{'ugroups2'} : "", 6) ] ], 1),
+	3);
 
-print "<tr> <td><b>$text{'acl_epeopt'}</b></td> <td>\n";
-printf "<input type=radio name=peopt value=1 %s> $text{'yes'}\n",
-	$o->{'peopt'} ? "checked" : "";
-printf "<input type=radio name=peopt value=0 %s> $text{'no'}</td> </tr>\n",
-	$o->{'peopt'} ? "" : "checked";
+print &ui_table_row($text{'acl_shells'},
+	&ui_radio_table("shells_def", $o->{'shells'} eq "*" ? 1 : 0,
+		[ [ 1, $text{'acl_any'} ],
+		  [ 0, $text{'acl_listed'},
+		    &ui_textarea("shells",
+				 $o->{'shells'} eq "*" ? "" :
+				 join("\n", split(/\s+/, $o->{'shells'} || "")),
+				 3, 40) ] ], 1),
+	3);
 
-print "<tr> <td valign=top><b>$text{'acl_home'}</b></td>\n";
-printf "<td colspan=3><input name=home size=40 value='%s'> %s<br>\n",
-	$o->{'home'}, &file_chooser_button("home", 1);
-printf "<input type=checkbox name=autohome value=1 %s> %s</td> </tr>\n",
-	$o->{'autohome'} ? "checked" : "",
-	$text{'acl_autohome'};
+print &ui_table_row($text{'acl_epeopt'},
+	&ui_yesno_radio("peopt", $o->{'peopt'}));
 
-print "<tr> <td><b>$text{'acl_udelete'}</b></td> <td>\n";
-printf "<input type=radio name=udelete value=1 %s> $text{'yes'}\n",
-	$o->{'udelete'} ? "checked" : "";
-printf "<input type=radio name=udelete value=0 %s> $text{'no'}</td> </tr>\n",
-	$o->{'udelete'} ? "" : "checked";
+print &ui_table_row($text{'acl_home'},
+	&ui_textbox("home", $o->{'home'}, 40)." ".
+	&file_chooser_button("home", 1)."<br>\n".
+	&ui_checkbox("autohome", 1, $text{'acl_autohome'}, $o->{'autohome'}),
+	3);
 
-print "<tr> <td><b>$text{'acl_urename'}</b></td> <td>\n";
-printf "<input type=radio name=urename value=1 %s> $text{'yes'}\n",
-	$o->{'urename'} ? "checked" : "";
-printf "<input type=radio name=urename value=0 %s> $text{'no'}</td> </tr>\n",
-	$o->{'urename'} ? "" : "checked";
+print &ui_table_row($text{'acl_udelete'},
+	&ui_yesno_radio("udelete", $o->{'udelete'}));
+print &ui_table_row($text{'acl_urename'},
+	&ui_yesno_radio("urename", $o->{'urename'}));
 
-print "<tr> <td valign=top><b>$text{'acl_delhome'}</b></td>\n";
-print "<td colspan=3>",&ui_radio("delhome", $o->{'delhome'},
-			  [ [ 2, $text{'acl_option'} ],
-			    [ 1, $text{'acl_always'} ],
-			    [ 0, $text{'acl_never'} ] ]),"</td> </tr>\n";
+print &ui_table_row($text{'acl_delhome'},
+	&ui_radio("delhome", $o->{'delhome'},
+		  [ [ 2, $text{'acl_option'} ],
+		    [ 1, $text{'acl_always'} ],
+		    [ 0, $text{'acl_never'} ] ]),
+	3);
 
-# 0 = always on, 1 = can edit, 2 = always off
-print "<tr> <td valign=top><b>$text{'acl_saveopts'}</b></td> ",
-      "<td colspan=3><table>\n";
-foreach $opt ('chuid', 'chgid', 'movehome', 'mothers',
-	      'makehome', 'copy', 'cothers', 'dothers') {
-	print "<tr> <td>",$text{"uedit_$opt"},"</td>\n";
-	printf "<td><input type=radio name=$opt value=1 %s> %s\n",
-		$o->{$opt} == 1 ? "checked" : "", $text{'acl_canedit'};
-	printf "<input type=radio name=$opt value=0 %s> %s\n",
-		$o->{$opt} == 0 ? "checked" : "", $text{'acl_on'};
-	printf "<input type=radio name=$opt value=2 %s> %s</td> </tr>\n",
-		$o->{$opt} == 2 ? "checked" : "", $text{'acl_off'};
+print &ui_table_span($text{'acl_saveopts'});
+foreach my $opt ('chuid', 'chgid', 'movehome', 'mothers',
+		 'makehome', 'copy', 'cothers', 'dothers') {
+	print &ui_table_row($text{"uedit_$opt"},
+		&ui_radio($opt, defined($o->{$opt}) ? $o->{$opt} : 0,
+			  [ [ 1, $text{'acl_canedit'} ],
+			    [ 0, $text{'acl_on'} ],
+			    [ 2, $text{'acl_off'} ] ]),
+		3);
 	}
-print "</table></td> </tr>\n";
 
-print "<tr> <td colspan=4><hr></td> </tr>\n";
+print &ui_table_hr();
 
-print "<tr> <td valign=top><b>$text{'acl_gedit'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=gedit_mode value=0 %s> $text{'acl_gedit_all'}&nbsp;&nbsp;\n",
-	$o->{'gedit_mode'} == 0 ? "checked" : "";
-printf "<input type=radio name=gedit_mode value=1 %s> $text{'acl_gedit_none'}<br>\n",
-	$o->{'gedit_mode'} == 1 ? "checked" : "";
-printf "<input type=radio name=gedit_mode value=2 %s> $text{'acl_gedit_only'}\n",
-	$o->{'gedit_mode'} == 2 ? "checked" : "";
-printf "<input name=gedit_can size=40 value='%s'> %s<br>\n",
-	$o->{'gedit_mode'} == 2 ? $o->{'gedit'} : "",
-	&group_chooser_button("gedit_can", 1);
-printf "<input type=radio name=gedit_mode value=3 %s> $text{'acl_gedit_except'}\n",
-	$o->{'gedit_mode'} == 3 ? "checked" : "";
-printf "<input name=gedit_cannot size=40 value='%s'> %s<br>\n",
-	$o->{'gedit_mode'} == 3 ? $o->{'gedit'} : "",
-	&group_chooser_button("gedit_cannot", 1);
-printf "<input type=radio name=gedit_mode value=4 %s> $text{'acl_gedit_gid'}\n",
-	$o->{'gedit_mode'} == 4 ? "checked" : "";
-printf "<input name=gedit_gid size=6 value='%s'> -\n",
-	$o->{'gedit_mode'} == 4 ? $o->{'gedit'} : "";
-printf "<input name=gedit_gid2 size=6 value='%s'></td> </tr>\n",
-	$o->{'gedit_mode'} == 4 ? $o->{'gedit2'} : "";
+print &ui_table_row($text{'acl_gedit'},
+	&ui_radio_table("gedit_mode",
+		defined($o->{'gedit_mode'}) ? $o->{'gedit_mode'} : 0,
+		[ [ 0, $text{'acl_gedit_all'} ],
+		  [ 1, $text{'acl_gedit_none'} ],
+		  [ 2, $text{'acl_gedit_only'},
+		    &ui_textbox("gedit_can",
+				$o->{'gedit_mode'} == 2 ? $o->{'gedit'} : "", 40).
+		    " ".&group_chooser_button("gedit_can", 1) ],
+		  [ 3, $text{'acl_gedit_except'},
+		    &ui_textbox("gedit_cannot",
+				$o->{'gedit_mode'} == 3 ? $o->{'gedit'} : "", 40).
+		    " ".&group_chooser_button("gedit_cannot", 1) ],
+		  [ 4, $text{'acl_gedit_gid'},
+		    &ui_textbox("gedit_gid",
+				$o->{'gedit_mode'} == 4 ? $o->{'gedit'} : "", 6).
+		    " - ".&ui_textbox("gedit_gid2",
+				      $o->{'gedit_mode'} == 4 ? $o->{'gedit2'} : "", 6) ] ], 1),
+	3);
 
-print "<tr> <td><b>$text{'acl_gcreate'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=gcreate value=1 %s> $text{'yes'}\n",
-	$o->{'gcreate'}==1 ? "checked" : "";
-printf "<input type=radio name=gcreate value=2 %s> $text{'acl_gnew'}\n",
-	$o->{'gcreate'}==2 ? "checked" : "";
-printf "<input type=radio name=gcreate value=0 %s> $text{'no'}</td> </tr>\n",
-	$o->{'gcreate'}==0 ? "checked" : "";
+print &ui_table_row($text{'acl_gcreate'},
+	&ui_radio("gcreate", defined($o->{'gcreate'}) ? $o->{'gcreate'} : 0,
+		  [ [ 1, $text{'yes'} ],
+		    [ 2, $text{'acl_gnew'} ],
+		    [ 0, $text{'no'} ] ]),
+	3);
 
-print "<tr> <td valign=top><b>$text{'acl_gid'}</b></td>\n";
-print "<td colspan=3><input name=lowgid size=6 value='$o->{'lowgid'}'> -\n";
-print "<input name=higid size=6 value='$o->{'higid'}'><br>\n";
-printf "<input type=checkbox name=autogid value=1 %s> %s<br>\n",
-	$o->{'autogid'} ? "checked" : "", $text{'acl_autogid'};
-printf "<input type=checkbox name=calcgid value=1 %s> %s<br>\n",
-	$o->{'calcgid'} ? "checked" : "", $text{'acl_calcgid'};
-printf "<input type=checkbox name=usergid value=1 %s> %s<br>\n",
-	$o->{'usergid'} ? "checked" : "", $text{'acl_usergid'};
-printf "<input type=checkbox name=gmultiple value=1 %s> %s<br>\n",
-	$o->{'gmultiple'} ? "checked" : "", $text{'acl_gmultiple'};
-printf "<input type=checkbox name=ggid value=1 %s> %s</td> </tr>\n",
-	$o->{'ggid'} ? "checked" : "", $text{'acl_ggid'};
+print &ui_table_row($text{'acl_gid'},
+	&ui_textbox("lowgid", $o->{'lowgid'}, 6)." - ".
+	&ui_textbox("higid", $o->{'higid'}, 6)."<br>\n".
+	join("<br>", map { &ui_checkbox($_, 1, $text{'acl_'.$_}, $o->{$_}) }
+		    ('autogid', 'calcgid', 'usergid', 'gmultiple', 'ggid')),
+	3);
 
-print "<tr> <td><b>$text{'acl_gdelete'}</b></td> <td>\n";
-printf "<input type=radio name=gdelete value=1 %s> $text{'yes'}\n",
-	$o->{'gdelete'} ? "checked" : "";
-printf "<input type=radio name=gdelete value=0 %s> $text{'no'}</td> </tr>\n",
-	$o->{'gdelete'} ? "" : "checked";
+print &ui_table_row($text{'acl_gdelete'},
+	&ui_yesno_radio("gdelete", $o->{'gdelete'}));
+print &ui_table_row($text{'acl_grename'},
+	&ui_yesno_radio("grename", $o->{'grename'}));
 
-print "<tr> <td><b>$text{'acl_grename'}</b></td> <td>\n";
-printf "<input type=radio name=grename value=1 %s> $text{'yes'}\n",
-	$o->{'grename'} ? "checked" : "";
-printf "<input type=radio name=grename value=0 %s> $text{'no'}</td> </tr>\n",
-	$o->{'grename'} ? "" : "checked";
+print &ui_table_hr();
 
-print "<tr> <td colspan=4><hr></td> </tr>\n";
-
-print "<tr><td valign=top><b>$text{'acl_logins'}</b></td> <td colspan=3>\n";
-printf "<input type=radio name=logins_mode value=0 %s> $text{'acl_lnone'}<br>\n",
-	$o->{'logins'} ? "" : "checked";
-printf "<input type=radio name=logins_mode value=1 %s> $text{'acl_lall'}<br>\n",
-	$o->{'logins'} eq "*" ? "checked" : "";
-printf "<input type=radio name=logins_mode value=2 %s>\n",
-	$o->{'logins'} =~ /[^\*]/ ? "checked" : "";
-printf "<input name=logins size=40 value='%s'> %s</td> </tr>\n",
-	$o->{'logins'} =~ /[^\*]/ ? $o->{'logins'} : "",
-	&user_chooser_button("logins", 1);
+my $logins_mode = !$o->{'logins'} ? 0 : $o->{'logins'} eq "*" ? 1 : 2;
+print &ui_table_row($text{'acl_logins'},
+	&ui_radio_table("logins_mode", $logins_mode,
+		[ [ 0, $text{'acl_lnone'} ],
+		  [ 1, $text{'acl_lall'} ],
+		  [ 2, "",
+		    &ui_textbox("logins",
+				$logins_mode == 2 ? $o->{'logins'} : "", 40)." ".
+		    &user_chooser_button("logins", 1) ] ], 1),
+	3);
 }
 
 # acl_security_save(&options)
