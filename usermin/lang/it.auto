@@ -5,7 +5,10 @@ access_desc=Usermin può essere configurato per negare o consentire l'accesso so
 lang_title=Lingua e località
 lang_title2=Usermin Lingua e Locale
 
+session_header=Opzioni di autenticazione e sessione
+session_remember=Offrire un'opzione "Ricordami" per gli accessi permanenti?
 session_authmode=Metodo di autenticazione
+session_forgot=Consentire il recupero della password dimenticata?
 
 ssl_savekey=Questo modulo consente di caricare una chiave privata SSL esistente in formato PEM e un certificato che il server Usermin può utilizzare.
 ssl_copycert=Copia certificato da Webmin

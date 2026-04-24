@@ -54,8 +54,6 @@ lang_intro=Questa pagina ti permette di scegliere quale lingua Usermin userà.
 
 session_title=Autenticazione
 session_desc1=Quando è abilitato, il tempo di attesa della password protegge il tuo server Usermin dagli attacchi a forza bruta aggiungento un tempo di attesa sempre maggiore tra i vari tentativi di accesso falliti dello stesso utente.
-session_desc2=Quando la sessione di autenticazione è abilitata, ogni sessione utente sarà tracciata da Usermin, rendendo possibile l'uscita da Usermin dopo un predeterminato tempo di inattività. Siate consapevoli che abilitare o disabilitare l'autenticazione di sessione può forzare tutti gli utenti a riaccedere.
-session_remember=Offri di ricordare l'accesso permanentemente?
 session_hostname=Visualizza il nome del server alla videata di accesso?
 session_realname=Mostrare il nome host reale invece del nome dall'URL?
 session_authmode0=Usa PAM per l'autenticazione, se disponibile
@@ -125,7 +123,6 @@ acl_desc=Usa questa pagina per selezionare quali moduli Usermin installati saran
 
 ssl_title=Cifratura SSL
 ssl_desc1=Il server dove sta girando Usermin ha il modulo perl SSLeay installato. Usando questo, Usermin supporta la cifratura SSL tra il tuo browser e il server.
-ssl_desc2=Attenzione - Attiva il supporto SSL solo se hai un browser che supporta SSL (come Netscape o IE) e non c'è un firewall che blocchi le richieste https tra il browser e il server Usermin.
 ssl_newkey=Questo modulo può essere usato per creare una nuova chiave SSL per il server Usermin.
 ssl_hole=Attualmente stai usando la chiave SSL di Usermin predefinita. E' consigliabile generare una nuova chiave immediatamente, altrimenti le tue connessioni SSL non saranno sicure!
 

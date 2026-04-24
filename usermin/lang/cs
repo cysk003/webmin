@@ -54,8 +54,6 @@ lang_intro=Tato stránka umožňuje změnit jazyk, ve kterém Usermin bide zobra
 
 session_title=Autentikace
 session_desc1=Pokud je funkční, časová prodleva u hesla zabezpečí váš Usermin server před brutálním crackováním hesel tak, že průběžně prodlužuje čas mezi každým chybným pokusem o přihlášení jednoho a toho samého uživatele.
-session_desc2=Jestliže je autentifikace relace funkční, každá relace přihlášeného uživatele bude Userminem sledována tak, že povolí možnost automatického odhlášení při nečinnosti uživatele. BUte opatrní při zapínání a vypínání autentifikace relace, protože tato činnost může požadovat po přihlášených uživatelích opětovné přihlášení.
-session_remember=Nabízet permanetní pamatování přihlášení?
 session_hostname=Ukázat jméno hosta na obrazovce s přihlášením?
 session_realname=Zobrazit skutečné jméno namísto jména z URL?
 session_authmode0=Použít PAM pro Unix autentifikaci, je-li to možné
@@ -125,7 +123,6 @@ acl_desc=Použít tuto stránky pro výběr těch nainstalovaných Usermin modul
 
 ssl_title=SSL kryptování
 ssl_desc1=Host, na kterém běží Usermin, umožňuje nainstalovat modul Perlu SSLe. Pokud toho využijete, Usermin umožní komunikaci pomocí SSL kryptování mezi prohlížečem a serverem. Pokud přistupujete k serveru Userminu prostřednictvím Internetu, můžete použitím SSL zásadně vyřešit problém útoků prostřednictvím hesla ve Userminu.
-ssl_desc2=Pozor - podporuje-li váš prohlížeč SSL (jako Netscape nebo iE), pak zapněte podporu SSL. Z8roveň firewall nesmí blokovat https požadavky mez prohlížečem a Usermin hostem.
 ssl_newkey=Tento formulář umožňuje definovat nový SSL klíč pro přístup k Usermin serveru.
 ssl_hole=Jelikož právě používáte výchozí Usermin SSL klíč (a tím pádem má přístup kdokoliv), měli byste generovat neprodleně nový klíč. V opačném případě neví vaše SSL připojení bezpečné!
 

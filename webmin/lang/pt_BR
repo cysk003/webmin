@@ -507,7 +507,6 @@ session_eblockuser_time=Tempo de bloqueio de usuário inválido ou faltando
 session_eblockuser_failures=Logins de usuários bloqueados inválido ou faltando
 session_ecookie=Seu navegador não suporta cookies, o que é requerido para autenticação de sessão
 session_elsof=Autenticação local requer o programa <tt>lsof</tt>
-session_remember=Oferecer opção de lembrar o login permanentemente ?
 session_hostname=Exibir hostname na tela de login ?
 session_realname=Exibir nome do computador real no lugar do nome da URL?
 session_pamon=Utilizar autenticação PAM para Unix, se disponível

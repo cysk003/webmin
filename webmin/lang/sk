@@ -455,7 +455,6 @@ session_eblockhost_time=Chybný alebo chýbajúci blokovací čas
 session_eblockhost_failures=Chybný alebo chýbajúci súbor zakázaných príhlásení
 session_ecookie=Váš prehliadač nepodporuje cookies, ktoré sú potrebné pre session autentifikáciu
 session_elsof=Lokálna autentifikácia vyžaduje program <tt>lsof</tt>
-session_remember=Ponúknuť zapamätanie si prihlásenia?
 session_hostname=Zobraziť meno na prihlasovacej obrazovke?
 session_realname=Ukázať skutočné meno namiesto mena z URL?
 session_pamon=Ak je možné, tak vždy použiť PAM pre Unixovú autentifikáciu

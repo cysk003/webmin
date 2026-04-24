@@ -325,7 +325,6 @@ session_eblockhost_time=沒有輸入或無效的禁止時間
 session_eblockhost_failures=沒有輸入或無效的禁止登入
 session_ecookie=您的瀏覽器不支援cookies,這是session認證所需要的
 session_elsof=本地端認證需意 <tt>lsof</tt> 程式
-session_remember=顯示記得上次登入?
 session_hostname=顯示主機名稱在登入畫面?
 session_realname=顯示真實主機名稱而非網址名稱
 session_pamon=如果可以的話，使用Unix的PAM認證

@@ -6,6 +6,7 @@ ssl_letserr2=Alternativ können Sie auf der <a href='$1'>Modulkonfigurationsseit
 
 ssl_letsdesc2=Das neue Zertifikat ersetzt das aktuell in Webmin konfigurierte. Bevor es ausgestellt werden kann, muss der ACME-Anbieter die Kontrolle über jeden Hostnamen entweder mithilfe einer temporären Datei im Dokumentenverzeichnis der Website oder eines temporären DNS-TXT-Eintrags überprüfen.
 ssl_letsmode=Domänenvalidierungsmethode
+ssl_certbotprehook=Diese Warnung kann jedoch ignoriert werden, wenn der Pre-Request-Befehl den Dienst über Port 80 stoppt, bevor Certbot ausgeführt wird.
 ssl_staging=Provider-Server
 ssl_staging0=Produktion
 ssl_staging1=Staging (nur Test)
@@ -18,6 +19,7 @@ ssl_acmekiddesc=Optional. Einige ACME-Anbieter benötigen dies zusätzlich zur V
 ssl_acmehmac=HMAC-Schlüssel für die externe Kontobindung
 ssl_acmehmacdesc=Optional. Erfordert bei Verwendung den nativen Certbot-Client.
 
+session_remember=Bieten Sie eine „Angemeldet bleiben“-Option für dauerhafte Logins an?
 session_rpc_timeout=RPC-Sitzungstimeout
 session_erpc_timeout=Das Timeout für die RPC-Sitzung fehlt oder muss eine Zahl größer als 0 sein
 session_edigestcrypt=Das Hash-Format $1 kann nicht verwendet werden, da die Systemfunktion <tt>crypt</tt> es nicht unterstützt
@@ -39,6 +41,8 @@ letsencrypt_eacmedir=Fehlende oder ungültige ACME-Verzeichnis-URL
 letsencrypt_eeabdir=Bei Verwendung der externen Kontobindung muss eine ACME-Verzeichnis-URL eingegeben werden
 letsencrypt_eeabpair=Sowohl die Schlüssel-ID für die externe Kontobindung als auch der HMAC-Schlüssel müssen eingegeben werden
 letsencrypt_eeabnative=Die externe Kontobindung kann nur verwendet werden, wenn der native ACME-Client installiert ist
+letsencrypt_ecertbotport=Die Certbot-Validierung benötigt freien TCP-Port 80, der jedoch bereits von einem anderen Dienst verwendet wird. Beenden Sie diesen Dienst vorübergehend oder verwenden Sie stattdessen Webroot- oder DNS-Validierung.
+letsencrypt_ecertbotwebmin=Die Certbot-Validierung kann nicht verwendet werden, solange Webmin auf TCP-Port 80 lauscht. Verwenden Sie stattdessen die Webroot- oder DNS-Validierung oder wechseln Sie Webmin auf einen anderen Port.
 letsencrypt_enative=Der native ACME-Client (certbot) wurde zuvor auf diesem System verwendet und muss für alle zukünftigen Zertifikatsanforderungen verwendet werden
 letsencrypt_eacmedns=Nur der native ACME-Client unterstützt die DNS-basierte Validierung
 letsencrypt_eacmecertbot=Nur der native ACME-Client unterstützt die Certbot-Validierung

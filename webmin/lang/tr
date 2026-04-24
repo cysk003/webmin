@@ -357,7 +357,6 @@ session_eblockhost_time=Eksik ya da yanlış engelleme süresi
 session_eblockhost_failures=Eksik ya da yanlış engelleme girişi
 session_ecookie=Tarayıcınız session onaylaması için gerekli olan cookie'leri desteklemiyor
 session_elsof=Yerel onaylama <tt>lsof</tt> programına ihtiyaç duymaktadır
-session_remember=Girişi kalıcı olarak hatırlaması teklif edilsin mi?
 session_hostname=Giriş ekranında makine adı gösterilsin?
 session_realname=URL'deki isim yerine her zaman gerçek makine adı gösterilsin mi?
 session_pamon=Unix onaylaması için PAM kullan, mümkünse

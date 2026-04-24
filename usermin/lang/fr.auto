@@ -3,6 +3,10 @@ access_desc=Usermin peut être configuré pour refuser ou autoriser l'accès uni
 lang_title=Langue et paramètres régionaux
 lang_title2=Langue et paramètres régionaux Usermin
 
+session_header=Options d'authentification et de session
+session_remember=Proposer une option « Se souvenir de moi » pour les connexions permanentes ?
+session_forgot=Autoriser la récupération des mots de passe oubliés ?
+
 ui_show=Affichage sur le tableau de bord
 ui_show_host=Nom d'hôte du système
 ui_show_os=Système opérateur

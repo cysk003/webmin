@@ -575,7 +575,6 @@ session_eblockuser_time=Hi falta el temps de bloqueig de l'usuari o bé és inv�
 session_eblockuser_failures=Hi falta el nombre d'entrades bloquejants de l'usuari o bé és invàlid
 session_ecookie=El teu navegador no suporta galetes, que són necessàries per a l'autenticació de la sessió
 session_elsof=L'autenticació local requereix el programa <tt>lsof</tt>
-session_remember=Ofereix-te a recordar la contrasenya de forma permanent
 session_ip=Limita les sessions a la mateixa adreça IP client
 session_hostname=Mostra el nom de host a la pantalla de connexió
 session_realname=Mostra el nom de host real en lloc del nom de l'URL

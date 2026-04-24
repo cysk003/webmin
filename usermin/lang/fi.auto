@@ -57,9 +57,9 @@ lang_title2=Userminin kieli ja kielialue
 lang_intro=Tällä sivulla voit valita, mitä kieltä Usermin käyttää nimikkeiden, kehotteiden ja viestien näyttämiseen
 
 session_title=Authentication
+session_header=Todennus- ja istuntoasetukset
 session_desc1=Kun tämä on käytössä, salasanan aikakatkaisut suojaavat Usermin-palvelinta suojattomalta salasanan murtautumiselta lisäämällä jatkuvasti kasvavaa viivettä saman käyttäjän jokaisen epäonnistuneen kirjautumisyrityksen väliin.
-session_desc2=Kun istunnon todennus on käytössä, Usermin seuraa kaikkia kirjautuneiden käyttäjien istuntoja, jolloin käyttämättömät käyttäjät voidaan kirjautua ulos automaattisesti. Muista, että istunnon todennuksen ottaminen käyttöön tai poistaminen käytöstä voi pakottaa kaikki käyttäjät kirjautumaan uudelleen sisään.
-session_remember=Tarjoaako muistaa kirjautumisen pysyvästi?
+session_remember=Tarjoatko muista minut -vaihtoehtoa pysyville kirjautumisille?
 session_hostname=Näytä isäntänimi kirjautumisnäytössä?
 session_realname=Näytetäänkö oikea isäntänimi URL-osoitteen nimen sijaan?
 session_authmode=Todennus tapa
@@ -79,6 +79,7 @@ session_blank=Pyydä käyttäjiä, joiden salasana on tyhjä, valitsemaan salasa
 session_homedir=Luo puuttuvia kotihakemistoja kirjautumisen jälkeen?
 session_homedir_perms=Uuden hakemiston käyttöoikeudet
 session_ehomedir_perms=Puuttuvat tai virheelliset oktaalihakemiston käyttöoikeudet
+session_forgot=Sallitaanko unohtuneen salasanan palautus?
 
 themes_title=Usermin-teemat
 themes_desc=Teemat hallitsevat Usermin-käyttöliittymän ulkonäköä, mukaan lukien kuvakkeet, värit, taustat ja mahdollisesti sivujen asettelut. Alla olevaa valintaruutua voidaan käyttää valitsemalla yksi järjestelmään asennetuista teemoista, jotka ovat oletusarvoja Usermin-käyttäjille.
@@ -130,7 +131,6 @@ acl_desc=Tämän sivun avulla voit valita, mitkä asennetut Usermin-moduulit nä
 
 ssl_title=SSL-salaus
 ssl_desc1=Isäntänä, jolla Usermin toimii, näyttää olevan asennettu SSLeay Perl-moduuli. Tämän avulla Usermin tukee SSL-salattua tiedonsiirtoa selaimesi ja palvelimen välillä. Jos käyttäjät käyttävät Usermin-palvelinta Internetin kautta, sinun kannattaa ehdottomasti harkita SSL: n käyttöä estämään hyökkääjää sieppaamasta salasanoja.
-ssl_desc2=Varoitus - ota SSL-tuki käyttöön vain, jos sinulla on SSL: tä tukeva selain, eikä selaimesi ja Usermin-isäntän välillä ole palomuuria, jotka estäisivät <tt>https</tt> -pyyntöjä.
 ssl_newkey=Tätä lomaketta voidaan käyttää uuden SSL-avaimen luomiseen Usermin-palvelimellesi.
 ssl_hole=Koska käytät tällä hetkellä oletusarvoista Usermin SSL-avainta, johon kaikilla on pääsy, sinun tulee luoda uusi avain heti. Muuten SSL-yhteytesi ei ole turvallinen!
 ssl_savekey=Tämän lomakkeen avulla voit lähettää olemassa olevan PEM-muodossa olevan SSL-yksityisen avaimen ja sertifikaatin käyttäjän Usermin-palvelimen käytettäväksi.

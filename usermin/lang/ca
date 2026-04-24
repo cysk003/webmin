@@ -55,8 +55,6 @@ lang_intro=Aquesta pàgina permet canviar amb quin idioma Usermin mostrarà els 
 
 session_title=Autenticació
 session_desc1=Quan està activat, el límit de temps de contrasenya protegeix el servidor Usermin dels atacs de saqueig de contrasenyes per la força bruta afegint un interval creixent entre cada intent fallit de connexió per al mateix usuari.
-session_desc2=Quan l'autenticació de sessió està activada, la sessió de cada usuari serà monitoritzada per Usermin, de manera que sigui possible d'expulsar usuaris inactius automàticament. Tingues en compte que activar o desactivar l'autenticació de sessió pot forçar tots els usuaris a tornar-se a connectar.
-session_remember=Ofereix-te a recordar la contrasenya de forma permanent
 session_hostname=Mostra el nom de host a la pantalla de connexió
 session_realname=Mostra el nom de host real en lloc del nom de l'URL
 session_authmode=Mètode d'autenticació
@@ -127,7 +125,6 @@ acl_desc=Utilitza aquesta pàgina per seleccionar quins mòduls instal·lats d'U
 
 ssl_title=Xifratge SSL
 ssl_desc1=No sembla que el host on s'està executant Usermin tingui instal·lat el mòdul perl SSLeay. Amb això, Usermin suporta comunicació xifrada SSL entre el navegador i el servidor. Si els usuaris accedeixen al servidor Usermin a través d'Internet, llavors has de considerar seriosament utilitzar SSL per evitar que un atacant els prengui les contrasenyes.
-ssl_desc2=Atenció - activa el suport SSL només si tens un navegador que suporti SSL, i no hi ha cap tallafoc bloquejant les peticions <tt>https</tt> entre el navegador i el host Usermin.
 ssl_newkey=Aquest formulari es pot utilitzar per crear una nova clau SSL per al servidor Usermin.
 ssl_hole=Com que actualment estàs utilitzant la clau SSL per defecte d'Usermin a la qual tothom té accés, hauries de generar immediatament una clau nova. Altrament, la teva connexió SSL no serà segura!
 ssl_savekey=Aquest formulari permet carregar un certificat i una clau privada SSL existents en format PEM per a ús del servidor Usermin.

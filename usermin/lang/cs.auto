@@ -5,7 +5,10 @@ access_desc=Usermin lze nakonfigurovat tak, aby zakázal nebo povolil přístup 
 lang_title=Jazyk a národní prostředí
 lang_title2=Jazyk a národní prostředí Usermin
 
+session_header=Možnosti ověřování a relace
+session_remember=Nabízet možnost zapamatování si pro trvalé přihlášení?
 session_authmode=Metoda ověřování
+session_forgot=Povolit obnovení zapomenutého hesla?
 
 ssl_savekey=Tento formulář umožňuje nahrát existující soukromý klíč SSL certifikátu ve formátu PEM a certifikát, který váš server Usermin použije.
 ssl_copycert=Kopírovat certifikát z Webmin

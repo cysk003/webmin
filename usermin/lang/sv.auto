@@ -57,9 +57,9 @@ lang_title2=Användarmin språk och språk
 lang_intro=På denna sida kan du välja vilket språk Usermin ska använda för att visa titlar, instruktioner och meddelanden
 
 session_title=autentisering
+session_header=Autentiserings- och sessionsalternativ
 session_desc1=När det är aktiverat skyddar lösenordsgränser din Usermin-server från brute-force lösenordskrackningsattacker genom att lägga till en kontinuerligt expanderande fördröjning mellan varje misslyckad inloggningsförsök för samma användare.
-session_desc2=När sessionautentisering är aktiverad spåras varje inloggad användarsession av Usermin, vilket gör det möjligt för inaktiva användare att automatiskt loggas ut. Var medveten om att aktivering eller inaktivering av sessionens autentisering kan tvinga alla användare att logga in igen.
-session_remember=Erbjuder du att komma ihåg inloggning permanent?
+session_remember=Erbjuda ett kom ihåg-mig-alternativ för permanenta inloggningar?
 session_hostname=Visa värdnamn på inloggningsskärmen?
 session_realname=Visa riktigt värdnamn istället för namn från URL?
 session_authmode=Autentiseringsmetod
@@ -79,6 +79,7 @@ session_blank=Fråga användare med tomt lösenord att välja ett vid första in
 session_homedir=Skapa saknade hemkataloger efter inloggning?
 session_homedir_perms=Behörigheter för ny katalog
 session_ehomedir_perms=Saknade eller ogiltiga behörigheter för octala hemkataloger
+session_forgot=Tillåt återställning av glömt lösenord?
 
 themes_title=Usermin-teman
 themes_desc=Teman styr utseendet på Usermin användargränssnitt, inklusive ikoner, färger, bakgrunder och eventuellt sidens layout. Markeringsrutan nedan kan användas för att välja ett av teman installerade på ditt system som kommer att vara standard för Usermin-användare.
@@ -130,7 +131,6 @@ acl_desc=Använd den här sidan för att välja vilka installerade Usermin-modul
 
 ssl_title=SSL-kryptering
 ssl_desc1=Värden som Usermin kör på verkar ha SSLeay Perl-modulen installerad. Med detta stöder Usermin SSL-krypterad kommunikation mellan din webbläsare och servern. Om användare har åtkomst till din Usermin-server via Internet, bör du definitivt överväga att använda SSL för att förhindra att en angripare fångar sina lösenord.
-ssl_desc2=Varning - slå bara på SSL-stöd om du har en webbläsare som stöder SSL och det inte finns någon brandvägg som blockerar <tt>https</tt> förfrågningar mellan din webbläsare och Usermin-värden.
 ssl_newkey=Det här formuläret kan användas för att skapa en ny SSL-nyckel för din Usermin-server.
 ssl_hole=Eftersom du för närvarande använder standard Usermin SSL-nyckeln som alla har tillgång till bör du generera en ny nyckel omedelbart. Annars är din SSL-anslutning inte säker!
 ssl_savekey=Detta formulär låter dig ladda upp en befintlig privat nyckel och certifikat för PEM-format SSL för din Usermin-server att använda.

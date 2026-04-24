@@ -57,9 +57,9 @@ lang_title2=Usermin 语言和语言环境
 lang_intro=该页面允许您选择Usermin用来显示标题，提示和消息的语言
 
 session_title=认证方式
+session_header=身份验证和会话选项
 session_desc1=启用此功能后，密码超时会在同一用户每次失败的登录尝试之间添加一个持续扩展的延迟，从而保护您的Usermin服务器免受暴力破解密码的攻击。
-session_desc2=启用会话身份验证后，Usermin将跟踪每个登录用户的会话，从而可以自动注销空闲用户。请注意，启用或禁用会话身份验证可能会强制所有用户重新登录。
-session_remember=愿意永久记住登录吗？
+session_remember=是否为永久登录用户提供“记住我”选项？
 session_hostname=在登录屏幕上显示主机名？
 session_realname=显示真实的主机名而不是URL的名称？
 session_authmode=身份验证方法
@@ -79,6 +79,7 @@ session_blank=是否提示用户使用空密码进行首次登录？
 session_homedir=登录后创建丢失的主目录？
 session_homedir_perms=新目录的权限
 session_ehomedir_perms=八进制主目录权限丢失或无效
+session_forgot=允许找回忘记的密码？
 
 themes_title=Usermin主题
 themes_desc=主题控制Usermin用户界面的外观，包括图标，颜色，背景以及可能的页面布局。下面的选择框可用于选择系统上安装的主题之一，这将是Usermin用户的默认主题。
@@ -130,7 +131,6 @@ acl_desc=使用此页面选择对用户可见的已安装Usermin模块。
 
 ssl_title=SSL加密
 ssl_desc1=运行Usermin的主机似乎已安装SSLeay Perl模块。使用此功能，Usermin支持浏览器和服务器之间的SSL加密通信。如果用户正在通过Internet访问Usermin服务器，那么您绝对应该考虑使用SSL来防止攻击者捕获其密码。
-ssl_desc2=警告-仅在具有支持SSL的浏览器且没有防火墙阻止浏览器与Usermin主机之间的<tt>https</tt>请求时，才打开SSL支持。
 ssl_newkey=此表单可用于为Usermin服务器创建新的SSL密钥。
 ssl_hole=因为您当前正在使用每个人都可以访问的默认Usermin SSL密钥，所以您应该立即生成一个新密钥。否则您的SSL连接不安全！
 ssl_savekey=此表单允许您上载现有的PEM格式SSL私钥和证书，以供Usermin服务器使用。

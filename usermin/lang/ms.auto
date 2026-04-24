@@ -56,9 +56,9 @@ lang_title2=Bahasa dan Tempatan Pengguna
 lang_intro=Halaman ini membolehkan anda memilih bahasa mana yang Usermin akan digunakan untuk memaparkan tajuk, arahan dan mesej
 
 session_title=Pengesahan
+session_header=Pilihan pengesahan dan sesi
 session_desc1=Apabila diaktifkan, masa lalai kata laluan melindungi pelayan Usermin daripada serangan perengkuh kata laluan kasar dengan menambahkan kelewatan yang terus berkembang antara setiap cubaan log masuk yang gagal untuk pengguna yang sama.
-session_desc2=Apabila pengesahan sesi didayakan, setiap sesi pengguna log masuk akan dijejaki oleh Usermin, membolehkan pengguna terbiar secara automatik dilogkan. Ketahui bahawa pengaktifan sesi yang membolehkan atau melumpuhkan boleh memaksa semua pengguna untuk masuk semula.
-session_remember=Tawaran untuk terus masuk log masuk secara kekal?
+session_remember=Tawarkan pilihan ingat saya untuk log masuk kekal?
 session_hostname=Tunjukkan nama hos di skrin log masuk?
 session_realname=Tunjukkan nama hos sebenar bukan nama daripada URL?
 session_authmode=Kaedah pengesahan
@@ -78,6 +78,7 @@ session_blank=Pengguna yang cepat dengan kata laluan kosong untuk memilih satu p
 session_homedir=Buat direktori rumah yang hilang selepas masuk?
 session_homedir_perms=Kebenaran untuk direktori baru
 session_ehomedir_perms=Keizinan direktori rumah kosong atau tidak sah
+session_forgot=Benarkan pemulihan kata laluan yang terlupa?
 
 themes_title=Tema Usermin
 themes_desc=Tema mengawal penampilan antara muka pengguna Usermin, termasuk ikon, warna, latar belakang dan mungkin susun atur halaman. Kotak pilihan di bawah boleh digunakan untuk memilih salah satu tema yang dipasang pada sistem anda yang akan menjadi lalai untuk pengguna Usermin.
@@ -129,7 +130,6 @@ acl_desc=Gunakan halaman ini untuk memilih modul Usermin yang dipasang untuk pen
 
 ssl_title=Penyulitan SSL
 ssl_desc1=Hos di mana Usermin sedang berjalan nampaknya telah dipasang modul SSLeay Perl. Menggunakan ini, Usermin menyokong komunikasi yang disulitkan SSL antara pelayar dan pelayan anda. Jika pengguna mengakses pelayan Usermin anda melalui Internet, maka anda harus mempertimbangkan menggunakan SSL untuk menghalang penyerang menangkap kata laluan mereka.
-ssl_desc2=Amaran - hanya menghidupkan sokongan SSL jika anda mempunyai penyemak imbas yang menyokong SSL, dan tidak ada firewall yang menyekat permintaan <tt>https</tt> antara pelayar anda dan hos Usermin.
 ssl_newkey=Borang ini boleh digunakan untuk membuat kunci SSL baru untuk pelayan Usermin anda.
 ssl_hole=Kerana anda sedang menggunakan kekunci Usermin SSL lalai yang semua orang mempunyai akses kepada, anda harus menghasilkan kunci baru dengan segera. Sekiranya sambungan SSL anda tidak selamat!
 ssl_savekey=Borang ini membolehkan anda memuat naik kunci dan sijil peribadi PEM format PEM sedia ada untuk digunakan oleh pelayan Usermin anda.

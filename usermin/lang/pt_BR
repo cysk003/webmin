@@ -54,8 +54,6 @@ lang_intro=This page allows you to choose which language Usermin will use for di
 
 session_title=Authentication
 session_desc1=When enabled, password timeouts protect your Usermin server from brute-force password cracking attacks by adding a continuously expanding delay between each failed login attempt for the same user.
-session_desc2=When session authentication is enabled, each logged in users' session will be tracked by Usermin, making it possible for idle users to be automatically logged out. Be aware that enabling or disabling session authentication may force all users to re-login.
-session_remember=Offer to remember login permanently?
 session_hostname=Show hostname on login screen?
 session_realname=Show real hostname instead of name from URL?
 session_authmode0=Use PAM for authentication, if available
@@ -125,7 +123,6 @@ acl_desc=Use esta pagina para selecionar quais módulos instalados no Usermin es
 
 ssl_title=SSL Encryption
 ssl_desc1=The host on which Usermin is running appears to have the SSLeay Perl module installed. Using this, Usermin supports SSL encrypted communication between your browser and the server. If users are accessing your Usermin server over the Internet, then you should definitely consider using SSL to prevent an attacker capturing their passwords.
-ssl_desc2=Warning - only turn on SSL support if you have a browser that supports SSL (such as Netscape or IE), and there is no firewall blocking https requests between your browser and the Usermin host.
 ssl_newkey=This form can be used to create a new SSL key for your Usermin server.
 ssl_hole=Because you are currently using the default Usermin SSL key that everyone has access to, you should generate a new key immediately. Otherwise your SSL connection is not secure!
 

@@ -58,8 +58,6 @@ lang_intro=Diese Seite ermöglicht es Ihnen, die Sprache auszuwählen, die Userm
 
 session_title=Authentifizierung
 session_desc1=Wenn aktiviert, schützen Passwort-Timeouts Ihren Usermin-Server vor Brute-Force-Passwort-Angriffen, indem sie zwischen jedem fehlgeschlagenen Anmeldeversuch für denselben Benutzer eine kontinuierlich wachsende Verzögerung hinzufügen.
-session_desc2=Wenn die Sitzungs-Authentifizierung aktiviert ist, wird jede Sitzung eines angemeldeten Benutzers von Usermin verfolgt, sodass inaktive Benutzer automatisch abgemeldet werden können. Beachten Sie, dass das Aktivieren oder Deaktivieren der Sitzungs-Authentifizierung alle Benutzer dazu zwingen kann, sich erneut anzumelden.
-session_remember=Bieten Sie an, die Anmeldung dauerhaft zu speichern?
 session_hostname=Hostname auf dem Anmeldebildschirm anzeigen?
 session_realname=Echten Hostnamen anstelle des Namens aus der URL anzeigen?
 session_authmode=Authentifizierungsmethode
@@ -130,7 +128,6 @@ acl_desc=Verwenden Sie diese Seite, um auszuwählen, welche installierten Usermi
 
 ssl_title=SSL-Verschlüsselung
 ssl_desc1=Der Host, auf dem Usermin ausgeführt wird, scheint das SSLeay Perl-Modul installiert zu haben. Mit diesem unterstützt Usermin SSL-verschlüsselte Kommunikation zwischen Ihrem Browser und dem Server. Wenn Benutzer über das Internet auf Ihren Usermin-Server zugreifen, sollten Sie definitiv die Verwendung von SSL in Betracht ziehen, um zu verhindern, dass ein Angreifer deren Passwörter abfängt.
-ssl_desc2=Warnung - aktivieren Sie SSL-Unterstützung nur, wenn Sie einen Browser haben, der SSL unterstützt, und keine Firewall <tt>https</tt>-Anfragen zwischen Ihrem Browser und dem Usermin-Host blockiert.
 ssl_newkey=Dieses Formular kann verwendet werden, um einen neuen SSL-Schlüssel für Ihren Usermin-Server zu erstellen.
 ssl_hole=Da Sie derzeit den Standard-Usermin-SSL-Schlüssel verwenden, auf den jeder Zugriff hat, sollten Sie sofort einen neuen Schlüssel generieren. Andernfalls ist Ihre SSL-Verbindung nicht sicher!
 ssl_savekey=Dieses Formular ermöglicht es Ihnen, einen vorhandenen SSL-Privatschlüssel und ein Zertifikat im PEM-Format hochzuladen, die von Ihrem Usermin-Server verwendet werden sollen.

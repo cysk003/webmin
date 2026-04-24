@@ -57,9 +57,9 @@ lang_title2=Usermin hizkuntza eta lokalizazioa
 lang_intro=Orrialde honek izenburuak, galderak eta mezuak bistaratzeko zein hizkuntza erabiliko duen aukeratu dezakezu
 
 session_title=Autentifikazioa
+session_header=Autentifikazio eta saio aukerak
 session_desc1=Gaituta egonez gero, pasahitzen denbora tarteak zure Usermin zerbitzaria babestu egiten du pasahitzak gordetzeko eraso bruteen aurkako erasoetatik, erabiltzaile berarentzako saiakera huts egin duen bakoitzean etengabe zabaltzen den atzerapena gehituz.
-session_desc2=Saioaren autentikazioa gaituta dagoenean, saioa hasteko erabiltzaileen saio bakoitza Usermin-ek kontrolatuko du, erabiltzaileen inaktiboari automatikoki saioa ematea ahalbidetuz. Kontutan izan saioa autentikatzea gaituta edo desgaituta erabiltzaile guztiek berriro saioa egitera behartu dezaketela.
-session_remember=Eskaintza gogoratzeko betirako eskaintza?
+session_remember=Gogoratzeko aukera eskaini saio-hasiera iraunkorretarako?
 session_hostname=Erakutsi ostalariaren izena hasierako pantailan?
 session_realname=Erakutsi benetako ostalariaren izena URLaren izenaren ordez?
 session_authmode=Autentifikazio metodoa
@@ -79,6 +79,7 @@ session_blank=Pasahitz hutsak dituzten erabiltzaileei hasierako saioa hastea esk
 session_homedir=Sortu hasierako direktorio falta falta?
 session_homedir_perms=Direktorio berriaren baimenak
 session_ehomedir_perms=Falta diren edo zortzi etxeko direktorioen baimenak falta dira
+session_forgot=Ahaztutako pasahitza berreskuratzea baimendu?
 
 themes_title=Usermin Gaiak
 themes_desc=Gaiak Usermin erabiltzailearen interfazearen itxura kontrolatzen du, ikonoak, koloreak, atzeko planoak eta, agian, orrien diseinua. Beheko hautatutako laukia zure sisteman instalatutako gaietako bat erabil dezakezu Usermin erabiltzaileentzat lehenetsia izango dena.
@@ -130,7 +131,6 @@ acl_desc=Erabil ezazu orrialde hau Usermin moduluak instalatutako erabiltzaileek
 
 ssl_title=SSL enkriptatzea
 ssl_desc1=Usermin exekutatzen ari den ostalariak SSLeay Perl modulua instalatuta duela dirudi. Hau erabiliz, Usermin-ek SSL enkriptatutako komunikazioa onartzen du zure arakatzailearen eta zerbitzariaren artean. Erabiltzaileak zure Usermin zerbitzaria Internet bidez sartzen ari bazara, behin betiko kontuan hartu beharko zenuke SSL erabiltzea erasotzaileek euren pasahitzak harrapatzea ekiditeko.
-ssl_desc2=Abisua - SSL laguntza soilik aktibatu SSL onartzen duen arakatzailea baldin baduzu, eta ez dago <tt>https</tt> eskaerak blokeatzen zure arakatzailearen eta Usermin ostalariaren artean eskaerak blokeatzeko.
 ssl_newkey=Inprimaki hau Erabiltzaile zerbitzarirako SSL gako berria sortzeko erabil daiteke.
 ssl_hole=Gaur egun denek eskura dezaketen Usermin SSL gako lehenetsia erabiltzen ari zarenez, berehala gako berri bat sortu beharko zenuke. Bestela, zure SSL konexioa ez da segurua!
 ssl_savekey=Inprimaki honek lehendik dagoen PEM formatuko SSL gako pribatua eta ziurtagiria kargatu ditzakezu Usermin zerbitzariak erabil dezan.

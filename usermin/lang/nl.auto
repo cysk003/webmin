@@ -3,7 +3,10 @@ access_desc=Usermin kan worden geconfigureerd om alleen toegang vanaf bepaalde I
 lang_title=Taal en land
 lang_title2=Usermin-taal en locale
 
+session_header=Authenticatie- en sessieopties
+session_remember=Bied een 'onthoud mij'-optie aan voor permanente aanmeldingen?
 session_authmode=Authenticatie methode
+session_forgot=Wachtwoordherstel toestaan?
 
 ui_show=Weergave op het dashboard
 ui_show_host=Systeemhostnaam

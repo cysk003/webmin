@@ -3,7 +3,10 @@ access_desc=Usermin można skonfigurować tak, aby odmawiał lub zezwalał na do
 lang_title=Język i lokalizacja
 lang_title2=Język i ustawienia regionalne Usermin
 
+session_header=Opcje uwierzytelniania i sesji
+session_remember=Czy zaoferować opcję „zapamiętaj mnie” dla stałych logowań?
 session_authmode=Metoda Uwierzytelnienia
+session_forgot=Czy zezwolić na odzyskiwanie zapomnianego hasła?
 
 ui_show=Wyświetl na desce rozdzielczej
 ui_show_host=Nazwa hosta systemu

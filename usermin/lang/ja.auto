@@ -18,6 +18,8 @@ os_usermin=Userminに準拠したオペレーティングシステム
 lang_title=言語とロケール
 lang_title2=ユーザーミンの言語とロケール
 
+session_header=認証とセッションのオプション
+session_remember=永続的なログインのために、ログイン状態を保持するオプションを提供する？
 session_realname=URLの名前ではなく実際のホスト名を表示しますか？
 session_authmode=認証方法
 session_authmode0=認証にPAMを使用する（使用可能な場合）
@@ -35,13 +37,13 @@ session_blank=最初のログイン時に空のパスワードを選択するよ
 session_homedir=ログイン後に不足しているホームディレクトリを作成しますか？
 session_homedir_perms=新しいディレクトリの権限
 session_ehomedir_perms=8進数のホームディレクトリの権限がないか、無効です
+session_forgot=パスワードを忘れた場合の復旧を許可しますか？
 
 themes_desc4=インストールされたテーマは、以下のフォームを使用してwbt.gzファイルとしてエクスポートできます。その後、テーマファイルをUserminを実行している別のシステムにインストールできます。
 
 configs_globaldesc=このフォームの設定は、モジュールのすべてのユーザーに適用され、通常、使用するプログラムとファイルに関連するオプションを設定します。
 configs_userdesc=このフォームの設定は、このモジュールのユーザー編集可能な設定のデフォルトを定義します。特に指定しない限り、個々のユーザーが上書きできます。
 
-ssl_desc2=警告-SSLをサポートするブラウザがあり、ブラウザとUserminホストの間で<tt>https</tt>要求をブロックするファイアウォールがない場合にのみ、SSLサポートを有効にします。
 ssl_newkey=このフォームを使用して、Userminサーバーの新しいSSLキーを作成できます。
 ssl_hole=現在、誰もがアクセスできるデフォルトのUsermin SSLキーを使用しているため、すぐに新しいキーを生成する必要があります。それ以外の場合、SSL接続は安全ではありません！
 ssl_savekey=このフォームを使用すると、Userminサーバーが使用する既存のPEM形式のSSL秘密キーと証明書をアップロードできます。

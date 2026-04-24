@@ -57,9 +57,9 @@ lang_title2=Jazyk a miestne nastavenie používateľa
 lang_intro=Táto stránka vám umožňuje zvoliť si jazyk, ktorý bude Usermin používať na zobrazovanie titulov, výziev a správ
 
 session_title=Overenie
+session_header=Možnosti autentifikácie a relácie
 session_desc1=Ak je povolená, časové limity hesiel chránia váš server Usermin pred útokmi praskania hesla hrubou silou pridaním neustále sa zvyšujúceho oneskorenia medzi každým neúspešným pokusom o prihlásenie pre toho istého používateľa.
-session_desc2=Ak je aktivovaná autentifikácia relácie, Usermin sleduje každú prihlásenú reláciu používateľov, čo umožní automatickým odhlásením nečinných používateľov. Uvedomte si, že povolenie alebo zakázanie autentifikácie relácie môže prinútiť všetkých používateľov, aby sa znova prihlásili.
-session_remember=Ponuka na trvalé zapamätanie prihlásenia?
+session_remember=Ponúkam možnosť zapamätať si ma pre trvalé prihlásenia?
 session_hostname=Zobraziť meno hostiteľa na prihlasovacej obrazovke?
 session_realname=Zobraziť skutočné meno hostiteľa namiesto názvu z adresy URL?
 session_authmode=Metóda overovania
@@ -79,6 +79,7 @@ session_blank=Chcete vyzvať používateľov, aby si pri prvom prihlásení vybr
 session_homedir=Po prihlásení vytvoriť chýbajúce adresáre domov?
 session_homedir_perms=Povolenia pre nový adresár
 session_ehomedir_perms=Chýbajúce alebo neplatné povolenia na osmičkový domovský adresár
+session_forgot=Povoliť obnovenie zabudnutého hesla?
 
 themes_title=Usermin Témy
 themes_desc=Témy ovládajú vzhľad používateľského rozhrania Usermin vrátane ikon, farieb, pozadia a prípadne rozloženia stránok. Výberové pole nižšie môžete použiť na výber jednej z tém nainštalovaných vo vašom systéme, ktorá bude predvolená pre používateľov Usermin.
@@ -130,7 +131,6 @@ acl_desc=Táto stránka sa používa na výber, ktoré nainštalované moduly Us
 
 ssl_title=SSL šifrovanie
 ssl_desc1=Zdá sa, že hostiteľ, na ktorom je spustený Usermin, je nainštalovaný modul SSLeay Perl. Usermin pomocou tohto podporuje SSL šifrovanú komunikáciu medzi prehliadačom a serverom. Ak používatelia pristupujú na váš server Usermin cez internet, určite by ste mali zvážiť použitie protokolu SSL, aby zabránili útočníkovi získať jeho heslá.
-ssl_desc2=Varovanie - podporu SSL zapnite iba v prípade, že máte prehliadač, ktorý podporuje protokol SSL, a medzi prehliadačom a hostiteľom Usermin nie sú blokované požiadavky brány firewall <tt>https</tt>.
 ssl_newkey=Tento formulár sa dá použiť na vytvorenie nového kľúča SSL pre váš server Usermin.
 ssl_hole=Pretože momentálne používate predvolený kľúč Usermin SSL, ku ktorému má prístup každý, mali by ste okamžite vygenerovať nový kľúč. V opačnom prípade nebude vaše pripojenie SSL bezpečné.
 ssl_savekey=Tento formulár umožňuje nahrať existujúci súkromný kľúč SSL vo formáte PEM a certifikát, ktorý môže váš server Usermin použiť.

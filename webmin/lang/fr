@@ -579,7 +579,6 @@ session_eblockuser_time=Heure de blocage utilisateur manquante ou non valide
 session_eblockuser_failures=Identifiants de blocage utilisateur manquants ou non valides
 session_ecookie=Votre navigateur ne prend pas en charge les cookies, qui sont nécessaires pour l'authentification de session
 session_elsof=L'authentification locale nécessite le programme <tt>lsof</tt>
-session_remember=Offrez de se rappeler connexion permanente?
 session_ip=Limiter les sessions à la même adresse IP client?
 session_hostname=Afficher le nom d'hôte sur l'écran de connexion?
 session_realname=Afficher le vrai nom d'hôte au lieu du nom de l'URL?

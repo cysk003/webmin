@@ -33,8 +33,6 @@ lang_intro=這個網頁可以讓您選擇 Usermin 顯示標題、提示字元和
 
 session_title=認證
 session_desc1=當啟用密碼逾時保護時，使您的 Usermin 伺服器免於同一使用者連續阻斷服務攻擊而使暴力破解密碼的攻擊者的入侵。
-session_desc2=當 session 認證啟用時,Usermin可以根據使用者的session來判斷是否閒置而自動登出使用者，注意當啟用或停用 session 認證時，會迫使所有使用者要重新登入。
-session_remember=顯示記得上次登入?
 session_hostname=顯示主機名稱在登入畫面?
 
 themes_title=Usermin佈景主題

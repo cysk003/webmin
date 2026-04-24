@@ -55,8 +55,6 @@ lang_intro=Her kan du bestemme hvilke språk Usermin skal bruke vis visning av t
 
 session_title=Autentisering
 session_desc1=Når de er aktivert, beskytter passord-tidsavbrudd Usermin tjeneren din fra brute-force passord cracking ved å legge til en statdig utvidende forsinkelse mellom hvert feilet innloggingsforsøk fra samme bruker.
-session_desc2=Når sesjonsautentisering er aktivert vil hver brukers sesjon bli sporet av Usermin. Dette muliggjøre automatisk utlogging av brukere med lang innlogging uten aktivitet. Vær oppmerksom på at aktivering og deaktiver av sesjonsautentisering kan tvinge alle brukere til å logge inn på nytt.
-session_remember=Tilby permanent innlogging?
 session_hostname=Vis vertsnavn på innloggings-skjerm?
 session_realname=Vis faktisk vertsnav i stedet for navn fra URL?
 session_authmode=Autentiserings-metode
@@ -127,7 +125,6 @@ acl_desc=Bruk denne siden til å velge hvilke installerte Usermin moduler som er
 
 ssl_title=SSL kryptering
 ssl_desc1=Verten som Usermin kjører på ser ut til å ha SSLeay Perl modulen installert. Ved bruk av denne støtter Usermin SSL kryptert kommunikasjon mellom din nettleser og tjeneren. Dersom brukere kobler seg opp mot din Usermin over Internet bør du definitivt vurdere å bruke SSL for å forhindre at andre snapper opp passord og annen sensitiv informasjon.
-ssl_desc2=Advarsel - slå bare på SSL støtte dersom du har en nettleser som støtter SSL (som Firefox eller IE), og det ikke er en brannmur som blokkerer https mellom nettleseren din og Usermin verten.
 ssl_newkey=Her kan du opprette en ny SSL nøkkel for Usermin tjeneren din.
 ssl_hole=Siden du for øyeblikket bruker standard Usermin SSL nøkkelen som alle har tilgang til, bør du generere en ny nøkkel umiddelbart. Hvis ikke kan du ikke anse SSL tilkoblingen din som sikker!
 ssl_savekey=Her kan du laste opp en eksisterende SSL privat nøkkel på PEM format samt et sertifikat som Usermin tjeneren din kan benytte.

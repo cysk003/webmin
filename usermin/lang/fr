@@ -55,8 +55,6 @@ lang_intro=Cette page vous permet de choisir la langue que Usermin utilisera pou
 
 session_title=Authentification
 session_desc1=Lorsque l'authentification est activée, les délais d'expiration des mots de passe protègent votre serveur Usermin des attaques en force de cassage de mots de passe en ajoutant un délai qui se prolongeant continuellement entre deux tentatives infructeuses de connexion pour le même utilisateur.
-session_desc2=Quand l'authentification de la session est activée, Usermin suit chaque session des utilisateurs connectés, ce qui permet de déconnecter automatiquement les utilisateurs inactifs. Soyez conscient que le fait d'activer ou de désactiver l'authentification de session peut forcer tous les utilisateurs à se reconnecter.
-session_remember=Offrir de retenir la connexion en permanence ?
 session_hostname=Afficher le nom d'hôte sur l'écran de connexion ?
 session_realname=Afficher le nom d'hôte réel au lieu du nom provenant de l'URL ?
 session_authmode=Méthode d'authentification
@@ -127,7 +125,6 @@ acl_desc=Utilisez cette page pour déterminer quels sont les modules Usermin ins
 
 ssl_title=Chiffrement SSL
 ssl_desc1=Il semble que le module Perl SSLeay soit installé sur l'hôte sur lequel Usermin s'exécute. Grâce à lui, Usermin gère la communication chiffrée via SSL entre votre navigateur et le serveur. Si les utilisateurs accèdent à votre serveur Usermin via l'Internet, vous devriez sérieusement envisager de faire appel à SSL pour empêcher un attaquant de capturer leurs mots de passe.
-ssl_desc2=<b>Avertissement</b> : n'activez la prise en charge SSL que si vous avez un navigateur qui gère SSL (comme Netscape ou IE) et s'il n'y a pas de pare-feu bloquant les requêtes <b>https</b> entre votre navigateur et l'hôte Usermin.
 ssl_newkey=Ce formulaire peut être utilisé pour créer une nouvelle clé SSL pour votre serveur Usermin.
 ssl_hole=Du fait que vous utilisez actuellement la clé SSL Usermin par défaut à laquelle tout le monde a accès, vous devriez générer une nouvelle clé immédiatement. Autrement, votre connexion SSL n'est pas sécurisée !
 ssl_savekey=Ce formulaire vous permet de télécharger une clé privée SSL au format PEM et un certificat que votre serveur Usermin pourra utiliser.

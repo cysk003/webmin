@@ -57,9 +57,9 @@ lang_title2=Usermin jezik i lokalizacija
 lang_intro=Ova vam stranica omogućuje odabir jezika koji će Usermin koristiti za prikazivanje naslova, upita i poruka
 
 session_title=Ovjera
+session_header=Opcije autentifikacije i sesije
 session_desc1=Kad je omogućeno, istek vremena zaporke štiti vaš Usermin poslužitelj od brzih napada razbijanja zaporki dodavanjem neprekidno rastućeg odgode između svakog neuspjelog pokušaja prijave za istog korisnika.
-session_desc2=Kada je omogućena provjera autentičnosti sesije, Usermin će pratiti svaku prijavljenu sesiju korisnika, čime je omogućeno da se automatski korisnici odjavljuju. Imajte na umu da omogućavanje ili onemogućavanje provjere provjere može prisiliti sve korisnike da se ponovo prijave.
-session_remember=Ponudite za stalno pamćenje prijave?
+session_remember=Ponuditi opciju "zapamti me" za trajne prijave?
 session_hostname=Prikaži ime računala na zaslonu za prijavu?
 session_realname=Pokazati stvarno ime hosta umjesto imena iz URL-a?
 session_authmode=Način provjere autentičnosti
@@ -79,6 +79,7 @@ session_blank=Korisnike s praznom zaporkom zatražiti da odaberu prvu pri prijav
 session_homedir=Kreirajte nedostajuće kućne direktorije nakon prijave?
 session_homedir_perms=Dozvole za novi direktorij
 session_ehomedir_perms=Nedostaju ili su nevaljana dopuštenja oktalnog kućnog imenika
+session_forgot=Dopustiti oporavak zaboravljene lozinke?
 
 themes_title=Korisničke teme
 themes_desc=Teme kontroliraju izgled korisničkog sučelja Usermin, uključujući ikone, boje, pozadine i eventualno izgled stranica. Okvir za odabir u nastavku može se koristiti za odabir jedne od tema instaliranih na vašem sustavu koja će biti zadana za Usermin korisnike.
@@ -130,7 +131,6 @@ acl_desc=Pomoću ove stranice odaberite koji će instalirani Usermin moduli biti
 
 ssl_title=SSL šifriranje
 ssl_desc1=Čini se da je domaćin na kojem se pokreće Usermin instaliran SSLeay Perl modul. Pomoću toga Usermin podržava SSL šifriranu komunikaciju između preglednika i poslužitelja. Ako korisnici pristupaju vašem Usermin poslužitelju putem Interneta, tada biste definitivno trebali razmisliti o korištenju SSL-a kako biste spriječili da napadač uhvati svoje lozinke.
-ssl_desc2=Upozorenje - uključite SSL podršku samo ako imate preglednik koji podržava SSL, a između preglednika i domaćina Usermin nema vatrozida koji blokira <tt>https</tt> zahtjeve.
 ssl_newkey=Ovaj se obrazac može koristiti za stvaranje novog SSL ključa za vaš Usermin poslužitelj.
 ssl_hole=Budući da trenutno koristite zadani Usermin SSL ključ kojem svi imaju pristup, odmah biste trebali generirati novi ključ. Inače vaša SSL veza nije sigurna!
 ssl_savekey=Ovaj obrazac omogućuje vam učitavanje postojećeg privatnog ključa SSL formata PEM i certifikat za korištenje od strane vašeg Usermin poslužitelja.

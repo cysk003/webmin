@@ -5,7 +5,10 @@ access_desc=O Usermin pode ser configurado para negar ou permitir acesso somente
 lang_title=Idioma e localidade
 lang_title2=Idioma e localidade do Usermin
 
+session_header=Opções de autenticação e sessão
+session_remember=Oferecer uma opção "lembrar-me" para logins permanentes?
 session_authmode=Método de autenticação
+session_forgot=Permitir recuperação de senha esquecida?
 
 ssl_savekey=Este formulário permite fazer upload de uma chave privada e um certificado SSL existentes no formato PEM para o servidor Usermin usar.
 ssl_copycert=Copiar certificado do Webmin

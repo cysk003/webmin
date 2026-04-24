@@ -57,9 +57,9 @@ lang_title2=Usermin Dili ve Yerel Ayarı
 lang_intro=Bu sayfa, Usermin'in başlıkları, bilgi istemlerini ve mesajları görüntülemek için hangi dili kullanacağını seçmenize izin verir
 
 session_title=Kimlik Doğrulama
+session_header=Kimlik doğrulama ve oturum seçenekleri
 session_desc1=Etkinleştirildiğinde, parola zaman aşımları, aynı kullanıcı için başarısız olan her oturum açma girişimi arasında sürekli genişleyen bir gecikme ekleyerek Usermin sunucunuzu kaba kuvvetli parola kırma saldırılarına karşı korur.
-session_desc2=Oturum kimlik doğrulaması etkinleştirildiğinde, oturum açmış olan her kullanıcının oturumu Usermin tarafından izlenir ve bu da boştaki kullanıcıların otomatik olarak oturumlarının kapatılmasını sağlar. Oturum kimlik doğrulamasını etkinleştirmenin veya devre dışı bırakmanın tüm kullanıcıları yeniden giriş yapmaya zorlayabileceğini unutmayın.
-session_remember=Kalıcı olarak giriş yapmayı hatırlamak ister misiniz?
+session_remember=Kalıcı oturum açma işlemleri için "Beni hatırla" seçeneği sunulabilir mi?
 session_hostname=Giriş ekranında ana makine adı gösterilsin mi?
 session_realname=URL'deki ad yerine gerçek ana bilgisayar adı gösterilsin mi?
 session_authmode=Kimlik doğrulama yöntemi
@@ -79,6 +79,7 @@ session_blank=Boş giriş yapan kullanıcılardan ilk girişte bir tane seçmele
 session_homedir=Giriş yaptıktan sonra eksik ev dizinleri oluşturulsun mu?
 session_homedir_perms=Yeni dizin izinleri
 session_ehomedir_perms=Eksik veya geçersiz sekizli giriş dizini izinleri
+session_forgot=Unutulan parola kurtarma özelliğine izin verilsin mi?
 
 themes_title=Usermin Temaları
 themes_desc=Temalar, simgeler, renkler, arka planlar ve muhtemelen sayfa düzeni dahil Usermin kullanıcı arayüzünün görünümünü kontrol eder. Aşağıdaki seçim kutusu, sisteminizde kurulu Usermin kullanıcıları için varsayılan temalardan birini seçmek için kullanılabilir.
@@ -130,7 +131,6 @@ acl_desc=Hangi kurulu Usermin modüllerinin kullanıcılar tarafından görüleb
 
 ssl_title=SSL Şifrelemesi
 ssl_desc1=Usermin'in çalıştığı ana bilgisayarda SSLeay Perl modülünün yüklü olduğu görülüyor. Usermin bunu kullanarak tarayıcınız ve sunucu arasında SSL şifreli iletişimi destekler. Kullanıcılar Usermin sunucunuza İnternet üzerinden erişiyorsa, bir saldırganın şifrelerini yakalamasını önlemek için kesinlikle SSL kullanmayı düşünmelisiniz.
-ssl_desc2=Uyarı - SSL desteğini yalnızca SSL'yi destekleyen bir tarayıcınız varsa ve tarayıcınız ile Usermin ana bilgisayarı arasında <tt>https</tt> engelleme isteği yoksa güvenlik duvarını açın.
 ssl_newkey=Bu form, Usermin sunucunuz için yeni bir SSL anahtarı oluşturmak için kullanılabilir.
 ssl_hole=Şu anda herkesin erişebileceği varsayılan Usermin SSL anahtarını kullandığınız için hemen yeni bir anahtar oluşturmanız gerekir. Aksi takdirde SSL bağlantınız güvenli değildir!
 ssl_savekey=Bu form, Usermin sunucunuzun kullanması için mevcut bir PEM biçimindeki SSL özel anahtarını ve sertifikasını yüklemenizi sağlar.

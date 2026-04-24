@@ -539,7 +539,6 @@ session_eblockuser_time=Ontbrekende of ongeldige gebruiker blokkeer tijd
 session_eblockuser_failures=Ontbrekende of ongeldige gebruiker blokkeer logins
 session_ecookie=Uw browser ondersteunt geen cookies, deze zijn vereist voor sessie verificatie.
 session_elsof=Locale verificatie vereist het <tt>lsof</tt> programma
-session_remember=Vragen om aanmeld gegevens permanent op te slaan?
 session_hostname=Hostnaam weergeven op aanmeld scherm?
 session_realname=Werkelijk hostnaam weergeven in plaats van de naam uit de URL?
 session_pamon=Gebruik PAM voor Unix authenticatie, indien beschikbaar

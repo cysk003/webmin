@@ -495,7 +495,6 @@ session_eblockuser_time=Chybějící nebo špatný čas pro blokaci uživatele
 session_eblockuser_failures=Chybějící nebo špatný počet přihlášení pro blokaci uživatele
 session_ecookie=Váš prohlížeč nepodporuje cookies, které jsou potřeba při autentifikaci relace
 session_elsof=Lokální autentikace potřebuje <tt>lsof</tt> program
-session_remember=Nabízet permanetní pamatování přihlášení?
 session_hostname=Ukázat jméno hosta na obrazovce s přihlášením?
 session_realname=Zobrazit skutečná jména hostů namísto jména z URL?
 session_pamon=Použít PAM pro Unix autentifikaci, je-li to možné

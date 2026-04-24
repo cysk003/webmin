@@ -624,7 +624,6 @@ session_eblockuser_time=Fehlende oder ungültige Blockierungsdauer für Benutzer
 session_eblockuser_failures=Fehlende oder ungültige Anzahl fehlgeschlagener Anmeldungen für Benutzer
 session_ecookie=Ihr Browser unterstützt keine Cookies, die für die Sitzungs-Authentifizierung erforderlich sind
 session_elsof=Für lokale Authentifizierung wird das Programm <tt>lsof</tt> benötigt
-session_remember=Dauerhafte Anmeldung anbieten?
 session_ip=Sitzungen auf gleiche Client-IP-Adresse beschränken?
 session_hostname=Hostname auf Anmeldeseite anzeigen?
 session_utmp=An- und Abmeldungen in <tt>utmp</tt> aufzeichnen?

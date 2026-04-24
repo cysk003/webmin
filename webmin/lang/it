@@ -495,7 +495,6 @@ session_eblockuser_time=Blocco dei login per utente mancante o non valido
 session_eblockuser_failures=Blocco degli utenti mancante o non valido
 session_ecookie=Il tuo browser non è impostato per accettare i cookie o non li supporta. I cookie sono necessari per autenticare la sessione.
 session_elsof=L'autenticazione locale richiede il programma <tt>lsof</tt>
-session_remember=Chiedere di mantenere la connessione in maniera permanente?
 session_hostname=Mostrare il nome host nella schermata di accesso?
 session_realname=Mostrare il nome host reale invece del nome dall'URL?
 session_pamon=Una l'autenticazione PAM per Unix, se disponibile

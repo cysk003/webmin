@@ -50,8 +50,6 @@ lang_intro=Esta página te permite seleccionar qué lenguage usará Usermin para
 
 session_title=Autenticación
 session_desc1=Si activa, los tiempos máximos de clave de acceso protegen tu servidor Usermin de ataques de agrietamiento de clave de acceso por-fuerza-bruta mediante la adición de un retraso que se expande contínuamente entre cada intento de login fallido para el mismo usuario.
-session_desc2=Al activar la autenticación de sesión, cada sesión de usuario que ha hecho login será rastreada por Usermin, haciendo posible que usuarios ociosos sean echados fuera automáticamente. Sabe que el activar o desactivar la autenticación de sesión puede forzar a todos los usuarios a tener que volver a hacer login.
-session_remember=¿Ofrezco el recordar permanéntemente el login?
 session_hostname=¿Muestro nombre de máquina en pantalla de login?
 session_realname=¿Mostrar el nombre real del host en lugar del nombre de la URL?
 session_authmode0=Utilizar autenticación PAM, si está disponible
@@ -115,7 +113,6 @@ acl_desc=Usa esta página para seleccionar qué módulos instalados de Usermin s
 
 ssl_title=Encriptación SSL
 ssl_desc1=La máquina en que se está ejecutando Usermin parece tener el módulo de perl SSLeay instalado. Mediante su uso, Usermin soporta comunicación encriptada SSL entre tu navegador y el servidor. Si los usuarios están accediendo a tu servidor Usermin a través de Internet, entonces deberías de considerar el uso de SSL para prevenir que un atacante capture tus claves de acceso.
-ssl_desc2=Aviso - habilite el soporte SSL sólo si tiene un navegador que lo soporte (Tal como Netscape o IE), y si no existe un firewall que bloquee las peticiones https entre su navegador y el host de Usermin.
 ssl_newkey=Este formulario puede utilizarse para crear una nueva clave SSL para su servidor Usermin.
 ssl_hole=Dado que actualmente está usando la clave SSL por defecto de Usermin, a la que cualquiera puede acceder, es aconsejable que genere una nueva clave inmediatamente. ¡De otra manera, la conexión SSL no será segura!
 

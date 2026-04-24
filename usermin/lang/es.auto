@@ -11,7 +11,10 @@ os_update=Actualice Usermin para usar el sistema operativo detectado
 lang_title=Idioma y configuración regional
 lang_title2=Idioma y configuración regional de Usermin
 
+session_header=Opciones de autenticación y sesión
+session_remember=¿Ofrecen una opción de "recordarme" para los inicios de sesión permanentes?
 session_authmode=Método de autentificación
+session_forgot=¿Permitir la recuperación de contraseñas olvidadas?
 
 themes_desc4=Los temas instalados se pueden exportar como un archivo wbt.gz utilizando el siguiente formulario. Se puede instalar un archivo de tema en otro sistema que ejecute Usermin.
 

@@ -3,6 +3,10 @@ access_desc=Usermin es pot configurar per denegar o permetre l'accés només des
 lang_title=Idioma i entorn local
 lang_title2=Usermin Idioma i configuració regional
 
+session_header=Opcions d'autenticació i sessió
+session_remember=Ofereix una opció de recordar-me per a inicis de sessió permanents?
+session_forgot=Permetre la recuperació de la contrasenya oblidada?
+
 ui_show=Mostra al tauler 
 ui_show_host=Nom d'amfitrió del sistema
 ui_show_os=Sistema operatiu

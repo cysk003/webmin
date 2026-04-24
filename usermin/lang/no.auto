@@ -3,6 +3,10 @@ access_desc=Usermin kan konfigureres til å nekte eller tillate tilgang kun fra 
 lang_title=Språk og lokalitet
 lang_title2=Brukermin språk og lokalitet
 
+session_header=Autentisering og øktalternativer
+session_remember=Tilby et «husk meg»-alternativ for permanente pålogginger?
+session_forgot=Tillate gjenoppretting av glemt passord?
+
 ui_show=Visning på dashbordet 
 ui_show_host=Systemvertsnavn
 ui_show_os=Operativsystem

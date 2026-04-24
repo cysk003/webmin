@@ -615,7 +615,6 @@ session_eblockuser_time=未设定或无效的用户阻止时间
 session_eblockuser_failures=未设定或无效的用户阻止登录
 session_ecookie=您的浏览器不支持会话验证所需的 cookies
 session_elsof=本地验证需要 <tt>lsof</tt> 程序
-session_remember=提供永久记忆登录的功能？
 session_ip=将会话限制为相同的客户端 IP 地址？
 session_hostname=在登录屏上显示主机名称？
 session_utmp=在 <tt>utmp</tt>中记录登录和注销?

@@ -365,7 +365,6 @@ session_eblockhost_time=O tempo de bloqueamento não foi colocado ou é inválid
 session_eblockhost_failures=Logins a bloquear não existentes ou inválidos
 session_ecookie=O seu navegador não suporta cookies, que são necessários para a autenticação por sessão
 session_elsof=A autenticação local requer o programa <tt>lsof</tt>
-session_remember=Oferecer-se para lembrar o login para sempre?
 session_hostname=Mostrar o nome do anfitrião no ecrã de login?
 session_realname=Mostrar o nome real do anfitrião em vez do nome do URL?
 session_pamon=Usar o PAM para a autenticação Unix, se disponível
