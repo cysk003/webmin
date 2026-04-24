@@ -3200,8 +3200,7 @@ if (!ref($h)) {
 	else { &error(&html_escape($h)); }
 	}
 &complete_http_download($h, $dest, $error, $cbfunc, $osdn, $host, $port,
-			$headers, $ssl, $nocache, $timeout,
-			defined($response_headers) ? $response_headers : undef);
+			$headers, $ssl, $nocache, $timeout, $response_headers);
 if ((!$error || !$$error) && !$nocache) {
 	&write_to_http_cache($url, $dest);
 	}
@@ -3332,7 +3331,9 @@ else {
 }
 
 
-=head2 http_post(host, port, page, content, destfile, [&error], [&callback], [sslmode], [user, pass], [timeout], [osdn-convert], [no-cache], [&headers])
+=head2 http_post(host, port, page, content, destfile, [&error], [&callback], [sslmode],
+		 [user, pass], [timeout], [osdn-convert], [no-cache], [&headers],
+		 [&response_headers])
 
 Posts data to an HTTP url and downloads the response to a local file or string. The parameters are :
 
@@ -3364,11 +3365,13 @@ Posts data to an HTTP url and downloads the response to a local file or string. 
 
 =item headers - If set to a hash ref of additional HTTP headers, they will be added to the request.
 
+=item response_headers - If set returns a hash ref of response HTTP headers.
+
 =cut
 sub http_post
 {
 my ($host, $port, $page, $content, $dest, $error, $cbfunc, $ssl, $user, $pass,
-    $timeout, $osdn, $nocache, $headers) = @_;
+    $timeout, $osdn, $nocache, $headers, $response_headers) = @_;
 if ($gconfig{'debug_what_net'}) {
 	&webmin_debug_log('HTTP', "host=$host port=$port page=$page ssl=$ssl".
 				  ($user ? " user=$user pass=$pass" : "").
@@ -3420,7 +3423,7 @@ if (!ref($h)) {
 	}
 &write_http_connection($h, $content."\r\n");
 &complete_http_download($h, $dest, $error, $cbfunc, $osdn, $host, $port,
-			$headers, $ssl, $nocache, $timeout);
+			$headers, $ssl, $nocache, $timeout, $response_headers);
 }
 
 =head2 ftp_download(host, file, destfile, [&error], [&callback], [user, pass], [port], [no-cache])
@@ -9510,7 +9513,8 @@ The parameters are :
 
 =item page - Page to request on the webserver, like /foo/index.html
 
-=item headers - Array ref of additional HTTP headers, each of which is a 2-element array ref.
+=item headers - Array ref of additional HTTP headers, each of which is a 2-element array ref,
+		or a hash ref of header names to values.
 
 =item bindip - IP address to bind to for outgoing HTTP connection
 
@@ -9521,9 +9525,17 @@ sub make_http_connection
 {
 my ($host, $port, $ssl, $method, $page, $headers, $bindip, $certreqs) = @_;
 my $htxt;
-if ($headers) {
+if (ref($headers) eq 'ARRAY') {
+	# Headers are name-value pairs
 	foreach my $h (@$headers) {
 		$htxt .= $h->[0].": ".$h->[1]."\r\n";
+		}
+	$htxt .= "\r\n";
+	}
+elsif (ref($headers) eq 'HASH') {
+	# Headers are a hash ref
+	foreach my $h (keys %$headers) {
+		$htxt .= $h.": ".$headers->{$h}."\r\n";
 		}
 	$htxt .= "\r\n";
 	}
