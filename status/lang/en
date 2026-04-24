@@ -111,6 +111,7 @@ mon_estatus=Webmin server $1 does not have the System and Server Status module
 mon_ecannot=You are not allowed to edit monitors
 mon_ertype=This monitor type is not available on $1
 mon_etype=Invalid monitor type name
+mon_etype2=No monitor type selected
 mon_runon=Run commands on
 mon_runon0=This server
 mon_runon1=The remote host

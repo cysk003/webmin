@@ -7,6 +7,10 @@ $access{'edit'} || &error($text{'mon_ecannot'});
 &foreign_require("servers", "servers-lib.pl");
 &ReadParse();
 @handlers = &list_handlers();
+&error_setup($text{'mon_err'});
+if (!$in{'type'} && !$in{'id'}) {
+	&error($text{'mon_etype2'});
+	}
 if ($in{'type'}) {
 	# Create a new monitor
 	$in{'type'} =~ /^[a-zA-Z0-9\_\-\.\:]+$/ || &error($text{'mon_etype'});
