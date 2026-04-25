@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Show virtual host logging options
+# Show server block logging options
 
 use strict;
 use warnings;

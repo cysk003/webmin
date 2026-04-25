@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Show virtual host FCGI options
+# Show server block FCGI options
 
 use strict;
 use warnings;

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Save virtual host access control
+# Save server block access control
 
 use strict;
 use warnings;

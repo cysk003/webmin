@@ -2,7 +2,8 @@ index_version=Nginx バージョン $1
 index_econfig=システム上に Nginx 設定ファイル $1 が見つかりませんでした。正しいパスを入力するには、<a href='$2'>モジュール設定</a> ページをご利用ください。
 index_ecmd=システム上に Nginx コマンド $1 が見つかりませんでした。正しいパスを入力するには、<a href='$2'>モジュール設定</a> ページをご利用ください。
 index_ehttp=Nginx 設定ファイル $1 に <tt>http</tt> セクションが見つかりませんでした。ウェブサーバーとして設定されていない可能性があります。
-index_name=仮想ホスト名
+index_name=サーバーブロック名
+default_server_block=デフォルトサーバー
 index_ip=IP アドレス
 index_port=ポート番号
 index_root=ルートディレクトリ
@@ -10,18 +11,22 @@ index_any=任意の IPv4 アドレス
 index_any6=任意の IPv6 アドレス
 index_noroot=ルート位置がありません
 index_norootloc=ディレクトリではありません
-index_none=まだ仮想ホストが作成されていません。
-index_noneaccess=アクセス可能な仮想ホストがまだ作成されていません。
-index_add=新しい Nginx 仮想ホストを追加します。
+index_none=まだサーバーブロックが作成されていません。
+index_noneaccess=アクセス可能なサーバーブロックがまだ作成されていません。
+index_add=新しい Nginx サーバーブロックを追加します。
 index_global=グローバル設定
-index_virts=仮想ホスト
-index_return=仮想ホスト一覧
+index_virts=サーバーブロック
+index_tabglobal=グローバル構成
+index_tablist=既存のサーバーブロック
+index_tabcreate=サーバーブロックの作成
+index_return=サーバーブロック一覧
 index_stop=Nginx ウェブサーバーの停止
 index_stopdesc=実行中のすべての Nginx ウェブサーバープロセスを停止します。
 index_start=Nginx ウェブサーバーの起動
 index_startdesc=現在の設定で Nginx ウェブサーバーを起動します。
 index_restart=Nginx 設定の適用
 index_restartdesc=Nginx ウェブサーバーを停止して再起動することで、現在の設定を適用します。
+index_delete=選択したサーバーブロックを削除
 index_eglobal=グローバル設定を編集する権限がありません
 
 net_title=ネットワーク設定
@@ -145,15 +150,15 @@ manual_test=保存前に新しい設定をテストしますか？
 manual_elink=リンク切れのシンボリックリンク！
 manual_err=設定ファイルの保存に失敗しました
 
-server_create=仮想ホストの作成
-server_edit=仮想ホストの編集
-server_egone=仮想ホストは既に存在しません！
-server_ecannot=この仮想ホストを編集する権限がありません！
-server_ecannotcreate=仮想ホストを作成する権限がありません！
-server_ecannotedit=仮想ホストを編集する権限がありません！
-server_header=仮想ホストのホスト名とネットワーク設定
+server_create=サーバーブロックの作成
+server_edit=サーバーブロックの編集
+server_egone=サーバーブロックは既に存在しません！
+server_ecannot=このサーバーブロックを編集する権限がありません！
+server_ecannotcreate=サーバーブロックを作成する権限がありません！
+server_ecannotedit=サーバーブロックを編集する権限がありません！
+server_header=サーバーブロックのホスト名とネットワーク設定
 opt_server_name=ウェブサーバーのホスト名
-server_delete=仮想ホストの削除
+server_delete=サーバーブロックの削除
 server_ip=IP アドレス
 server_port=ポート番号
 server_default=デフォルトホスト？
@@ -167,19 +172,19 @@ server_ipaddr=IPv4 または IPv6 アドレス
 server_auto=自動
 server_listen=リッスンするアドレス
 server_rootdir=ドキュメントルートディレクトリ
-server_err=仮想ホストの保存に失敗しました
+server_err=サーバーブロックの保存に失敗しました
 opt_eserver_name=ウェブサーバーのホスト名にスペースは使用できません
 server_eipmissing=行 $1 に IP アドレスがありません
 server_eip=行 $1 の IP アドレス $2 は有効な IPv4 または IPv6 アドレスではありません
 server_eport=行 $1 にポート番号がないか、数字ではありません
 server_elisten=リッスンするアドレスが入力されていません
-server_rusure=仮想ホスト $1 を削除してもよろしいですか？その中のすべての設定も削除されます。
+server_rusure=サーバーブロック $1 を削除してもよろしいですか？その中のすべての設定も削除されます。
 server_confirm=今すぐ削除
-server_desc=仮想ホスト $1
-server_descnone=名前のない仮想ホスト
+server_desc=サーバーブロック $1
+server_descnone=名前のないサーバーブロック
 server_erootdir=ルートディレクトリは絶対パスでなければなりません
 server_erootdir2=ルートディレクトリ $1 は存在しません
-server_return=仮想ホスト設定
+server_return=サーバーブロック設定
 server_addloc=新しいロケーションを追加します。
 server_pathloc=URL パス
 server_matchtype=マッチタイプ
@@ -187,15 +192,18 @@ server_dirloc=対応するディレクトリ
 server_indexloc=インデックスファイル
 server_autoloc=自動インデックス？
 server_noindex=未設定
-server_noneloc=この仮想ホストにはまだロケーションが設定されていません。
+server_noneloc=このサーバーブロックにはまだロケーションが設定されていません。
 server_locations=URL パスのロケーション
-server_settings=仮想ホスト設定
-server_server=仮想ホストの定義
-server_eclash=同じ名前の仮想ホストが既に存在します
+server_settings=サーバーブロック設定
+server_server=サーバーブロックの定義
+server_eclash=同じ名前のサーバーブロックが既に存在します
 server_pp=$1 へのプロキシ
 server_eexist=Nginx サーバーが見つかりません
+delete_err=サーバーブロックの削除に失敗しました
+delete_enone=削除するサーバーブロックが選択されていません
+delete_edefault=デフォルトサーバーブロックは削除できません
 
-slogs_title=仮想ホストのログ設定
+slogs_title=サーバーブロックのログ設定
 slogs_header=ログファイルオプション
 opt_global=グローバル設定から
 slogs_err=ログファイルオプションの保存に失敗しました
@@ -296,15 +304,15 @@ rewrite_eto=宛先 URL $1 が欠落しているかスペースを含んでいま
 
 location_create=ロケーションの作成
 location_edit=ロケーションの編集
-location_desc=仮想ホスト $1 のロケーション $2
-location_descnone=名前のない仮想ホストのロケーション $1
+location_desc=サーバーブロック $1 のロケーション $2
+location_descnone=名前のないサーバーブロックのロケーション $1
 location_header=URL パスロケーションのオプション
 location_path=URL パス
 location_match=マッチタイプ
 location_egone=このロケーションは存在しません！
 location_delete=ロケーションの削除
 location_err=ロケーションの保存に失敗しました
-location_eclash=この仮想ホスト内に同じパスのロケーションが既に存在します
+location_eclash=このサーバーブロック内に同じパスのロケーションが既に存在します
 location_rusure=ロケーション $1 を削除してもよろしいですか？その中のすべての設定も削除されます。
 location_epath=URL パスは空欄またはスペースを含んではいけません
 location_return=ロケーションオプション
@@ -323,9 +331,9 @@ log_delete_mime=MIME タイプ $1 が削除されました
 log_modify_mime=MIME タイプ $1 が変更されました
 log_delete_mimes=$1 個の MIME タイプが削除されました
 log_manual=設定ファイル $1 を手動で編集しました
-log_create_server=仮想ホスト $1 が作成されました
-log_modify_server=仮想ホスト $1 が変更されました
-log_delete_server=仮想ホスト $1 が削除されました
+log_create_server=サーバーブロック $1 が作成されました
+log_modify_server=サーバーブロック $1 が変更されました
+log_delete_server=サーバーブロック $1 が削除されました
 log_slogs_server=$1 のログ設定が変更されました
 log_ssl_server=$1 の SSL 設定が変更されました
 log_sdocs_server=$1 のドキュメントオプションが変更されました
@@ -351,8 +359,10 @@ log_delete_user=$2 からユーザー $1 が削除されました
 
 stop_err=Nginx の停止に失敗しました
 stop_ecannot=ウェブサーバーを停止する権限がありません
+
 start_err=Nginx の起動に失敗しました
 start_ecannot=ウェブサーバーを起動する権限がありません
+
 restart_err=Nginx 設定の適用に失敗しました
 restart_etest=設定が無効です : $1
 
@@ -380,22 +390,16 @@ user_enabled=ログインを有効にしますか？
 user_egone=ユーザーは存在しません！
 user_err=ユーザーの保存に失敗しました
 
-acl_vhosts=許可された仮想ホスト
+acl_vhosts=許可されたサーバーブロック
 acl_hosts1=すべて
 acl_hosts0=以下にリストされています …
-acl_edit=仮想ホストの名前と IP を変更できますか？
+acl_edit=サーバーブロックの名前と IP を変更できますか？
+acl_create=サーバーブロックを作成できますか？
+acl_stop=Nginx を停止および起動できますか？
 acl_root=ロケーション用に許可されたディレクトリ
 acl_global=グローバル設定を編集できますか？
 acl_logs=ログファイルを設定できますか？
 acl_user=ユーザーとしてパスワードファイルを書き込みます
 
-
-
-
-
-
-
 monitor_missing=Nginx はインストールされていません
 monitor_type=Nginx ウェブサーバー
-
-

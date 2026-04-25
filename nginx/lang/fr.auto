@@ -2,7 +2,8 @@ index_version=Version de Nginx $1
 index_econfig=Le fichier de configuration de Nginx $1 n'a pas été trouvé sur votre système. Utilisez la page de <a href='$2'>configuration du module</a> pour saisir le chemin correct.
 index_ecmd=La commande de Nginx $1 n'a pas été trouvée sur votre système. Utilisez la page de <a href='$2'>configuration du module</a> pour saisir le chemin correct.
 index_ehttp=Aucune section <tt>http</tt> n'a été trouvée dans le fichier de configuration de Nginx $1. Peut-être n'est-il pas configuré comme serveur web ?
-index_name=Nom de l'hôte virtuel
+index_name=Nom du bloc serveur
+default_server_block=Serveur par défaut
 index_ip=Adresses IP
 index_port=Numéros de port
 index_root=Répertoire racine
@@ -10,18 +11,22 @@ index_any=Adresse IPv4 quelconque
 index_any6=Adresse IPv6 quelconque
 index_noroot=Pas de répertoire racine
 index_norootloc=Ce n'est pas un répertoire
-index_none=Aucun hôte virtuel n'a encore été créé.
-index_noneaccess=Aucun hôte virtuel auquel vous avez accès n'a encore été créé.
-index_add=Ajouter un nouvel hôte virtuel Nginx.
+index_none=Aucun bloc serveur n'a encore été créé.
+index_noneaccess=Aucun bloc serveur auquel vous avez accès n'a encore été créé.
+index_add=Ajouter un nouveau bloc serveur Nginx.
 index_global=Paramètres globaux
-index_virts=Hôtes virtuels
-index_return=liste des hôtes virtuels
+index_virts=Blocs serveur
+index_tabglobal=Configuration globale
+index_tablist=Blocs serveur existants
+index_tabcreate=Créer un bloc serveur
+index_return=liste des blocs serveur
 index_stop=Arrêter le serveur web Nginx
 index_stopdesc=Arrêtez tous les processus du serveur web Nginx en cours.
 index_start=Démarrer le serveur web Nginx
 index_startdesc=Démarrez le serveur web Nginx avec la configuration actuelle.
 index_restart=Appliquer la configuration de Nginx
 index_restartdesc=Appliquez la configuration actuelle en arrêtant puis en redémarrant le serveur web Nginx.
+index_delete=Supprimer les blocs serveur sélectionnés
 index_eglobal=Vous n'êtes pas autorisé à modifier les paramètres globaux
 
 net_title=Configuration réseau
@@ -145,15 +150,15 @@ manual_test=Tester la nouvelle configuration avant de l'enregistrer ?
 manual_elink=Lien symbolique rompu !
 manual_err=Échec de l'enregistrement du fichier de configuration
 
-server_create=Créer un hôte virtuel
-server_edit=Éditer l'hôte virtuel
-server_egone=L'hôte virtuel n'existe plus !
-server_ecannot=Vous n'êtes pas autorisé à modifier cet hôte virtuel !
-server_ecannotcreate=Vous n'êtes pas autorisé à créer des hôtes virtuels !
-server_ecannotedit=Vous n'êtes pas autorisé à modifier les hôtes virtuels !
-server_header=Nom de l'hôte virtuel et configuration réseau
+server_create=Créer un bloc serveur
+server_edit=Éditer l'bloc serveur
+server_egone=L'bloc serveur n'existe plus !
+server_ecannot=Vous n'êtes pas autorisé à modifier cet bloc serveur !
+server_ecannotcreate=Vous n'êtes pas autorisé à créer des blocs serveur !
+server_ecannotedit=Vous n'êtes pas autorisé à modifier les blocs serveur !
+server_header=Nom de l'bloc serveur et configuration réseau
 opt_server_name=Noms d'hôtes du serveur web
-server_delete=Supprimer l'hôte virtuel
+server_delete=Supprimer l'bloc serveur
 server_ip=Adresse IP
 server_port=Numéro de port
 server_default=Hôte par défaut ?
@@ -167,19 +172,19 @@ server_ipaddr=Adresse IPv4 ou IPv6
 server_auto=Automatique
 server_listen=Adresses d'écoute
 server_rootdir=Répertoire racine des documents
-server_err=Échec de l'enregistrement de l'hôte virtuel
+server_err=Échec de l'enregistrement de l'bloc serveur
 opt_eserver_name=Le nom d'hôte du serveur web ne peut contenir d'espaces
 server_eipmissing=Adresse IP manquante à la ligne $1
 server_eip=L'adresse IP $2 à la ligne $1 n'est pas valide (IPv4 ou IPv6)
 server_eport=Numéro de port manquant ou non numérique à la ligne $1
 server_elisten=Aucune adresse d'écoute saisie
-server_rusure=Êtes-vous sûr de vouloir supprimer l'hôte virtuel $1 ? Toutes les configurations qu'il contient seront également supprimées.
+server_rusure=Êtes-vous sûr de vouloir supprimer l'bloc serveur $1 ? Toutes les configurations qu'il contient seront également supprimées.
 server_confirm=Supprimer maintenant
-server_desc=Hôte virtuel $1
-server_descnone=Hôte virtuel sans nom
+server_desc=Bloc serveur $1
+server_descnone=Bloc serveur sans nom
 server_erootdir=Le répertoire racine doit être indiqué avec un chemin absolu
 server_erootdir2=Le répertoire racine $1 n'existe pas
-server_return=configuration de l'hôte virtuel
+server_return=configuration de l'bloc serveur
 server_addloc=Ajouter un nouvel emplacement.
 server_pathloc=Chemin URL
 server_matchtype=Type de correspondance
@@ -187,15 +192,18 @@ server_dirloc=Répertoire correspondant
 server_indexloc=Fichiers index
 server_autoloc=Indexation automatique ?
 server_noindex=Non défini
-server_noneloc=Cet hôte virtuel n'a encore aucun emplacement.
+server_noneloc=Cet bloc serveur n'a encore aucun emplacement.
 server_locations=Emplacements des chemins URL
-server_settings=Configuration de l'hôte virtuel
-server_server=Définition de l'hôte virtuel
-server_eclash=Un hôte virtuel avec le même nom existe déjà
+server_settings=Configuration de l'bloc serveur
+server_server=Définition de l'bloc serveur
+server_eclash=Un bloc serveur avec le même nom existe déjà
 server_pp=Proxy vers $1
 server_eexist=Aucun serveur Nginx trouvé
+delete_err=Échec de la suppression des blocs serveur
+delete_enone=Aucun bloc serveur sélectionné pour la suppression
+delete_edefault=Le bloc serveur par défaut ne peut pas être supprimé
 
-slogs_title=Journalisation de l'hôte virtuel
+slogs_title=Journalisation de l'bloc serveur
 slogs_header=Options des fichiers de journal
 opt_global=Depuis la configuration globale
 slogs_err=Échec de l'enregistrement des options du fichier de journal
@@ -296,15 +304,15 @@ rewrite_eto=La destination $1 est manquante ou contient des espaces
 
 location_create=Créer un emplacement
 location_edit=Modifier l'emplacement
-location_desc=Emplacement $2 dans l'hôte virtuel $1
-location_descnone=Emplacement $1 dans un hôte virtuel sans nom
+location_desc=Emplacement $2 dans l'bloc serveur $1
+location_descnone=Emplacement $1 dans un bloc serveur sans nom
 location_header=Options de l'emplacement de la route URL
 location_path=Chemin URL
 location_match=Type de correspondance
 location_egone=Cet emplacement n'existe plus !
 location_delete=Supprimer l'emplacement
 location_err=Échec de l'enregistrement de l'emplacement
-location_eclash=Un emplacement avec la même route existe déjà dans cet hôte virtuel
+location_eclash=Un emplacement avec la même route existe déjà dans cet bloc serveur
 location_rusure=Êtes-vous sûr de vouloir supprimer l'emplacement $1 ? Toutes les configurations qu'il contient seront également supprimées.
 location_epath=Le chemin URL ne peut pas être vide ni contenir d'espaces
 location_return=options d'emplacement
@@ -323,9 +331,9 @@ log_delete_mime=Type MIME $1 supprimé
 log_modify_mime=Type MIME $1 modifié
 log_delete_mimes=$1 types MIME supprimés
 log_manual=Fichier de configuration $1 modifié manuellement
-log_create_server=Hôte virtuel $1 créé
-log_modify_server=Hôte virtuel $1 modifié
-log_delete_server=Hôte virtuel $1 supprimé
+log_create_server=Bloc serveur $1 créé
+log_modify_server=Bloc serveur $1 modifié
+log_delete_server=Bloc serveur $1 supprimé
 log_slogs_server=Paramètres de journal pour $1 modifiés
 log_ssl_server=Configuration SSL pour $1 modifiée
 log_sdocs_server=Options de document pour $1 modifiées
@@ -351,8 +359,10 @@ log_delete_user=Utilisateur $1 supprimé dans $2
 
 stop_err=Échec de l'arrêt de Nginx
 stop_ecannot=Vous n'êtes pas autorisé à arrêter le serveur web
+
 start_err=Échec du démarrage de Nginx
 start_ecannot=Vous n'êtes pas autorisé à démarrer le serveur web
+
 restart_err=Échec de l'application de la configuration de Nginx
 restart_etest=La configuration est invalide : $1
 
@@ -380,22 +390,16 @@ user_enabled=Connexion autorisée ?
 user_egone=L'utilisateur n'existe plus !
 user_err=Échec de l'enregistrement de l'utilisateur
 
-acl_vhosts=Hôtes virtuels autorisés
+acl_vhosts=Blocs serveur autorisés
 acl_hosts1=Tous
 acl_hosts0=Listés ci-dessous ..
-acl_edit=Peut modifier les noms d'hôtes virtuels et les IP ?
+acl_edit=Peut modifier les noms d'blocs serveur et les IP ?
+acl_create=Peut créer des blocs serveur ?
+acl_stop=Peut arrêter et démarrer Nginx ?
 acl_root=Répertoires autorisés pour les emplacements
 acl_global=Peut-il modifier les paramètres globaux ?
 acl_logs=Peut-il configurer les fichiers de journal ?
 acl_user=Écrire les fichiers de mots de passe en tant qu'utilisateur
 
-
-
-
-
-
-
 monitor_missing=Nginx n'est pas installé
 monitor_type=Serveur web Nginx
-
-

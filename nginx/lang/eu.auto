@@ -2,7 +2,8 @@ index_version=Nginx $1 bertsioa
 index_econfig=Nginx $1 konfigurazio fitxategia ez da zure sisteman aurkitu. Erabili <a href='$2'>moduluaren konfigurazioa</a> orria bide zuzena sartzeko.
 index_ecmd=Nginx $1 komandoa ez da zure sisteman aurkitu. Erabili <a href='$2'>moduluaren konfigurazioa</a> orria bide zuzena sartzeko.
 index_ehttp=$ Nginx konfigurazio fitxategian ez da <tt>http</tt> atalik aurkitu $1. Agian ez da webgune zerbitzari gisa konfiguratzen?
-index_name=Ostalari birtualaren izena
+index_name=Zerbitzari-blokearen izena
+default_server_block=Zerbitzari lehenetsia
 index_ip=IP helbideak
 index_port=Portuko zenbakiak
 index_root=Erro-direktorioa
@@ -14,19 +15,23 @@ index_none=Oraindik ez da ostalari birtualik sortu.
 index_noneaccess=Oraindik ez duzu sarbidea izan duen ostalari birtualik sortu.
 index_add=Gehitu Nginx ostalari birtual berria.
 index_global=Ezarpen orokorrak
-index_virts=Ostalari birtualak
-index_return=ostalari birtualen zerrenda
+index_virts=Zerbitzari-blokeak
+index_tabglobal=Konfigurazio globala
+index_tablist=Dauden zerbitzari-blokeak
+index_tabcreate=Sortu zerbitzari-blokea
+index_return=zerbitzari-blokeen zerrenda
 index_stop=Nginx Webserver geldiarazi
 index_stopdesc=Itxi Nginx webgune zerbitzariaren exekuzio prozesu guztiak.
 index_start=Hasi Nginx Webserver
 index_startdesc=Abiarazi Nginx webgune zerbitzaria uneko konfigurazioa erabiliz.
 index_restart=Aplikatu Nginx konfigurazioa
 index_restartdesc=Aplikatu uneko konfigurazioa Nginx webgune zerbitzaria gelditu eta berriro martxan jarriz.
+index_delete=Ezabatu hautatutako zerbitzari-blokeak
 index_eglobal=Ez duzu ezarpen orokorrik editatu beharrik
 
 net_title=Sarearen konfigurazioa
 net_header=Sare globalerako aukerak
-opt_missing=Ez da ezer sartu eremuan : $1 
+opt_missing=Ez da ezer sartu eremuan : $1
 opt_sendfile=Sendfile funtzioa erabili?
 opt_tcp_nopush=Bidali HTTP goiburuak pakete bakarrean?
 opt_tcp_nodelay=Bidali TCP pakete txikiak?
@@ -145,15 +150,15 @@ manual_test=Konfigurazio berria probatu aurreztu aurretik?
 manual_elink=Lotura sinbolikoa arriskuan!
 manual_err=Ezin izan da konfigurazio fitxategia gordetzean
 
-server_create=Sortu ostalari birtuala
-server_edit=Editatu ostalari birtuala
-server_egone=Ostalari birtuala ez da existitzen!
+server_create=Sortu zerbitzari-blokea
+server_edit=Editatu zerbitzari-blokea
+server_egone=Zerbitzari-blokea ez da existitzen!
 server_ecannot=Ezin duzu ostalari birtual hau editatu!
 server_ecannotcreate=Ezin duzu ostalari birtualik sortu!
-server_ecannotedit=Ezin duzu ostalari birtualak editatu!
-server_header=Ostalari birtualaren ostalariaren izena eta sareak
+server_ecannotedit=Ezin duzu zerbitzari-blokeak editatu!
+server_header=Zerbitzari-blokearen ostalariaren izena eta sareak
 opt_server_name=Webguneko ostalariaren izenak
-server_delete=Ezabatu ostalari birtuala
+server_delete=Ezabatu zerbitzari-blokea
 server_ip=IP helbidea
 server_port=Portuaren zenbakia
 server_default=Lehenetsitako ostalaria?
@@ -167,16 +172,16 @@ server_ipaddr=IPv4 edo IPv6 helbidea
 server_auto=automatikoa
 server_listen=Entzuteko helbideak
 server_rootdir=Dokumentuen root direktorioa
-server_err=Huts egin du ostalari birtuala gordetzean
+server_err=Huts egin du zerbitzari-blokea gordetzean
 opt_eserver_name=Webserver ostalariaren izenak ezin du zuriunerik eduki
 server_eipmissing=IP helbidea falta da $1 errenkadan
 server_eip=$2 IP helbidea $1 errenkadan ez da baliozko v4 edo v6 helbidea
 server_eport=Falta den edo ez diren zenbakizko ataka kopurua $1 errenkadan
 server_elisten=Ez da helbidean sartu
-server_rusure=Ziur zaude $1 ostalari birtuala ezabatu nahi duzula? Bere konfigurazioko ezarpen guztiak ere kenduko dira.
+server_rusure=Ziur zaude $1 zerbitzari-blokea ezabatu nahi duzula? Bere konfigurazioko ezarpen guztiak ere kenduko dira.
 server_confirm=Ezabatu orain
-server_desc=$1 ostalari birtuala
-server_descnone=Izenik gabeko ostalari birtuala
+server_desc=$1 zerbitzari-blokea
+server_descnone=Izenik gabeko zerbitzari-blokea
 server_erootdir=Erro erroak bide absolutua izan behar du
 server_erootdir2=$1 direktorio erroa ez da existitzen
 server_return=ostalariaren birtual ezarpenak
@@ -189,13 +194,16 @@ server_autoloc=Auto-indexatzeko?
 server_noindex=Ez da batere ezarri
 server_noneloc=Ostalari birtual honek oraindik ez du kokapenik.
 server_locations=URL bideen kokapenak
-server_settings=Ostalari birtualaren ezarpenak
-server_server=Ostalari birtualaren definizioa
+server_settings=Zerbitzari-blokearen ezarpenak
+server_server=Zerbitzari-blokearen definizioa
 server_eclash=Izen bera duen ostalari birtual bat dagoeneko
 server_pp=Proxy $1 era
 server_eexist=Ez da Nginx zerbitzaririk aurkitu
+delete_err=Ezin izan dira zerbitzari-blokeak ezabatu
+delete_enone=Ez da zerbitzari-blokerik hautatu ezabatzeko
+delete_edefault=Zerbitzari-bloke lehenetsia ezin da ezabatu
 
-slogs_title=Ostalari birtuala erregistratzea
+slogs_title=Zerbitzari-blokea erregistratzea
 slogs_header=Eguneratu fitxategien aukerak
 opt_global=Ezarpen globaletatik
 slogs_err=Ezin izan da erregistroko fitxategien aukerak gordetzea
@@ -296,8 +304,8 @@ rewrite_eto=Helmuga URL $1 falta da edo lekuak ditu
 
 location_create=Sortu Kokapena
 location_edit=Editatu Kokapena
-location_desc=$2 kokapena $1 ostalari birtualan
-location_descnone=$1 kokapena izenik ez duen ostalari birtualan
+location_desc=$2 kokapena $1 zerbitzari-blokean
+location_descnone=$1 kokapena izenik ez duen zerbitzari-blokean
 location_header=URL bidea kokatzeko aukerak
 location_path=URL bidea
 location_match=Partida mota
@@ -323,9 +331,9 @@ log_delete_mime=$1 MIME mota ezabatu da
 log_modify_mime=$1 MIME mota aldatu da
 log_delete_mimes=$1 MIME mota ezabatu dira
 log_manual=Eskuz editatutako $1 konfigurazio fitxategia
-log_create_server=$1 ostalari birtuala sortu da
+log_create_server=$1 zerbitzari-blokea sortu da
 log_modify_server=$1 ostalari birtual aldatua
-log_delete_server=$1 ostalari birtuala ezabatu da
+log_delete_server=$1 zerbitzari-blokea ezabatu da
 log_slogs_server=$1 erregistratzeko aukerak aldatu dira
 log_ssl_server=Aldatu SSL konfigurazioa $1 erako
 log_sdocs_server=$1 dokumentuaren aukerak aldatu dira
@@ -335,14 +343,14 @@ log_gzip_server=Aldatu $1 gzip aukerak
 log_proxy_server=$1 proxy-ezarpenak aldatu dira
 log_access_server=$1 sarbide-kontrola aldatu da
 log_rewrite_server=$1 -eko URL idazketa aldatu da
-log_create_location=$1 kokapena $1 sortu zen
+log_create_location=$1 kokapena $2 -n sortu zen
 log_delete_location=$1 kokapena ezabatu da $2 -n
-log_modify_location=$1 kokapena $1 aldatua
-log_docs_location=$1 kokapenean $1 kokatzeko dokumentuaren aukerak aldatu dira
+log_modify_location=$1 kokapena $2 -n aldatua
+log_docs_location=$1 kokapenean $2 -rako dokumentuaren aukerak aldatu dira
 log_fcgi_location=FastCGI aukerak aldatu dira $1 kokapenean $2 rako
-log_ssi_location=Aldatutako zerbitzariaren aldean $2 kokapen-ezarpenak daude $2 -n
+log_ssi_location=Aldatutako zerbitzariaren aldean $1 kokapen-ezarpenak daude $2 -n
 log_gzip_location=$2 kokapenean $1 tokiko gzip aukerak aldatu dira
-log_proxy_location=$2 kokapenean proxy-ezarpenen ezarpenak aldatu dira $2 -n
+log_proxy_location=$1 kokapenean proxy-ezarpenen ezarpenak aldatu dira $2 -n
 log_access_location=Sarbide-kontrola aldatu da $1 kokapenean $2 rako
 log_rewrite_location=$2 ko $1 kokapenarentzako URL idazketa aldatu da
 log_create_user=Erabiltzailea sortu du $1 $2 an
@@ -356,7 +364,7 @@ start_err=Huts egin du Nginx abiarazteak
 start_ecannot=Ez duzu baimenik webgune zerbitzaria abiarazteko
 
 restart_err=Ezin izan da Nginx konfigurazioa aplikatu
-restart_etest=Konfigurazioa baliogabea da : $1 
+restart_etest=Konfigurazioa baliogabea da : $1
 
 match_default=Sub-direktorioa
 match_exact=Direktorio zehatza
@@ -382,21 +390,16 @@ user_enabled=Saioa saioa gaituta?
 user_egone=Erabiltzailea jada ez dago!
 user_err=Huts egin du erabiltzailea gordetzean
 
-acl_vhosts=Onartutako ostalari birtualak
+acl_vhosts=Baimendutako zerbitzari-blokeak
 acl_hosts1=guztiak
 acl_hosts0=Jarraian agertzen dira ..
 acl_edit=Alda ditzakezu ostalari izen birtualak eta IPak?
+acl_create=Zerbitzari-blokeak sor ditzake?
+acl_stop=Nginx gelditu eta abiarazi dezake?
 acl_root=Kokapenetarako direktorio baimenduak
 acl_global=Ezarpen orokorrak editatu ditzakezu?
 acl_logs=Log fitxategiak konfiguratu ditzakezu?
 acl_user=Idatzi pasahitz fitxategiak erabiltzaile gisa
 
-
-
-
-
-
-
 monitor_missing=Nginx ez dago instalatuta
 monitor_type=Nginx Webserver
-

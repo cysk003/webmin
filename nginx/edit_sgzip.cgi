@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Show virtual host gzip options
+# Show server block gzip options
 
 use strict;
 use warnings;

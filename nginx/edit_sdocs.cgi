@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Show document related options for a virtual host
+# Show document related options for a server block
 
 use strict;
 use warnings;

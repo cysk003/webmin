@@ -8,8 +8,9 @@ our (%text, %in, %access);
 &ReadParse();
 
 my $server;
+my $can_create = !defined($access{'create'}) || $access{'create'};
 if ($in{'new'}) {
-	$access{'vhosts'} && &error($text{'server_ecannotcreate'});
+	$can_create || &error($text{'server_ecannotcreate'});
 	&ui_print_header(undef, $text{'server_create'}, "");
 	$server = { 'name' => 'server',
 		    'members' => [ ] };
@@ -74,7 +75,7 @@ if ($in{'id'}) {
 	print &ui_links_row(\@links);
 	}
 
-if ($access{'edit'}) {
+if ($access{'edit'} || ($in{'new'} && $can_create)) {
 	# Show form to edit name, IPs and root
 	if (!$in{'new'}) {
 		print &ui_hr();

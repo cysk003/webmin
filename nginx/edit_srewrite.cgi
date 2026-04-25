@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Show virtual host URL re-write options
+# Show server block URL re-write options
 
 use strict;
 use warnings;

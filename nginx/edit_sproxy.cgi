@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Show virtual host proxy options
+# Show server block proxy options
 
 use strict;
 use warnings;

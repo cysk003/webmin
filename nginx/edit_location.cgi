@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Show the config for one location inside a virtual host
+# Show the config for one location inside a server block
 
 use strict;
 use warnings;

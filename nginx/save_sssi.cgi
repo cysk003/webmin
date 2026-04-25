@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Save virtual host server-side include
+# Save server block server-side include
 
 use strict;
 use warnings;

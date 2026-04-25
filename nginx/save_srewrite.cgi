@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Save virtual host rewrite options
+# Save server block rewrite options
 
 use strict;
 use warnings;

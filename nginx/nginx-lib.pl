@@ -1460,6 +1460,34 @@ my $out = &backquote_logged("$config{'apply_cmd'} 2>&1 </dev/null");
 return $? ? $out : undef;
 }
 
+# nginx_action_links()
+# Returns HTML for service actions to put in the page header
+sub nginx_action_links
+{
+my $args = "redir=".&urlize(&this_url());
+my @rv;
+if (&is_nginx_running()) {
+	if ($access{'stop'}) {
+		push(@rv, &ui_link("stop.cgi?$args", $text{'index_stop'}));
+		}
+	push(@rv, &ui_link("restart.cgi?$args", $text{'index_restart'}));
+	}
+elsif ($access{'stop'}) {
+	push(@rv, &ui_link("start.cgi?$args", $text{'index_start'}));
+	}
+return join("<br>\n", @rv);
+}
+
+# this_url()
+# Returns the current module URL
+sub this_url
+{
+my $url = $ENV{'SCRIPT_NAME'};
+$url .= "?$ENV{'QUERY_STRING'}"
+	if (defined($ENV{'QUERY_STRING'}) && $ENV{'QUERY_STRING'} ne "");
+return $url;
+}
+
 # test_config()
 # Returns an error message if the config is invalid
 sub test_config
@@ -1556,7 +1584,7 @@ else {
 }
 
 # server_desc(&server)
-# Returns a description of a virtual host
+# Returns a description of a server block
 sub server_desc
 {
 my ($server) = @_;
@@ -1565,8 +1593,18 @@ return $name ? &text('server_desc', "<tt>".&html_escape($name)."</tt>")
 	     : $text{'server_descnone'};
 }
 
+# is_default_server_block(&server)
+# Returns 1 if a server block is the package default/catch-all server
+sub is_default_server_block
+{
+my ($server) = @_;
+my $name = &find_value("server_name", $server);
+return 1 if (!$name || $name eq "_" || $name eq "-");
+return 0;
+}
+
 # location_desc(&server, &location)
-# Returns a description of a location in a virtual host
+# Returns a description of a location in a server block
 sub location_desc
 {
 my ($server, $location) = @_;
@@ -1599,7 +1637,7 @@ return ("", "=", "~", "~*", "^~", "\@");
 
 # create_server_link(&server)
 # Creates a link from a directory like sites-enabled to sites-available for
-# a new virtual host
+# a new server block
 sub create_server_link
 {
 my ($server) = @_;
@@ -1613,7 +1651,7 @@ if ($config{'add_link'}) {
 
 # delete_server_link(&server)
 # Deletes the link from a directory like sites-enabled to sites-available for
-# a virtual host being removed
+# a server block being removed
 sub delete_server_link
 {
 my ($server) = @_;

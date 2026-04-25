@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Show virtual host SSL options
+# Show server block SSL options
 
 use strict;
 use warnings;

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Show virtual host access control options
+# Show server block access control options
 
 use strict;
 use warnings;

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Save virtual host FastCGI options
+# Save server block FastCGI options
 
 use strict;
 use warnings;

@@ -2,7 +2,8 @@ index_version=Nginx version $1
 index_econfig=The Nginx configuration file $1 was not found on your system. Use the <a href='$2'>module configuration</a> page to enter the correct path.
 index_ecmd=The Nginx command $1 was not found on your system. Use the <a href='$2'>module configuration</a> page to enter the correct path.
 index_ehttp=No <tt>http</tt> section was found in your Nginx config file $1. Maybe it is not setup as a webserver?
-index_name=Virtual host name
+index_name=Server block name
+default_server_block=Default Server
 index_ip=IP addresses
 index_port=Port numbers
 index_root=Root directory
@@ -10,18 +11,22 @@ index_any=Any IPv4 address
 index_any6=Any IPv6 address
 index_noroot=No root location
 index_norootloc=Not a directory
-index_none=No virtual hosts have been created yet.
-index_noneaccess=No virtual hosts that you have access to have been created yet.
-index_add=Add a new Nginx virtual host.
+index_none=No server blocks have been created yet.
+index_noneaccess=No server blocks that you have access to have been created yet.
+index_add=Add a new Nginx server block.
 index_global=Global Settings
-index_virts=Virtual Hosts
-index_return=virtual hosts list
+index_virts=Server Blocks
+index_tabglobal=Global configuration
+index_tablist=Existing server blocks
+index_tabcreate=Create server block
+index_return=server blocks list
 index_stop=Stop Nginx Webserver
 index_stopdesc=Shut down all running Nginx webserver processes.
 index_start=Start Nginx Webserver
 index_startdesc=Start up the Nginx webserver using the current configuration.
 index_restart=Apply Nginx Configuration
 index_restartdesc=Apply the current configuration by stopping and re-starting the Nginx webserver.
+index_delete=Delete Selected Server Blocks
 index_eglobal=You are not allowed to edit global settings
 
 net_title=Network Configuration
@@ -145,15 +150,15 @@ manual_test=Test new configuration before saving?
 manual_elink=Dangling symbolic link!
 manual_err=Failed to save configuration file
 
-server_create=Create Virtual Host
-server_edit=Edit Virtual Host
-server_egone=Virtual host no longer exists!
-server_ecannot=You are not allowed to edit this virtual host!
-server_ecannotcreate=You are not allowed to create virtual hosts!
-server_ecannotedit=You are not allowed to edit virtual hosts!
-server_header=Virtual host hostname and networking
-opt_server_name=Webserver hostnames
-server_delete=Delete Virtual Host
+server_create=Create a New Server Block
+server_edit=Edit Server Block
+server_egone=Server block no longer exists!
+server_ecannot=You are not allowed to edit this server block!
+server_ecannotcreate=You are not allowed to create server blocks!
+server_ecannotedit=You are not allowed to edit server blocks!
+server_header=Server block hostname and networking
+opt_server_name=Server name
+server_delete=Delete Server Block
 server_ip=IP address
 server_port=Port number
 server_default=Default host?
@@ -167,19 +172,19 @@ server_ipaddr=IPv4 or IPv6 address
 server_auto=Automatic
 server_listen=Addresses to listen on
 server_rootdir=Document root directory
-server_err=Failed to save virtual host
+server_err=Failed to save server block
 opt_eserver_name=Webserver hostname cannot contain spaces
 server_eipmissing=Missing IP address in row $1
 server_eip=IP address $2 in row $1 is not a valid v4 or v6 address
 server_eport=Missing or non-numeric port number in row $1
 server_elisten=No addresses to listen on entered
-server_rusure=Are you sure you want to delete the virtual host $1? All configuration settings within it will also be removed.
+server_rusure=Are you sure you want to delete the server block $1? All configuration settings within it will also be removed.
 server_confirm=Delete Now
-server_desc=Virtual host $1
-server_descnone=Virtual host with no name
+server_desc=Server block $1
+server_descnone=Server block with no name
 server_erootdir=Root directory must be an absolute path
 server_erootdir2=Root directory $1 does not exist
-server_return=virtual host settings
+server_return=server block settings
 server_addloc=Add a new location.
 server_pathloc=URL path
 server_matchtype=Match type
@@ -187,15 +192,18 @@ server_dirloc=Corresponding directory
 server_indexloc=Index files
 server_autoloc=Auto-indexing?
 server_noindex=None set
-server_noneloc=This virtual host does not have any locations yet.
+server_noneloc=This server block does not have any locations yet.
 server_locations=URL Path Locations
-server_settings=Virtual Host Settings
-server_server=Virtual Host Definition
-server_eclash=A virtual host with the same name already exists
+server_settings=Server Block Settings
+server_server=Server Block Definition
+server_eclash=A server block with the same name already exists
 server_pp=Proxy to $1
 server_eexist=No Nginx server found
+delete_err=Failed to delete server blocks
+delete_enone=No server blocks were selected to delete
+delete_edefault=The default server block cannot be deleted
 
-slogs_title=Virtual Host Logging
+slogs_title=Server Block Logging
 slogs_header=Log file options
 opt_global=From global settings
 slogs_err=Failed to save log file options
@@ -296,15 +304,15 @@ rewrite_eto=Destination URL $1 is missing or contains spaces
 
 location_create=Create Location
 location_edit=Edit Location
-location_desc=Location $2 in virtual host $1
-location_descnone=Location $1 in virtual host with no name
+location_desc=Location $2 in server block $1
+location_descnone=Location $1 in server block with no name
 location_header=URL path location options
 location_path=URL path
 location_match=Match type
 location_egone=This location no longer exists!
 location_delete=Delete Location
 location_err=Failed to save location
-location_eclash=A location with the same path already exists in this virtual host
+location_eclash=A location with the same path already exists in this server block
 location_rusure=Are you sure you want to delete the location $1? All configuration settings within it will also be removed.
 location_epath=URL path cannot be empty or contain spaces
 location_return=location options
@@ -323,9 +331,9 @@ log_delete_mime=Deleted MIME type $1
 log_modify_mime=Modified MIME type $1
 log_delete_mimes=Deleted $1 MIME types
 log_manual=Manually edited config file $1
-log_create_server=Created virtual host $1
-log_modify_server=Modifed virtual host $1
-log_delete_server=Deleted virtual host $1
+log_create_server=Created server block $1
+log_modify_server=Modified server block $1
+log_delete_server=Deleted server block $1
 log_slogs_server=Changed logging options for $1
 log_ssl_server=Change SSL configuration for $1
 log_sdocs_server=Changed document options for $1
@@ -382,24 +390,18 @@ user_enabled=Login enabled?
 user_egone=User no longer exists!
 user_err=Failed to save user
 
-acl_vhosts=Allowed virtual hosts
+acl_vhosts=Allowed server blocks
 acl_hosts1=All
 acl_hosts0=Listed below ..
-acl_edit=Can change virtual host names and IPs?
+acl_edit=Can change server block names and IPs?
+acl_create=Can create server blocks?
+acl_stop=Can stop and start Nginx?
 acl_root=Allowed directories for locations
 acl_global=Can edit global settings?
 acl_logs=Can configure log files?
 acl_user=Write password files as user
 
-
-
-
-
-
-
 monitor_missing=Nginx is not installed
 monitor_type=Nginx Webserver
-
-
 
 __norefs=1

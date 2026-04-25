@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Create, update or delete a virtual host
+# Create, update or delete a server block
 
 use strict;
 use warnings;
@@ -7,7 +7,13 @@ require './nginx-lib.pl';
 our (%text, %in, %config, %access);
 &ReadParse();
 &error_setup($text{'server_err'});
-$access{'edit'} || &error($text{'server_ecannotedit'});
+if ($in{'new'}) {
+	(!defined($access{'create'}) || $access{'create'}) ||
+		&error($text{'server_ecannotcreate'});
+	}
+else {
+	$access{'edit'} || &error($text{'server_ecannotedit'});
+	}
 
 # Get the current server
 &lock_all_config_files();
@@ -17,7 +23,6 @@ my @servers = &find("server", $http);
 my $server;
 my $old_name;
 if ($in{'new'}) {
-	$access{'vhosts'} && &error($text{'server_ecannotcreate'});
 	$server = { 'name' => 'server',
 		    'type' => 1,
 		    'words' => [ ],
@@ -172,5 +177,3 @@ if ($action) {
 	&webmin_log($action, 'server', $name);
 	&redirect("");
 	}
-
-

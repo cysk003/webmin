@@ -10,7 +10,7 @@ sub acl_security_form
 {
 my ($o) = @_;
 
-# Allowed virtual hosts
+# Allowed server blocks
 print &ui_table_row($text{'acl_vhosts'},
 	&ui_radio("vhosts_def", $o->{'vhosts'} ? 0 : 1,
 		  [ [ 1, $text{'acl_hosts1'} ],
@@ -21,6 +21,10 @@ print &ui_table_row($text{'acl_vhosts'},
 # Can edit server settings?
 print &ui_table_row($text{'acl_edit'},
 	&ui_yesno_radio("edit", $o->{'edit'}));
+
+# Can create server blocks?
+print &ui_table_row($text{'acl_create'},
+	&ui_yesno_radio("create", !defined($o->{'create'}) || $o->{'create'}));
 
 # Can stop and start Nginx?
 print &ui_table_row($text{'acl_stop'},
@@ -52,6 +56,7 @@ my ($o) = @_;
 $o->{'vhosts'} = $in{'vhosts_def'} ? ""
 				   : join(" ", split(/\s+/, $in{'vhosts'}));
 $o->{'edit'} = $in{'edit'};
+$o->{'create'} = $in{'create'};
 $o->{'root'} = $in{'root'};
 $o->{'global'} = $in{'global'};
 $o->{'logs'} = $in{'logs'};

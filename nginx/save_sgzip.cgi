@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Save virtual host gzip options
+# Save server block gzip options
 
 use strict;
 use warnings;
