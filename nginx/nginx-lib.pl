@@ -150,6 +150,7 @@ close($fh);
 while(@lines) {
 	my $l = shift(@lines);
 	$l = &remove_hash_comment($l);
+	my ($indent_str) = $l =~ /^(\s*)/;
 	my $slnum = $lnum;
 
 	# If line doesn't end with { } or ; , it must be continued on the
@@ -168,6 +169,7 @@ while(@lines) {
 		my $ns = { 'name' => 'if',
 			   'type' => 2,
 			   'indent' => scalar(@stack),
+			   'indent_str' => $indent_str,
 			   'file' => $file,
 			   'line' => $slnum,
 			   'eline' => $lnum,
@@ -183,6 +185,7 @@ while(@lines) {
 		my $ns = { 'name' => $1,
 			   'type' => 1,
 			   'indent' => scalar(@stack),
+			   'indent_str' => $indent_str,
 			   'file' => $file,
 			   'line' => $slnum,
 			   'eline' => $lnum,
@@ -216,10 +219,14 @@ while(@lines) {
 			}
 		else {
 			# Some directive in the current section
+			my ($sep_str) = $l =~ /^\s*\S+(\s+)/;
 			my $dir = { 'name' => $name,
 				    'value' => $words[0],
 				    'words' => \@words,
 				    'type' => 0,
+				    'indent' => scalar(@stack),
+				    'indent_str' => $indent_str,
+				    'sep_str' => $sep_str,
 				    'file' => $file,
 				    'line' => $slnum,
 				    'eline' => $lnum };
@@ -353,10 +360,21 @@ for(my $i=0; $i<@$newstructs || $i<@$oldstructs; $i++) {
 	if ($i<@$newstructs && $i<@$oldstructs) {
 		# Updating some directive
 		my $olen = $o->{'eline'} - $o->{'line'} + 1;
-		my @lines = &make_directive_lines($n, $parent->{'indent'}+1);
+		my $oldline = $lref->[$o->{'line'}];
+		my $indent = &directive_indent($o, $parent, $lref);
+		$n->{'indent_str'} = $indent
+			if (!defined($n->{'indent_str'}));
+		$n->{'indent'} = $o->{'indent'}
+			if (defined($o->{'indent'}));
+		$n->{'sep_str'} = &directive_value_separator($n, $oldline)
+			if (!defined($n->{'sep_str'}));
+		my @lines = &make_directive_lines($n, $indent, $parent, $lref);
 		$o->{'name'} = $n->{'name'};
 		$o->{'value'} = $n->{'words'}->[0];
 		$o->{'words'} = $n->{'words'};
+		$o->{'indent'} = $n->{'indent'} if (defined($n->{'indent'}));
+		$o->{'indent_str'} = $n->{'indent_str'};
+		$o->{'sep_str'} = $n->{'sep_str'};
 		splice(@$lref, $o->{'line'}, $olen, @lines);
 		if ($olen != scalar(@lines)) {
 			# Renumber directives
@@ -370,23 +388,30 @@ for(my $i=0; $i<@$newstructs || $i<@$oldstructs; $i++) {
 		$n->{'value'} = $n->{'words'}->[0];
 		if ($n->{'file'}) {
 			# New file, add at start
-			@lines = &make_directive_lines($n, 0);
+			my $indent = defined($n->{'indent_str'}) ?
+				     $n->{'indent_str'} : "";
+			$n->{'indent_str'} = $indent
+				if (!defined($n->{'indent_str'}));
+			$n->{'indent'} = 0 if (!defined($n->{'indent'}));
+			@lines = &make_directive_lines($n, $indent, $parent, $lref);
 			$n->{'line'} = 0;
 			$n->{'eline'} = scalar(@lines) - 1;
-			$n->{'indent'} = 0 if ($n->{'type'});
 			&recursive_set_file($n, $n->{'file'}, $n->{'line'});
 			unshift(@{$parent->{'members'}}, $n);
 			}
 		elsif ($before) {
 			# Insert into parent before some other directive
-			@lines = &make_directive_lines(
-					$n, $parent->{'indent'} + 1);
+			my $indent = &directive_indent($before, $parent, $lref);
+			$n->{'indent_str'} = $indent
+				if (!defined($n->{'indent_str'}));
+			$n->{'indent'} = $parent->{'indent'} + 1
+				if (!defined($n->{'indent'}) &&
+				    defined($parent->{'indent'}));
+			@lines = &make_directive_lines($n, $indent, $parent, $lref);
 			$n->{'line'} = $before->{'line'};
 			$n->{'eline'} = $n->{'line'} + scalar(@lines) - 1;
 			&recursive_set_file($n, $file, $n->{'line'});
 			&renumber($file, $n->{'line'}-1, scalar(@lines));
-			$n->{'indent'} = $parent->{'indent'} + 1
-				if ($n->{'type'});
 			my $idx = &indexof($before, @{$parent->{'members'}});
 			if ($idx >= 0) {
 				splice(@{$parent->{'members'}}, $idx, 0, $n);
@@ -397,14 +422,17 @@ for(my $i=0; $i<@$newstructs || $i<@$oldstructs; $i++) {
 			}
 		else {
 			# Insert into parent at end
-			@lines = &make_directive_lines(
-					$n, $parent->{'indent'} + 1);
+			my $indent = &new_directive_indent($parent, $lref);
+			$n->{'indent_str'} = $indent
+				if (!defined($n->{'indent_str'}));
+			$n->{'indent'} = $parent->{'indent'} + 1
+				if (!defined($n->{'indent'}) &&
+				    defined($parent->{'indent'}));
+			@lines = &make_directive_lines($n, $indent, $parent, $lref);
 			$n->{'line'} = $parent->{'eline'};
 			$n->{'eline'} = $n->{'line'} + scalar(@lines) - 1;
 			&recursive_set_file($n, $file, $n->{'line'});
 			&renumber($file, $parent->{'eline'}-1, scalar(@lines));
-			$n->{'indent'} = $parent->{'indent'} + 1
-				if ($n->{'type'});
 			push(@{$parent->{'members'}}, $n);
 			}
 		splice(@$lref, $n->{'line'}, 0, @lines);
@@ -505,34 +533,136 @@ if ($parent->{'type'}) {
 return &unique(@rv);
 }
 
-# make_directive_lines(&directive, indent)
+# directive_indent(&directive, &parent, &file-lines)
+# Returns the exact whitespace prefix to use when writing a directive
+sub directive_indent
+{
+my ($dir, $parent, $lref) = @_;
+return $dir->{'indent_str'} if (defined($dir->{'indent_str'}));
+if ($lref && defined($dir->{'line'}) && defined($lref->[$dir->{'line'}]) &&
+    $lref->[$dir->{'line'}] =~ /^(\s*)/) {
+	return $1;
+	}
+return &new_directive_indent($parent, $lref) if ($parent);
+return &indent_string($dir->{'indent'}, $lref)
+	if (defined($dir->{'indent'}));
+return "";
+}
+
+# new_directive_indent(&parent, &file-lines)
+# Returns an exact whitespace prefix for a new child directive
+sub new_directive_indent
+{
+my ($parent, $lref) = @_;
+return "" if (!$parent);
+return "" if (defined($parent->{'indent'}) && $parent->{'indent'} < 0);
+foreach my $m (@{$parent->{'members'} || []}) {
+	next if ($parent->{'file'} && $m->{'file'} &&
+		 $parent->{'file'} ne $m->{'file'});
+	return $m->{'indent_str'} if (defined($m->{'indent_str'}));
+	}
+my $pindent = defined($parent->{'indent_str'}) ? $parent->{'indent_str'} :
+	      defined($parent->{'indent'}) ? &indent_string($parent->{'indent'}, $lref) : "";
+return $pindent.&child_indent_step($parent, $lref);
+}
+
+# child_indent_step(&parent, &file-lines)
+# Returns one indentation level used below a parent block
+sub child_indent_step
+{
+my ($parent, $lref) = @_;
+my $pindent = defined($parent->{'indent_str'}) ? $parent->{'indent_str'} :
+	      defined($parent->{'indent'}) ? &indent_string($parent->{'indent'}, $lref) : "";
+foreach my $m (@{$parent->{'members'} || []}) {
+	next if ($parent->{'file'} && $m->{'file'} &&
+		 $parent->{'file'} ne $m->{'file'});
+	my $mindent = $m->{'indent_str'};
+	if (defined($mindent) && index($mindent, $pindent) == 0 &&
+	    length($mindent) > length($pindent)) {
+		return substr($mindent, length($pindent));
+		}
+	}
+return &config_indent_step($lref);
+}
+
+# config_indent_step(&file-lines)
+# Returns a one-level indent already used in the current file
+sub config_indent_step
+{
+my ($lref) = @_;
+my %indents;
+if ($lref) {
+	foreach my $l (@$lref) {
+		next if (!defined($l) || $l !~ /^(\s+)\S/);
+		$indents{$1}++;
+		}
+	}
+return (sort { length($a) <=> length($b) ||
+	       $indents{$b} <=> $indents{$a} } keys %indents)[0]
+	if (%indents);
+return &default_indent_step();
+}
+
+# default_indent_step()
+# Returns one generated indentation level for new blocks
+sub default_indent_step
+{
+return "     ";
+}
+
+# make_directive_lines(&directive, indent, [&parent], [&file-lines])
 # Returns text for some directive
 sub make_directive_lines
 {
-my ($dir, $indent) = @_;
+my ($dir, $indent, $parent, $lref) = @_;
+my $indent_str = &indent_string($indent, $lref);
+$dir->{'indent_str'} = $indent_str if (!defined($dir->{'indent_str'}));
 my @rv;
 my @w = @{$dir->{'words'}};
 if ($dir->{'type'}) {
 	# Multi-line
 	if ($dir->{'name'} eq 'if') {
-		push(@rv, $dir->{'name'}.' ('.&join_words(@w).') {');
+		push(@rv, $indent_str.$dir->{'name'}.' ('.&join_words(@w).') {');
 		}
 	else {
-		push(@rv, $dir->{'name'}.(@w ? " ".&join_words(@w) : "")." {");
+		push(@rv, $indent_str.$dir->{'name'}.
+			  (@w ? " ".&join_words(@w) : "")." {");
 		}
+	my $step = &child_indent_step($dir, $lref);
 	foreach my $m (@{$dir->{'members'}}) {
-		push(@rv, &make_directive_lines($m, 1));
+		my $mindent = &directive_indent($m, $dir, $lref);
+		$mindent = $indent_str.$step if (!defined($mindent));
+		push(@rv, &make_directive_lines($m, $mindent, $dir, $lref));
 		}
-	push(@rv, "}");
+	push(@rv, $indent_str."}");
 	}
 else {
 	# Single line
-	push(@rv, $dir->{'name'}." ".&join_words(@w).";");
-	}
-foreach my $r (@rv) {
-	$r = ("\t" x $indent).$r;
+	my $sep = @w ? ($dir->{'sep_str'} || " ") : "";
+	push(@rv, $indent_str.$dir->{'name'}.$sep.&join_words(@w).";");
 	}
 return wantarray ? @rv : $rv[0];
+}
+
+# indent_string(indent, [&file-lines])
+# Converts an indent depth or exact whitespace to exact whitespace
+sub indent_string
+{
+my ($indent, $lref) = @_;
+return "" if (!defined($indent));
+return &config_indent_step($lref) x $indent if ($indent =~ /^\d+$/);
+return $indent;
+}
+
+# directive_value_separator(&directive, old-line)
+# Returns whitespace between directive name and value
+sub directive_value_separator
+{
+my ($dir, $oldline) = @_;
+return undef if (!@{$dir->{'words'} || []});
+return $1 if (defined($oldline) &&
+	      $oldline =~ /^\s*\Q$dir->{'name'}\E(\s+)/);
+return $dir->{'sep_str'} || " ";
 }
 
 # join_words(word, etc..)
