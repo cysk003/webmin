@@ -1,0 +1,6 @@
+name=Nginx
+desc=Nginx Webserver
+category=servers
+version=2.40
+readonly=1
+syslog=1

@@ -1,0 +1,11 @@
+server_eexist=Geen Nginx-server gevonden
+
+
+
+
+
+
+
+monitor_missing=Nginx is niet geïnstalleerd
+monitor_type=Nginx Webserver
+
