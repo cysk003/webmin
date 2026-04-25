@@ -28,7 +28,7 @@ print &ui_table_row($text{'acl_stop'},
 
 # Allowed directories for locations
 print &ui_table_row($text{'acl_root'},
-	&ui_textarea("root", $o->{'root'}, 15), 3);
+	&ui_textarea("root", $o->{'root'}, 5), 3);
 
 # Can edit global settings?
 print &ui_table_row($text{'acl_global'},
