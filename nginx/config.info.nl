@@ -5,3 +5,4 @@ nginx_cmd=Volledig pad naar de Nginx opdracht,0
 start_cmd=Opdracht om Nginx te starten,0
 stop_cmd=Opdracht om Nginx te stoppen,0
 apply_cmd=Toe te voegen opdracht aan de Nginx configuratie,0
+extra_dirs=Standaard extra richtlijnen voor nieuwe serverblokken,9,80,5,\t

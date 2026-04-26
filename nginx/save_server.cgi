@@ -161,6 +161,8 @@ else {
 				],
 			  } ]);
 		&save_directive($server, "root", [ $in{'rootdir'} ]);
+		my @extra = &extra_dirs_to_directives($config{'extra_dirs'});
+		&save_directive($server, [ ], \@extra) if (@extra);
 		}
 	}
 

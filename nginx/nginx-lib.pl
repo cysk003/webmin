@@ -246,6 +246,38 @@ while(@lines) {
 return \@rv;
 }
 
+# extra_dirs_to_directives(directives)
+# Parses tab-separated extra directives from module config into Nginx objects
+sub extra_dirs_to_directives
+{
+my ($extra_dirs) = @_;
+return ( ) if (!$extra_dirs || $extra_dirs eq "none");
+
+my $temp = &transname();
+my $fh = "EXTRA";
+&open_tempfile($fh, ">$temp", 0, 1);
+&print_tempfile($fh, join("\n", split(/\t+/, $extra_dirs))."\n");
+&close_tempfile($fh);
+my $econf = &read_config_file($temp, 1);
+&clear_directive_lines(@$econf);
+&unlink_file($temp);
+return @$econf;
+}
+
+# clear_directive_lines(&directive, ...)
+# Removes file and line metadata from parsed directives
+sub clear_directive_lines
+{
+foreach my $e (@_) {
+	delete($e->{'file'});
+	delete($e->{'line'});
+	delete($e->{'eline'});
+	if ($e->{'type'}) {
+		&clear_directive_lines(@{$e->{'members'}});
+		}
+	}
+}
+
 # split_words(string)
 # Convert a string of bare or quoted words into a list
 sub split_words
