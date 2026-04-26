@@ -4,3 +4,4 @@ category=servers
 version=2.40
 readonly=1
 syslog=1
+plugin_feature=1
