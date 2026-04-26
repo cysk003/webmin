@@ -176,7 +176,8 @@ sub ping_icmp
 				      $len_msg));
 		    if (($from_type == $ICMP_ECHOREPLY) &&
 			($from_ip eq $ip) &&
-			($from_pid == $$) && # Does the packet check out?
+			# ping uses only 16 bits for the PID
+			($from_pid == ($$ & 0xffff)) && # Does the packet check out?
 			($from_seq == $ping_seq))
 		    {
 			$ret = 1;                   # It's a winner
