@@ -39,7 +39,7 @@ if (@serv) {
 		}
 	if (!$config{'index_status'} && $oldstatus) {
 		local @st = stat($oldstatus_file);
-		if (@st) {
+		if (@st && time() - $st[9] > 600) {
 			local $t = &make_date($st[9]);
 			print &ui_alert_box(&text('index_oldtime', $t), 'info');
 			}
