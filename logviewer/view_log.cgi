@@ -247,8 +247,8 @@ if (!$follow) {
 		if (!$safe_proc_out_got || $safe_proc_out =~ /-- No entries --/m);
 	print "</pre>\n";
 	}
-# Progressive output
 else {
+	# Progressive output
 	print "<pre id='logdata' data-reversed='$reverse'>";
 	print "<i data-loading>$text{'view_loading'}</i>\n";
 	print "</pre>\n";
