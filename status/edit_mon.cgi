@@ -148,10 +148,11 @@ print &ui_table_row($text{'mon_nosched'},
 		    &ui_select("nosched", int($serv->{'nosched'}),
 			       [ [ 1, $text{'no'} ],
 				 [ 0, $text{'mon_warndef'} ],
-				 [ 3,  $text{'mon_warn1'} ],
-				 [ 2,  $text{'mon_warn0'} ],
-				 [ 4,  $text{'mon_warn2'} ],
-				 [ 5,  $text{'mon_warn3'} ] ]),
+				 [ 3, $text{'mon_warn1'} ],
+				 [ 2, $text{'mon_warn0'} ],
+				 [ 4, $text{'mon_warn2'} ],
+				 [ 5, $text{'mon_warn3'} ],
+				 [ 6, $text{'mon_quiet'} ] ]),
 		    undef, \@tds);
 
 # Show number of failures
